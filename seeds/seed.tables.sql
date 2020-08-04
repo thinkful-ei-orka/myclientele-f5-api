@@ -15,7 +15,7 @@ VALUES
     '1234 reenergize ave, fresco ca, 90345'
   );
 
-INSERT INTO users (id, name, user_name, password, company_id, admin, boss_id)
+INSERT INTO users (id, name, user_name, password, company_id, admin, boss_id, email)
 VALUES
   (
     1,
@@ -25,7 +25,8 @@ VALUES
     '$2a$10$fCWkaGbt7ZErxaxclioLteLUgg4Q3Rp09WW0s/wSLxDKYsaGYUpjG',
     1,
     true,
-    null
+    null,
+    'refreshing@f5.com'
   );
 
 INSERT INTO client (id, name, location, sales_rep_id, company_id, hours_of_operation, currently_closed, general_manager, notes)
