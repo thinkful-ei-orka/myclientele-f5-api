@@ -40,7 +40,7 @@ VALUES
     false,
     'sam wise',
     'good displays'
-  )
+  );
 
 INSERT INTO "report" ("id", "client_id", "sales_rep_id", "date", "notes", "photo_url")
 VALUES (
@@ -49,7 +49,7 @@ VALUES (
   1,
   new Date(),
   'good times'
-)
+);
 
 
 COMMIT;
