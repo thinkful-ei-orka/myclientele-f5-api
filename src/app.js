@@ -4,6 +4,7 @@ const cors = require('cors')
 const helmet = require('helmet')
 const { NODE_ENV } = require('./config')
 const authRouter = require('./auth/auth-router')
+const clientRouter = require('./client/client-router')
 
 const app = express()
 
@@ -13,9 +14,8 @@ app.use(morgan((NODE_ENV === 'production') ? 'tiny' : 'common', {
 app.use(cors())
 app.use(helmet())
 app.use('/api/auth', authRouter);
-app.get('/', (req, res) => {
-  res.send('Hello, world!')
-})
+app.use('/api/clients', clientRouter)
+
 
 app.use(function errorHandler(error, req, res, next) {
   let response
