@@ -57,6 +57,7 @@ function makeTestUsers() {
       id: 1,
       name: 'test-user-1',
       user_name: 'test-user-name-1',
+      email: 'test@email.com',
       password: 'password',
       company_id: 1,
       admin: true
@@ -65,6 +66,7 @@ function makeTestUsers() {
       id: 2,
       name: 'test-user-2',
       user_name: 'test-user-name-2',
+      email: 'test2@email.com',
       password: 'password',
       company_id: 2,
       admin: true

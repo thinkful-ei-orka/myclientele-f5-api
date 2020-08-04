@@ -1,3 +1,5 @@
+-- https://schema.org/openingHours
+
 BEGIN;
 
 TRUNCATE
@@ -21,7 +23,7 @@ VALUES
     1,
     'f5',
     'refresh',
-    -- password = "pass"
+    -- password = \"pass\"
     '$2a$10$fCWkaGbt7ZErxaxclioLteLUgg4Q3Rp09WW0s/wSLxDKYsaGYUpjG',
     1,
     true,
@@ -37,7 +39,7 @@ VALUES
     '4630 Troost Ave, Kansas City MO, 64110',
     1,
     1,
-    ' “close” => "{ “day”: 0, “time”: “2230” }", “open” => "{ “day”: 0, “time”: “1200” }" , “close” => "{ “day”: 1, “time”: “2300” }", “open” => "{ “day”: 1, “time”: “1130” }", “close” => "{ “day”: 2, “time”: “2230” }", “open” => "{ “day”: 2, “time”: “1200” }", “close” => "{ “day”: 3, “time”: “2300” }", “open” => "{ “day”: 3, “time”: “1130” }", “close” => "{ “day”: 4, “time”: “2230” }", “open” => "{ “day”: 4, “time”: “1200” }", “close” => "{ “day”: 5, “time”: “2300” }", “open” => "{ “day”: 5, “time”: “1130” }", “close” => "{ “day”: 6, “time”: “2230” }", “open” => "{ “day”: 6, “time”: “1200” }"',
+    'Mo-Su',
     false,
     'sam wise',
     'good displays'
