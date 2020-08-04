@@ -9,9 +9,9 @@ const jsonBodyParser = express.json()
 
 usersRouter
     .post('/', jsonBodyParser, async (req, res, next) => {
-        const { name, userName, password, company, admin, boss_id} = req.body
+        const { name, userName, password, company, admin, boss_id, email} = req.body
 
-        for (const field of ['name', 'userName','password','company','admin','bossId'])
+        for (const field of ['name', 'userName','password','company','admin','bossId', email])
             if (!req.body[field])
                 return res.status(400).json({
                     error: `Missing '${field}' in request body`
@@ -19,9 +19,48 @@ usersRouter
 
         //insert comapny info to table with companyservice
         try {
-            const companyId = CompaniesService.runOk()
+            const companyId = CompaniesService.insertCompany(company)
         }
         //insert user into table with userService
+        try {
+            const passwordError = UsersService.validatePassword(password)
+
+            if(passwordError) {
+                return res.status(400).json({error: passwordError})
+            }
+            
+            const duplicateUserError = await UsersService.ValidateUser(
+                req.app.get('db'),
+                userName)
+            
+            if (duplicateUserError) {
+                return res.status(400).json({error: 'Username already exists'})
+            }
+
+            const hashedPassword = await UsersService.hashPassword(password)
+
+            const userInfo = {
+                name,
+                user_name: userName,
+                password: hashedPassword,
+                company_id: companyId,
+                admin,
+                boss_id,
+                email
+            }
+            
+            await UsersService.insertUser(
+                req.app.get('db'),
+                userInfo)
+
+        res
+            .status(201)
+            .send('User created')
+            }
+    
+    catch(error) {
+        next(error)
+    }
     })
 
 module.exports = usersRouter
