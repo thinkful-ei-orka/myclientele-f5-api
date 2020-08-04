@@ -1,1 +1,3 @@
-DROP TABLE “client”;
+DROP TABLE client;
+
+ALTER TABLE user DROP COLUMN boss_id INTEGER;

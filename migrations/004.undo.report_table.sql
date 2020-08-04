@@ -1,1 +1,1 @@
-DROP TABLE “report”;
+DROP TABLE report;
