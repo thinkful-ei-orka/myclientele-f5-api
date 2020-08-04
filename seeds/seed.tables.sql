@@ -1,4 +1,5 @@
 -- https://schema.org/openingHours
+-- psql -d myclientele -f ./seeds/seed.tables.sql
 
 BEGIN;
 
