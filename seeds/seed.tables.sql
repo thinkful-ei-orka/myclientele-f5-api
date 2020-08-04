@@ -2,7 +2,7 @@ BEGIN;
 
 TRUNCATE
   "company",
-  "user",
+  "users",
   "client",
   "visit";
 
@@ -14,7 +14,7 @@ VALUES
     '1234 reenergize ave, fresco ca, 90345'
   );
 
-INSERT INTO "user" ("id", "name", "user_name", "password", "company_id", "admin", "boss_id")
+INSERT INTO "users" ("id", "name", "user_name", "password", "company_id", "admin", "boss_id")
 VALUES
   (
     1,
