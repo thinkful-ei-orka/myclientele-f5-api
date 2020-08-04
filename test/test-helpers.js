@@ -88,4 +88,5 @@ module.exports = {
   makeTestUsers,
   makeAuthHeader,
   seedUsers,
+  makeCompanyArray
 }
