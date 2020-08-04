@@ -1,8 +1,8 @@
 const CompaniesService = {
-    runOk() {
-        console.log('Companies service executed');
-        let companyId = 'the lonliest number'
-        return companyId
+    insertCompany(db, company) {
+        return db('company')
+            .insert({name: company.name, location: company.location})
+            .returning('id')
     }
 }
 
