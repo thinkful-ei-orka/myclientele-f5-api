@@ -1,4 +1,8 @@
-CREATE EXTENSION hstore;
+
+-- CREATE EXTENSION hstore;
+-- run the script above when making the table for the first time.  Every subsequent time the command is not necessary.
+
+
 
 CREATE TABLE client (
   id SERIAL PRIMARY KEY,
@@ -12,4 +16,7 @@ CREATE TABLE client (
   notes TEXT 
 );
 
+
+
 ALTER TABLE users ADD COLUMN boss_id INTEGER REFERENCES users(id) ON DELETE CASCADE;
+
