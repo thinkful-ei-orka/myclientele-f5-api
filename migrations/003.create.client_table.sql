@@ -8,6 +8,6 @@ CREATE TABLE "client" (
   "company_id" INTEGER REFERENCES "company"(id) ON DELETE CASCADE NOT NULL,
   "hours_of_operation" hstore NOT NULL,
   "currently_closed" BOOLEAN NOT NULL,
-  "general_manager" TEXT NOT NULL,
+  "general_manager" TEXT,
   "notes" TEXT 
 );
