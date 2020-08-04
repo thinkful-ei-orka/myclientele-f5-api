@@ -4,7 +4,7 @@ TRUNCATE
   "company",
   "users",
   "client",
-  "visit";
+  "report";
 
 INSERT INTO "company" ("id", "name", "location")
 VALUES
