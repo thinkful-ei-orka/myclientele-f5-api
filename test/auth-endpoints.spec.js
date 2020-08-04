@@ -6,15 +6,15 @@ const supertest = require('supertest');
  
 describe('Auth Endpoints', () => {
     let db;
-    const { testUsers } = helpers.makeTestUsers();
+    const testUsers  = helpers.makeTestUsers();
     const testUser = testUsers[0];
     before('make knex instance', () => {
         db = knex({
             client: 'pg',
-            connection: process.env.
-        })
-        app.set('db', db)
-    })
+            connection: process.env.TEST_DATABASE_URL,
+        });
+        app.set('db', db);
+    });
 
     after('disconnect from db', () => db.destroy())
     before('clean the table', () => db.raw('TRUNCATE company, users, client, report RESTART IDENTITY CASCADE'));
@@ -35,7 +35,7 @@ describe('Auth Endpoints', () => {
                     .post('/api/auth/login')
                     .send(loginAttemptBody)
                     .expect(400, {
-                        error: `Missing '${field} in request body`
+                        error: `Missing ${field} in request body`
                     })
             })
             it(`responds 400 'invalid user_name or password' when bad user_name`, () => {

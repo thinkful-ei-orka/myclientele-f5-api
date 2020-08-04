@@ -1,5 +1,5 @@
 const knex = require('knex')
-const bcrypt = require('bcrypt.js')
+const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
 function makeKnexInstance() {
@@ -7,6 +7,48 @@ function makeKnexInstance() {
     client: 'pg',
     connection: process.env.TEST_DATABASE_URL
   })
+}
+
+function seedUsers(db, users) {
+  const preppedUsers = users.map(user => ({
+    ...user,
+    password: bcrypt.hashSync(user.password, 1)
+  }))
+  const testCompanies = makeCompanyArray();
+  return db.transaction(async trx => {
+    await seedCompanies(trx, testCompanies)
+    await trx.into('users').insert(preppedUsers)
+    await trx.raw(
+      `SELECT setval('users_id_seq', ?)`,
+      [users[users.length - 1].id],
+  ) 
+  })
+
+}
+
+function seedCompanies(db, companies) {
+  return db.into('company').insert(companies)
+    .then(() => 
+      db.raw(
+        `SELECT setval('company_id_seq', ?)`,
+        [companies[companies.length - 1].id],
+      )
+    )
+}
+
+function makeCompanyArray() {
+  return [
+    {
+      id: 1,
+      name: 'Test company 1',
+      location: 'Test location 1'
+    },
+    {
+      id: 2,
+      name: 'Test company 2',
+      location: 'Test location 2'
+    }
+  ];
 }
 
 function makeTestUsers() {
@@ -43,4 +85,5 @@ module.exports = {
   makeKnexInstance,
   makeTestUsers,
   makeAuthHeader,
+  seedUsers,
 }
