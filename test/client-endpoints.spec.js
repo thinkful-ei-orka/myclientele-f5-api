@@ -3,7 +3,7 @@ const helpers = require('./test-helpers');
 const knex = require('knex');
 const supertest = require('supertest');
 
-describe.only('Client Endpoints', function () {
+describe('Client Endpoints', function () {
     let db;
 
     const testUsers = helpers.makeTestUsers();

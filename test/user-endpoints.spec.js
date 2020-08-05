@@ -3,7 +3,7 @@ const app = require('../src/app');
 const helpers = require('./test-helpers');
 const supertest = require('supertest');
 
-describe('Users Endpoints', () => {
+describe.only('Users Endpoints', () => {
     let db;
     const testUsers = helpers.makeTestUsers();
     const testCompanies = helpers.makeCompanyArray();
@@ -88,16 +88,18 @@ describe('Users Endpoints', () => {
         })
 
         // returns 400 if username exists
-        it('400 response if username exists', () => {
-            before('seed databse with info', () =>
-                helpers.seedUsers(db, testUsers))
+        context('Given users in the database', () => {
+            before('seed databse with info', () => {
+                return helpers.seedUsers(db, testUsers)
+            })
 
-            return supertest(app)
-                .post('/api/users')
-                .send(reqBody)
-                .expect(400, {error:'Username already exists'})
+            it('400 response if username exists', () => {
+                return supertest(app)
+                    .post('/api/users')
+                    .send(reqBody)
+                    .expect(400, {error:'Username already exists'})
+            })
         })
-
 
         // returns 200 if is user is and company are inserted
         it('201 response when company info, user info, and valid password is sent', () => {
