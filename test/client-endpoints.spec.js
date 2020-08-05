@@ -2,6 +2,7 @@ const app = require('../src/app');
 const helpers = require('./test-helpers');
 const knex = require('knex');
 const supertest = require('supertest');
+const { expect } = require('chai');
 
 describe.only('Client Endpoints', function () {
   let db;
@@ -40,5 +41,35 @@ describe.only('Client Endpoints', function () {
       });
     });
   });
+
+  describe('POST /api/clients', () => {
+    beforeEach('insert clients', () => {
+      return helpers.makeTestUsers();
+    });
+    it('creates client, res of 201 and new client', () => {
+      this.retries(3);
+      const testUser = testUsers[0];
+      const newClient = {
+        name: 'test-client-3',
+        location: 'test-location-3',
+        sales_rep_id: testUser.id,
+        company_id: testUser.company_id,
+        hours_of_operation: 'Mo-Su',
+        currently_closed: false,
+        general_manager: 'test-gm-3',
+        notes: 'test notes 3',
+        day_of_week: 2
+      }
+      return supertest(app)
+        .post('/api/clients')
+        .set('Authorization', helpers.makeAuthHeader(testUser))
+        .send(newClient)
+        .expect(201)
+        .expect(res => {
+          expect(res.body).to.have.property('id')
+        })
+    })
+  })
+
 });
 

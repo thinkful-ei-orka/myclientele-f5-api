@@ -1,10 +1,10 @@
-const express = require('express')
-const ClientsService = require('./client-service')
-const { requireAuth } = require('../middleware/jwt-auth')
-const path = require('path')
+const express = require('express');
+const ClientsService = require('./client-service');
+const { requireAuth } = require('../middleware/jwt-auth');
+const path = require('path');
 
-const ClientsRouter = express.Router()
-const jsonBodyParser = express.json()
+const ClientsRouter = express.Router();
+const jsonBodyParser = express.json();
 
 ClientsRouter
   .route('/')
@@ -15,20 +15,27 @@ ClientsRouter
       req.user.id
     )
       .then(clients => {
-        const serializedClients = clients.map(client => ClientsService.serializeClient(client))
-        res.json(serializedClients)
+        const serializedClients = clients.map(client => ClientsService.serializeClient(client));
+        res.json(serializedClients);
       })
       .catch(err => {
-        console.log(err)
-        next()
-      })
+        console.log(err);
+        next();
+      });
   })
   .post(jsonBodyParser, (req, res, next) => {
-    const { name, location, company_id, day_of_week, hours_of_operation, currently_closed, notes, general_manager } = req.body
-    const newClient = { name, location, company_id, day_of_week, hours_of_operation, currently_closed, notes, general_manager }
+    let { name, location, company_id, day_of_week, hours_of_operation, currently_closed, notes, general_manager } = req.body;
+    const newClient = { name, location, company_id, day_of_week, hours_of_operation, currently_closed, notes, general_manager };
+    let requiredFields = { name, location, hours_of_operation, currently_closed } = req.body;
 
-    newClient.id = req.id
-    newClient.sales_rep_id = req.user.id
+    for(const [key, value] of Object.entries(requiredFields))
+      if (value == null)
+        return res.status(400).json({
+          error: `Missing '${key}' in request body`
+        });
+
+    newClient.id = req.id;
+    newClient.sales_rep_id = req.user.id;
 
     ClientsService.insertClient(
       req.app.get('db'),
@@ -38,13 +45,13 @@ ClientsRouter
         res
           .status(201)
           .location(path.posix.join(req.originalUrl, `/${client.id}`))
-          .json(ClientsService.serializeClient(client))
+          .json(ClientsService.serializeClient(client));
       })
       .catch(err => {
-        console.log(err)
-        next()
-      })
-  })
+        console.log(err);
+        next();
+      });
+  });
 
 module.exports = ClientsRouter;
 
