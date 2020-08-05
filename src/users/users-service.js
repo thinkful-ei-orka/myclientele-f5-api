@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs')
 const REGEX_UPPER_LOWER_NUMBER_SPECIAL = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&])[\S]+/
 
 const UsersService = {
+   
     validatePassword(password) {
         if (password.length < 8) {
           return 'Password be longer than 8 characters'
@@ -18,7 +19,10 @@ const UsersService = {
         }
         return null
       },
-    
+    getUsers(db) {
+      return db('users')
+        .select('*');
+    },
     validateUser(db, user_name) {
         return db('users')
             .where({user_name})

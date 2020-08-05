@@ -3,7 +3,7 @@ const app = require('../src/app');
 const helpers = require('./test-helpers');
 const supertest = require('supertest');
 
-describe('Users Endpoints', () => {
+describe.only('Users Endpoints', () => {
     let db;
     const testUsers = helpers.makeTestUsers();
     const testCompanies = helpers.makeCompanyArray();
