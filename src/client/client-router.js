@@ -23,7 +23,6 @@ ClientsRouter
         next()
       })
   })
-<<<<<<< HEAD
   .post(jsonBodyParser, (req, res, next) => {
     const { name, location, company_id, day_of_week, hours_of_operation, currently_closed, notes, general_manager } = req.body
     const newClient = { name, location, company_id, day_of_week, hours_of_operation, currently_closed, notes, general_manager }
@@ -35,15 +34,13 @@ ClientsRouter
       req.app.get('db'),
       newClient
     )
-    .then(client => {
-      res
-        .status(201)
-        .location(path.posix.join(req.originalUrl, `/${client.id}`))
-        .json(ClientsService.serializeClient(client))
-    })
+      .then(client => {
+        res
+          .status(201)
+          .location(path.posix.join(req.originalUrl, `/${client.id}`))
+          .json(ClientsService.serializeClient(client))
+      })
   })
-=======
-  // .post
 
 module.exports = ClientsRouter;
->>>>>>> 0aa061feaddf8fcb6710b987a2999346b170a272
+
