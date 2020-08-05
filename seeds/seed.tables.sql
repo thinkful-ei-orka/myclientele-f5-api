@@ -13,7 +13,7 @@ TRUNCATE
 INSERT INTO company (id, name, location)
 VALUES
   (
-    1,
+    1000,
     'f5 refresh',
     '1234 reenergize ave, fresco ca, 90345'
   );
@@ -21,12 +21,12 @@ VALUES
 INSERT INTO users (id, name, user_name, password, company_id, admin, boss_id, email)
 VALUES
   (
-    1,
+    1000,
     'f5',
     'refresh',
     -- password = \"pass\"
     '$2a$10$fCWkaGbt7ZErxaxclioLteLUgg4Q3Rp09WW0s/wSLxDKYsaGYUpjG',
-    1,
+    1000,
     true,
     null,
     'refreshing@f5.com'
@@ -35,11 +35,11 @@ VALUES
 INSERT INTO client (id, name, location, sales_rep_id, company_id, hours_of_operation, currently_closed, general_manager, notes, day_of_week)
 VALUES
   (
-    1,
+    1000,
     'walgreens',
     '4630 Troost Ave, Kansas City MO, 64110',
-    1,
-    1,
+    1000,
+    1000,
     'Mo-Su',
     false,
     'sam wise',
@@ -49,9 +49,9 @@ VALUES
 
 INSERT INTO report (id, client_id, sales_rep_id, date, notes, photo_url)
 VALUES (
-  1,
-  1,
-  1,
+  1000,
+  1000,
+  1000,
   '2016-06-23T02:10:25.000Z',
   'good times',
   null
