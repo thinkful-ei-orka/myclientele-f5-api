@@ -32,7 +32,7 @@ VALUES
     'refreshing@f5.com'
   );
 
-INSERT INTO client (id, name, location, sales_rep_id, company_id, hours_of_operation, currently_closed, general_manager, notes)
+INSERT INTO client (id, name, location, sales_rep_id, company_id, hours_of_operation, currently_closed, general_manager, notes, day_of_week)
 VALUES
   (
     1,
@@ -43,7 +43,8 @@ VALUES
     'Mo-Su',
     false,
     'sam wise',
-    'good displays'
+    'good displays',
+    2
   );
 
 INSERT INTO report (id, client_id, sales_rep_id, date, notes, photo_url)
