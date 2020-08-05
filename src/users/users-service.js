@@ -2,6 +2,8 @@ const bcrypt = require('bcryptjs')
 
 const REGEX_UPPER_LOWER_NUMBER_SPECIAL = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&])[\S]+/
 
+const REGEX_NUMBER = /(?=.*[0-9])/
+
 const UsersService = {
    
     validatePassword(password) {
@@ -38,7 +40,14 @@ const UsersService = {
         return db
             .insert(userInfo) // might need to make the boss id null in the table as a default
             .into('users')
-    }
+    },
+    // validatePhoneNumeber(db, phone_number) {
+    //   if (phone_number.length !== 10) {
+    //     return 'Must be a valid phone number'
+    //   }
+    //   if (!REGEX_UPPER_LOWER_NUMBER_SPECIAL.test(phone_number)) {
+    //     return 'Must be a valid phone number'
+    // }
 }
 
 module.exports = UsersService
