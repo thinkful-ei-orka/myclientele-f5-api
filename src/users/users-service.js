@@ -19,9 +19,9 @@ const UsersService = {
         return null
       },
     
-    validateUser(db, userName) {
+    validateUser(db, user_name) {
         return db('users')
-            .where({userName})
+            .where({user_name})
             .first()
             .then(user => !!user)
     },
@@ -32,7 +32,7 @@ const UsersService = {
 
     insertUser(db, userInfo) {
         return db
-            .insert(userInfo)
+            .insert(userInfo) // might need to make the boss id null in the table as a default
             .into('users')
     }
 }

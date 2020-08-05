@@ -28,8 +28,8 @@ describe('Users Endpoints', () => {
     describe('POST /api/users', () => {
         const reqBody = {
             name: testUser.name,
-            userName: testUser.user_name,
-            password: 'password1234@#',
+            user_name: testUser.user_name,
+            password: 'Password1234@#',
             company_name: testCompany.name,
             company_location: testCompany.location,
             admin: testUser.admin,
@@ -40,7 +40,7 @@ describe('Users Endpoints', () => {
         it('400 resposne if user info is missing', () => {
             let userInfoMissReqBody = {
                 name: testUser.name,
-                password: 'password1234@#',
+                password: 'Password1234@#',
                 company_name: testCompany.name,
                 company_location: testCompany.location,
                 admin: testUser.admin,
@@ -56,11 +56,9 @@ describe('Users Endpoints', () => {
         it('400 response if company info is missing', () => {
             const companyInfoMissReqBody = {
                 name: testUser.name,
-                userName: testUser.user_name,
-                password: 'password1234@#',
-                company:{
-                    name: testCompany.name,
-                },
+                user_name: testUser.user_name,
+                password: 'Password1234@#',
+                company_name: testCompany.name,
                 admin: testUser.admin,
                 email: testUser.email,
             }
@@ -74,11 +72,10 @@ describe('Users Endpoints', () => {
         it('400 response if password is invalid', () => {
             const invalidPasswordReqBody = {
                 name: testUser.name,
-                userName: testUser.user_name,
+                user_name: testUser.user_name,
                 password: testUser.password,
-                company:{
-                    name: testCompany.name,
-                },
+                company_name: testCompany.name,
+                company_location: testCompany.location,
                 admin: testUser.admin,
                 email: testUser.email,
             }
@@ -90,7 +87,7 @@ describe('Users Endpoints', () => {
                 .expect(400)
         })
 
-        returns 400 if username exists
+        // returns 400 if username exists
         it('400 response if username exists', () => {
             before('seed databse with info', () =>
                 helpers.seedUsers(db, testUsers))

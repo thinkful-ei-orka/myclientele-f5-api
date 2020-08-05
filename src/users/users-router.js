@@ -9,7 +9,10 @@ const jsonBodyParser = express.json()
 
 usersRouter
     .post('/', jsonBodyParser, async (req, res, next) => {
-        const { name, user_name, password, company_name, company_location, admin, email} = req.body
+        const { name, user_name, password, company_name, company_location, boss_id, admin, email} = req.body
+        if(isNaN(Number(boss_id) ) {
+            boss_id = null;
+        }
         for (const field of ['name', 'user_name','password','company_name', 'company_location','admin', 'email'])
             if (!req.body[field])
                 return res.status(400).json({
@@ -22,7 +25,7 @@ usersRouter
                 location: company_location
             }
 
-            const companyId = CompaniesService.insertCompany(company)
+            const companyId = CompaniesService.insertCompany(req.app.get('db'),company)
 
         //insert user into table with userService
         try {
@@ -32,9 +35,9 @@ usersRouter
                 return res.status(400).json({error: passwordError})
             }
             
-            const duplicateUserError = await UsersService.ValidateUser(
+            const duplicateUserError = await UsersService.validateUser(
                 req.app.get('db'),
-                userName)
+                user_name)
             
             if (duplicateUserError) {
                 return res.status(400).json({error: 'Username already exists'})
@@ -44,11 +47,10 @@ usersRouter
 
             const userInfo = {
                 name,
-                user_name: userName,
+                user_name,
                 password: hashedPassword,
                 company_id: companyId,
                 admin,
-                boss_id,
                 email
             }
             
