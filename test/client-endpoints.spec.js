@@ -26,6 +26,7 @@ describe.only('Client Endpoints', function () {
 
   afterEach('cleanup', () => helpers.cleanTables(db));
 
+<<<<<<< HEAD
   describe('GET /api/clients', () => {
     context('given clients exist', () => {
       beforeEach('insert clients', () => {
@@ -38,6 +39,21 @@ describe.only('Client Endpoints', function () {
           .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
           .expect(200, expectedClient);
       });
+=======
+    describe('GET /api/clients', () => {
+        context('given clients exist', () => {
+            beforeEach('insert clients', () => {
+                return helpers.seedClientsTables(db, testUsers, testClients);
+            });
+            it('should respond with 200 and the clients', () => {
+                const expectedClient = testClients;
+                return supertest(app)
+                  .get('/api/clients')
+                  .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
+                  .expect(200, expectedClient);
+            });
+        });
+>>>>>>> b19f0850fdfddd8bdecfeceb5bc6d840ada5f57b
     });
   });
 });
