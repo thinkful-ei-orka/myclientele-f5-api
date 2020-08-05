@@ -40,6 +40,10 @@ ClientsRouter
           .location(path.posix.join(req.originalUrl, `/${client.id}`))
           .json(ClientsService.serializeClient(client))
       })
+      .catch(err => {
+        console.log(err)
+        next()
+      })
   })
 
 module.exports = ClientsRouter;
