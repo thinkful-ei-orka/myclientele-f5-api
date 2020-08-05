@@ -1,0 +1,1 @@
+ALTER TABLE client ADD COLUMN day_of_week INTEGER;
