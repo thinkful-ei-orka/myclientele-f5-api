@@ -26,7 +26,7 @@ describe('Users Endpoints', () => {
     );
 
     describe('POST /api/users', () => {
-        let reqBody = {
+        const reqBody = {
             name: testUser.name,
             userName: testUser.user_name,
             password: 'password1234@#',
@@ -35,13 +35,12 @@ describe('Users Endpoints', () => {
                 location: testCompany.location
             },
             admin: testUser.admin,
-            boss_id: null,
             email: testUser.email,
         }
 
         //returns 400 when missing part of the user
         it('400 resposne if user info is missing', () => {
-            reqBody = {
+            let userInfoMissReqBody = {
                 name: testUser.name,
                 password: 'password1234@#',
                 company:{
@@ -49,37 +48,53 @@ describe('Users Endpoints', () => {
                     location: testCompany.location
                 },
                 admin: testUser.admin,
-                boss_id: null,
                 email: testUser.email,
             }
 
             return supertest(app)
                 .post('/api/users')
-                .send(reqBody)
-                .expect(400, {error})
+                .send(userInfoMissReqBody)
+                .expect(400)
         })
         //returns 400 when missing part of the company
         it('400 response if company info is missing', () => {
-            reqBody.company = {
-                name: testCompany.name
+            const companyInfoMissReqBody = {
+                name: testUser.name,
+                userName: testUser.user_name,
+                password: 'password1234@#',
+                company:{
+                    name: testCompany.name,
+                },
+                admin: testUser.admin,
+                email: testUser.email,
             }
 
             return supertest(app)
                 .post('/api/users')
-                .send(reqBody)
-                .expect(400, {error})
+                .send(companyInfoMissReqBody)
+                .expect(400)
         })
         // returns 400 if password isnt' valid
-        it('400 response if username exists', () => {
-        reqBody.password = testUser.password
+        it('400 response if password is invalid', () => {
+            const invalidPasswordReqBody = {
+                name: testUser.name,
+                userName: testUser.user_name,
+                password: testUser.password,
+                company:{
+                    name: testCompany.name,
+                },
+                admin: testUser.admin,
+                email: testUser.email,
+            }
+        console.log(reqBody)
 
             return supertest(app)
                 .post('/api/users')
-                .send(reqBody)
-                .expect(400, {error})
+                .send(invalidPasswordReqBody)
+                .expect(400)
         })
 
-        // returns 400 if username exists
+        returns 400 if username exists
         it('400 response if username exists', () => {
             before('seed databse with info', () =>
                 helpers.seedUsers(db, testUsers))
