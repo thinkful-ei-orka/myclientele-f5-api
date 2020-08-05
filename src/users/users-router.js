@@ -9,20 +9,19 @@ const jsonBodyParser = express.json()
 
 usersRouter
     .post('/', jsonBodyParser, async (req, res, next) => {
-        const { name, userName, password, company, admin, boss_id, email} = req.body
+        const { name, userName, password, company_name, company_location, admin, boss_id, email} = req.body
 
-        for (const field of ['name', 'userName','password','company','admin','bossId', 'email'])
+        for (const field of ['name', 'userName','password','company_name', 'company_location','admin','bossId', 'email'])
             if (!req.body[field])
                 return res.status(400).json({
                     error: `Missing '${field}' in request body`
                 })
 
         //insert comapny info to table with companyservice
-            for (const field of ['company name', 'company location'])
-            if (!req.body.company[field])
-                return res.status(400).json({
-                    error: `Missing '${field}' in request body`
-                })
+        const company = {
+            name: company_name,
+            location: company_location
+        }
             const companyId = CompaniesService.insertCompany(company)
 
         //insert user into table with userService

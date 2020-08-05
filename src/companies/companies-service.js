@@ -4,6 +4,6 @@ const CompaniesService = {
             .insert({name: company.name, location: company.location})
             .returning('id')
     }
-}
+};
 
-module.exports = CompaniesService
+module.exports = CompaniesService;

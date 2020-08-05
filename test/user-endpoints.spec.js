@@ -30,10 +30,8 @@ describe('Users Endpoints', () => {
             name: testUser.name,
             userName: testUser.user_name,
             password: 'password1234@#',
-            company:{
-                name: testCompany.name,
-                location: testCompany.location
-            },
+            company_name: testCompany.name,
+            company_location: testCompany.location,
             admin: testUser.admin,
             boss_id: null,
             email: testUser.email,
@@ -44,14 +42,12 @@ describe('Users Endpoints', () => {
             reqBody = {
                 name: testUser.name,
                 password: 'password1234@#',
-                company:{
-                    name: testCompany.name,
-                    location: testCompany.location
-                },
+                company_name: testCompany.name,
+                company_location: testCompany.location,
                 admin: testUser.admin,
                 boss_id: null,
                 email: testUser.email,
-            }
+            };
 
             return supertest(app)
                 .post('/api/users')
