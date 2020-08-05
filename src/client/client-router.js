@@ -53,5 +53,52 @@ ClientsRouter
       });
   });
 
+ClientsRouter
+  .route('/:client_id')
+  .all((req, res, next) => {
+    ClientsService.getClient(
+      req.app.get('db'),
+      req.params.client_id
+    )
+    .then(client => {
+      if(!client) {
+        return res.status(404).json({
+          error: { message: `Client doesn't exist`}
+        })
+      }
+      res.client = client
+      next()
+    })
+    .catch(next)
+  })
+  .get(checkClientExists, (req, res, next) => {
+    res.json(serializedClient = ClientsService.serializedClients(res.client))
+  })
+  .patch(jsonBodyParser, (req, res, next) => {
+    const { id } = req.params
+    const { }
+  })
+
+
+async function checkClientExists(req, res, next) {
+  try {
+    const client = await ClientsService.getClient(
+      req.app.get('db'),
+      req.params.client_id
+    )
+
+    if(!client) {
+      return res.status(404).json({
+        error: 'Client not found'
+      })
+      res.client = client
+      next()
+    }
+  }  catch(error) {
+    next(error)
+  }
+}
+
+
 module.exports = ClientsRouter;
 
