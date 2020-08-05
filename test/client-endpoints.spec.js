@@ -44,7 +44,7 @@ describe.only('Client Endpoints', function () {
 
   describe('POST /api/clients', () => {
     beforeEach('insert clients', () => {
-      return helpers.makeTestUsers();
+      return helpers.seedUsers(db, testUsers);
     });
     it('creates client, res of 201 and new client', () => {
       this.retries(3);
@@ -59,17 +59,44 @@ describe.only('Client Endpoints', function () {
         general_manager: 'test-gm-3',
         notes: 'test notes 3',
         day_of_week: 2
-      }
+      };
       return supertest(app)
         .post('/api/clients')
         .set('Authorization', helpers.makeAuthHeader(testUser))
         .send(newClient)
         .expect(201)
         .expect(res => {
-          expect(res.body).to.have.property('id')
+          expect(res.body).to.have.property('id');
+          expect(res.body.name).to.eql(newClient.name);
+          expect(res.body.location).to.eql(newClient.location);
+          expect(res.body.sales_rep_id).to.eql(newClient.sales_rep_id);
+          expect(res.body.company_id).to.eql(newClient.company_id);
+          expect(res.body.hours_of_operation).to.eql(newClient.hours_of_operation);
+          expect(res.body.currently_closed).to.eql(newClient.currently_closed);
+          expect(res.body.general_manager).to.eql(newClient.general_manager);
+          expect(res.body.notes).to.eql(newClient.notes);
+          expect(res.body.day_of_week).to.eql(newClient.day_of_week);
         })
-    })
-  })
+        .expect(res => 
+          db
+            .from('client')
+            .select('*')
+            .where({ id: res.body.id })  
+            .first()
+            .then(row => {
+              expect(row.name).to.eql(newClient.name);
+              expect(row.location).to.eql(newClient.location);
+              expect(row.sales_rep_id).to.eql(newClient.sales_rep_id);
+              expect(row.company_id).to.eql(newClient.company_id);
+              expect(row.hours_of_operation).to.eql(newClient.hours_of_operation);
+              expect(row.currently_closed).to.eql(newClient.currently_closed);
+              expect(row.general_manager).to.eql(newClient.general_manager);
+              expect(row.notes).to.eql(newClient.notes);
+              expect(row.day_of_week).to.eql(newClient.day_of_week);
+            })
+        );
+    });
+  });
 
 });
 

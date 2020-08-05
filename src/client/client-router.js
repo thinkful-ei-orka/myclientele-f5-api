@@ -34,7 +34,6 @@ ClientsRouter
           error: `Missing '${key}' in request body`
         });
 
-    newClient.id = req.id;
     newClient.sales_rep_id = req.user.id;
 
     ClientsService.insertClient(
