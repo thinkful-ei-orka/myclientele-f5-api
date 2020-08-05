@@ -21,6 +21,7 @@ VALUES
 SELECT SETVAL('company_id_seq', (SELECT MAX(id) + 1 FROM company));
 
 INSERT INTO users (id, name, user_name, password, company_id, admin, boss_id, email, phone_number)
+
 VALUES
   (
     1,

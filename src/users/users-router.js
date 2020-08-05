@@ -36,7 +36,7 @@ usersRouter
             if(passwordError) {
                 return res.status(400).json({error: passwordError})
             }
-            
+
             const duplicateUserError = await UsersService.validateUser(
                 req.app.get('db'),
                 user_name)
@@ -60,16 +60,16 @@ usersRouter
                 boss_id: bossId,
                 email
             }
-            
+
             await UsersService.insertUser(
                 req.app.get('db'),
                 userInfo)
 
         res
             .status(201)
-            .send('User created')
+            .json({message: 'User created'})
             }
-    
+
     catch(error) {
         next(error)
     }
