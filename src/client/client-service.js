@@ -15,7 +15,7 @@ const ClientsService = {
       location: xss(client.location),
       sales_rep_id: client.sales_rep_id,
       company_id: client.company_id,
-      day_of_week: xss(client.day_of_week),
+      day_of_week: client.day_of_week,
       hours_of_operation: xss(client.hours_of_operation),
       currently_closed: client.currently_closed,
       notes: xss(client.notes),

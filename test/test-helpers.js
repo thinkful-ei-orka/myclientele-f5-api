@@ -133,23 +133,20 @@ function makeAuthHeader(user, secret = process.env.JWT_SECRET) {
 
 }
 
-function seedUsersClientsReports(db, users, clients, reports) {
-  await seedUsers(db, users)
+function seedUsersClientsReports (db, users, clients, reports) {
 
-  await db.transaction(async trx => {
+  return db.transaction(async trx => {
+    await seedUsers(db, users)
     await trx.into('client').insert(clients)
+    await trx.raw(
+      `SELECT setval('client_id_seq', ?)`,
+      [clients[clients.length - 1].id],
+    )
     await trx.into('report').insert(reports)
-
-    await Promise.all([
-      trx.raw(
-        `SELECT setval('client_id_seq', ?)`,
-        [clients[clients.length - 1].id]
-      ),
-      trx.raw(
-        `SELECT setval('report_id_seq', ?)`,
-        [reports[reports.length - 1].id]
-      )
-    ])
+    await trx.raw(
+      `SELECT setval('report_id_seq', ?)`,
+      [reports[reports.length - 1].id],
+    )
   })
 }
 
@@ -157,7 +154,7 @@ function seedClientsTables(db, users, clients) {
   return seedUsers(db, users)
     .then(() => 
       clients.length && db
-        .into('clients')
+        .into('client')
         .insert(clients)
     
     )
@@ -173,7 +170,7 @@ function cleanTables(db) {
         company`
     )
     .then(() => 
-      Promises.all([
+      Promise.all([
         trx.raw(`ALTER SEQUENCE report_id_seq minvalue 0 START WITH 1`),
         trx.raw(`ALTER SEQUENCE client_id_seq minvalue 0 START WITH 1`),
         trx.raw(`ALTER SEQUENCE users_id_seq minvalue 0 START WITH 1`),

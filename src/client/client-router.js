@@ -24,3 +24,5 @@ ClientsRouter
       })
   })
   // .post
+
+module.exports = ClientsRouter;
