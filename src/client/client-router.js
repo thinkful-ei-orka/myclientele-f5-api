@@ -41,12 +41,6 @@ ClientsRouter
           .json(ClientsService.serializeClient(client))
       })
   })
-<<<<<<< HEAD
 
 module.exports = ClientsRouter;
 
-=======
-  // .post
-
-module.exports = ClientsRouter;
->>>>>>> b19f0850fdfddd8bdecfeceb5bc6d840ada5f57b
