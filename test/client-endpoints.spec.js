@@ -1,5 +1,6 @@
 const app = require('../src/app')
 const helpers = require('./test-helpers')
+const supertest = require('supertest')
 
 describe.only('Client Endpoints', function() {
   let db
@@ -22,8 +23,20 @@ describe.only('Client Endpoints', function() {
   afterEach('cleanup', () => helpers.cleanTables(db))
 
   describe('GET /api/clients', () => {
-    
-
+    context('given clients exist', () => {
+      beforeEach('insert clients', () => {
+        return helpers.seedClientsTables(
+          db,
+          testUsers,
+          testClients
+        )
+      })
+      it('should respond with 200 and the clients', () => {
+        const expectedClient = testClients[0]
+        return supertest(app)
+          .get('/api/clients')
+          .expect(200, expectedClient)
+      })
   })
 
 })

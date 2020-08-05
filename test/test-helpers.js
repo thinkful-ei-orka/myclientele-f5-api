@@ -151,7 +151,16 @@ function seedUsersClientsReports(db, users, clients, reports) {
       )
     ])
   })
+}
 
+function seedClientsTables(db, users, clients) {
+  return seedUsers(db, users)
+    .then(() => 
+      clients.length && db
+        .into('clients')
+        .insert(clients)
+    
+    )
 }
 
 function cleanTables(db) {
@@ -188,5 +197,6 @@ module.exports = {
   seedUsers,
   seedCompanies,
   seedUsersClientsReports,
+  seedClientsTables,
   cleanTables,
 }
