@@ -192,6 +192,7 @@ module.exports = {
   makeClientsAndReports,
 
   seedUsers,
+  makeCompanyArray,
   seedCompanies,
   seedUsersClientsReports,
   seedClientsTables,
