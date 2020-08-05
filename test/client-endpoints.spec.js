@@ -32,7 +32,7 @@ describe.only('Client Endpoints', function () {
                 return helpers.seedClientsTables(db, testUsers, testClients);
             });
             it('should respond with 200 and the clients', () => {
-                const expectedClient = testClients[0];
+                const expectedClient = testClients;
                 return supertest(app)
                   .get('/api/clients')
                   .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
