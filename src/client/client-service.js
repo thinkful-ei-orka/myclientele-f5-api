@@ -21,8 +21,26 @@ const ClientsService = {
       notes: xss(client.notes),
       general_manager: xss(client.general_manager)
     }
-  }
+  },
 
+  getClient(db, client_id) {
+    return db
+      .from('client')
+      .select('*')
+      .where('id', client_id)
+      .first()
+  },
+
+  insertClient(db, newClient) {
+    return db
+      .insert(newClient)
+      .into('client')
+      .returning('*')
+      .then(([client]) => client)
+      .then(client => 
+        ClientsService.getClient(db, client.id)
+      )
+  }
 }
 
 
