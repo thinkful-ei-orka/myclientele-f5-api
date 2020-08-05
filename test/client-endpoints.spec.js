@@ -97,10 +97,10 @@ describe.only('Client Endpoints', function () {
         );
     });
 
-    const requiredFields = ['name', 'location', 'hours_of_operation', 'currently_closed']
+    const requiredFields = ['name', 'location', 'hours_of_operation', 'currently_closed'];
 
     requiredFields.forEach(field => {
-      const testUser = testUsers[0]
+      const testUser = testUsers[0];
       const newClient = {
         name: 'test-client-3',
         location: 'test-location-3',
@@ -111,10 +111,10 @@ describe.only('Client Endpoints', function () {
         general_manager: 'test-gm-3',
         notes: 'test notes 3',
         day_of_week: 2
-      }
+      };
 
       it(`responds with 400 and an err msg with the '${field}' is missing`, () => {
-        delete newClient[field]
+        delete newClient[field];
 
         return supertest(app)
           .post('/api/clients')
@@ -122,9 +122,9 @@ describe.only('Client Endpoints', function () {
           .send(newClient)
           .expect(400, {
             error: `Missing '${field}' in request body`
-          })
-      })
-    })
+          });
+      });
+    });
 
   });
 

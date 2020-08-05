@@ -26,7 +26,7 @@ ClientsRouter
   .post(jsonBodyParser, (req, res, next) => {
     const { name, location, company_id, day_of_week, hours_of_operation, currently_closed, notes, general_manager } = req.body;
     
-    const requiredFields = { name, location, hours_of_operation, currently_closed }
+    const requiredFields = { name, location, hours_of_operation, currently_closed };
     const newClient = { name, location, company_id, day_of_week, hours_of_operation, currently_closed, notes, general_manager };
 
     for(const [key, value] of Object.entries(requiredFields))
