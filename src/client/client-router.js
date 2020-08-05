@@ -23,6 +23,7 @@ ClientsRouter
         next()
       })
   })
+<<<<<<< HEAD
   .post(jsonBodyParser, (req, res, next) => {
     const { name, location, company_id, day_of_week, hours_of_operation, currently_closed, notes, general_manager } = req.body
     const newClient = { name, location, company_id, day_of_week, hours_of_operation, currently_closed, notes, general_manager }
@@ -41,3 +42,8 @@ ClientsRouter
         .json(ClientsService.serializeClient(client))
     })
   })
+=======
+  // .post
+
+module.exports = ClientsRouter;
+>>>>>>> 0aa061feaddf8fcb6710b987a2999346b170a272
