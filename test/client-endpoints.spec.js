@@ -47,7 +47,6 @@ describe.only('Client Endpoints', function () {
       return helpers.seedUsers(db, testUsers);
     });
     it('creates client, res of 201 and new client', () => {
-      this.retries(3);
       const testUser = testUsers[0];
       const newClient = {
         name: 'test-client-3',
@@ -127,6 +126,63 @@ describe.only('Client Endpoints', function () {
     });
 
   });
+
+  describe('PATCH /api/clients/:client_id', () => {
+    context('Given no client', () => {
+      it('should respond with 404', () => {
+        const clientId = 12345678;
+        return supertest(app)
+          .patch(`/api/clients/${clientId}`)
+          .expect(404, { error: { message: `Client doesn't exist` } });
+      })
+    });
+
+    context('Give clients in DB' , () => {
+      // console.log('testUsers in spec via context', testUsers)
+      const testClients = helpers.makeClients()
+      
+
+      beforeEach('insert clients', () => {
+        // console.log('testUsers in spec', testUsers)
+        // console.log('testClients in spec', testClients)
+        return helpers.seedClientsTables(
+          db,
+          testUsers,
+          testClients
+        )
+      })
+
+      it('responds with 204 and updates the client', () => {
+        const idToUpdate = 2;
+        const updateClient = {
+          name: 'updated name',
+          location: 'updated location',
+          day_of_week: 4,
+          hours_of_operation: 'Mo-Fr',
+          currently_closed: true,
+          notes: 'seems to be going downhill',
+          general_manager: 'different gm'
+        }
+        // console.log('testclients @ id-1', testClients[idToUpdate-1])
+        const expectedClients = { 
+          ...testClients[idToUpdate-1],
+          ...updateClient
+        }
+        // console.log('expectedClients', expectedClients)
+
+        return supertest(app)
+          .patch(`/api/clients/${idToUpdate}`)
+          .send(updateClient)
+          .expect(204)
+          .then(res => 
+            supertest(app)
+              .get(`/api/clients/${idToUpdate}`)
+              .expect(expectedClients)  
+          )
+      })
+    })
+  });
+
 
 });
 

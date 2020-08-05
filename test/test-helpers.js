@@ -150,10 +150,44 @@ function seedUsersClientsReports (db, users, clients, reports) {
   })
 }
 
+function makeClients() {
+  return [
+    {
+      id: 1,
+      name: 'test-name',
+      location: 'test-location',
+      sales_rep_id: 1,
+      company_id: 1,
+      hours_of_operation: 'Mo-Su',
+      currently_closed: false,
+      general_manager: 'test-gm',
+      notes: 'test-notes',
+      day_of_week: 2
+    },
+    {
+      id: 2,
+      name: 'test-name2',
+      location: 'test-location2',
+      sales_rep_id: 1,
+      company_id: 1,
+      hours_of_operation: 'Mo-Su',
+      currently_closed: false,
+      general_manager: 'test-gm2',
+      notes: 'test-notes2',
+      day_of_week: 2
+    }
+  ]
+
+  return [clients]
+}
+
 function seedClientsTables(db, users, clients) {
+  // console.log('users in seedClientsTables', users)
+  // console.log('clients in sCT', users)
   return seedUsers(db, users)
     .then(() => 
       clients.length && db
+        // db
         .into('client')
         .insert(clients)
     
@@ -190,6 +224,7 @@ module.exports = {
   makeTestUsers,
   makeAuthHeader,
   makeClientsAndReports,
+  makeClients,
 
   seedUsers,
   seedCompanies,

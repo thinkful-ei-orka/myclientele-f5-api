@@ -40,6 +40,13 @@ const ClientsService = {
       .then(client => 
         ClientsService.getClient(db, client.id)
       )
+  },
+
+  updateClient(db, id, newClientFields) {
+    console.log('got into updateClient')
+    return db('client')
+      .where({ id })
+      .update(newClientFields)
   }
 }
 

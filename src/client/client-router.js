@@ -72,11 +72,24 @@ ClientsRouter
     .catch(next)
   })
   .get(checkClientExists, (req, res, next) => {
-    res.json(serializedClient = ClientsService.serializedClients(res.client))
+    console.log('got into get')
+    res.json(serializedClient = ClientsService.serializeClients(res.client))
   })
   .patch(jsonBodyParser, (req, res, next) => {
+    console.log('client_id', req.params.client_id)
     const { id } = req.params
-    const { }
+    const { name, location, day_of_week, hours_of_operation, currently_closed, notes, general_manager } = req.body
+    const clientToUpdate = { name, location, day_of_week, hours_of_operation, currently_closed, notes, general_manager }
+
+    ClientsService.updateClient(
+      req.app.get('db'),
+      req.params.client_id,
+      clientToUpdate
+    )
+      .then(numRowsAffected => {
+        res.status(204).end()
+      })
+      .catch(next)
   })
 
 
