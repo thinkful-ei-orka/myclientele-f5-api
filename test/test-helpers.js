@@ -190,6 +190,32 @@ function seedClientsTables(db, users, clients) {
     
     )
 }
+const maliciousReport = {
+  id: 911,
+  client_id: 1,
+  sales_rep_id: 1,
+  date: '2016-06-23T02:10:25.000Z',
+  notes: `Bad image <img src="https://url.to.file.which/does-not.exist" onerror="alert(document.cookie);">. But not <strong>all</strong> bad.`,
+  photo_url: 'Naughty naughty very naughty <script>alert("xss");</script>'
+}
+
+const newReport = {
+
+  client_id: 1,
+  sales_rep_id: 1,
+  date: '2016-06-23T02:10:25.000Z',
+  notes: 'test notes',
+  photo_url: 'test new photo'
+}
+
+function seedMaliciousReport(db, users, clients, report) {
+
+  return seedClientsTables(db, users, clients)
+    .then(() =>
+      db.into('report').insert([report])
+    )
+
+}
 
 function cleanTables(db) {
   return db.transaction(trx => 
@@ -222,7 +248,9 @@ module.exports = {
   makeAuthHeader,
   makeClientsAndReports,
   makeClients,
-
+  seedMaliciousReport,
+  maliciousReport,
+  newReport,
   seedUsers,
   makeCompanyArray,
   seedCompanies,

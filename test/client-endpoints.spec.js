@@ -4,7 +4,7 @@ const knex = require('knex');
 const supertest = require('supertest');
 const { expect } = require('chai');
 
-describe.only('Client Endpoints', function () {
+describe('Client Endpoints', function () {
   let db;
 
   const testUsers = helpers.makeTestUsers();
@@ -21,7 +21,7 @@ describe.only('Client Endpoints', function () {
     app.set('db', db);
   });
 
-  after('disconnet from db', () => db.destroy());
+  after('disconnect from db', () => db.destroy());
 
   before('cleanup', () => helpers.cleanTables(db));
 
