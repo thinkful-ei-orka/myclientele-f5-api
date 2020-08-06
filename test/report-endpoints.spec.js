@@ -5,7 +5,7 @@ const app = require('../src/app');
 const supertest = require('supertest');
 const helpers = require('./test-helpers');
 
-describe('Reports Endpoints', () => {
+describe.only('Reports Endpoints', () => {
     let db;
     before('make knex instance', () => {
         db = knex({
@@ -221,7 +221,7 @@ describe('Reports Endpoints', () => {
             });
         });
     });
-    describe.only('DELETE /api/reports/:id', () => {
+    describe('DELETE /api/reports/:id', () => {
         context('Given reports', () => {
             beforeEach(() => 
                 helpers.seedUsersClientsReports(db, testUsers, testClients, testReports)

@@ -42,7 +42,7 @@ const ReportService = {
             id: report.id,
             client_id: report.client_id,
             sales_rep_id: report.sales_rep_id,
-            date: xss(report.date),
+            date: report.date,
             notes: xss(report.notes),
             photo_url: xss(report.photo_url)
         };
