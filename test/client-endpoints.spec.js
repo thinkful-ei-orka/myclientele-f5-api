@@ -174,12 +174,12 @@ describe.only('Client Endpoints', function () {
           .patch(`/api/clients/${idToUpdate}`)
           .send(updateClient)
           .expect(204)
-          // .then(res => 
-          //   supertest(app)
-          //     .get(`/api/clients/${idToUpdate}`)
-          //     .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
-          //     .expect(expectedClient)  
-          // )
+          .then(res => 
+            supertest(app)
+              .get(`/api/clients/${idToUpdate}`)
+              .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
+              .expect(expectedClient)  
+          )
       })
     })
   });
