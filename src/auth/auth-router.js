@@ -6,7 +6,8 @@ const { requireAuth } = require('../middleware/jwt-auth');
 
 authRouter.put('/refresh', requireAuth, (req, res) => {
     const sub = req.user.user_name;
-    const payload = { user_id: req.user.id };
+    const payload = { user_id: req.user.id, company_id: req.user.company_id  };
+
     res.send({
         authToken: AuthService.createJwt(sub, payload),
     });
@@ -45,7 +46,8 @@ authRouter.post('/login', jsonBodyParser, (req, res, next) => {
                 }
                 //create sub and payload to create a JWT for the user
                 const sub = dbUser.user_name;
-                const payload = { user_id: dbUser.id };
+                const payload = { user_id: dbUser.id, company_id: dbUser.company_id };
+
                 return res.send({
                     authToken: AuthService.createJwt(sub, payload),
                 });
