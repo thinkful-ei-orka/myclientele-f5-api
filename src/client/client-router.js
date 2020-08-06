@@ -53,5 +53,53 @@ ClientsRouter
       });
   });
 
+ClientsRouter
+  .route('/:client_id')
+  .all((req, res, next) => {
+    ClientsService.getClient(
+      req.app.get('db'),
+      req.params.client_id
+    )
+      .then(client => {
+        if(!client) {
+          return res.status(404).json({
+            error: { message: `Client doesn't exist`}
+          });
+        }
+        res.client = client;
+        next();
+      })
+      .catch(next);
+  })
+  .get((req, res, next) => {
+    res.json(ClientsService.serializeClient(res.client));
+  })
+  .patch(jsonBodyParser, (req, res, next) => {
+    const id  = res.client.id;
+    const { name, location, day_of_week, hours_of_operation, currently_closed, notes, general_manager } = req.body;
+    const clientToUpdate = { name, location, day_of_week, hours_of_operation, currently_closed, notes, general_manager };
+
+    ClientsService.updateClient(
+      req.app.get('db'),
+      req.params.client_id,
+      clientToUpdate
+    )
+      .then(numRowsAffected => {
+        res.status(204).end();
+      })
+      .catch(next);
+  })
+  .delete((req, res, next) => {
+    ClientsService.deleteClient(
+      req.app.get('db'),
+      req.params.client_id
+    )
+      .then(numRowsAffected => {
+        res.status(204).end();
+      })
+      .catch(next);
+  });
+
+
 module.exports = ClientsRouter;
 
