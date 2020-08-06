@@ -15,15 +15,15 @@ Base Url: _to update__/api
 ### POST `/auth/login`
 Parameters:  
 {  
-    -"user_name":"Irma-JuniorSale",  
-    -"password":"P947fheh(*"  
+&nbsp;&nbsp;&nbsp;&nbsp;"user_name":"Irma-JuniorSale",  
+&nbsp;&nbsp;&nbsp;&nbsp;"password":"P947fheh(*"  
 }  
-**username***string*  
+**user_name** *string*  
 **password** *string*   
 
 Returns:   
 {  
-    "authToken":   
+&nbsp;&nbsp;&nbsp;&nbsp;"authToken":   
 }  
 
 ### PUT `/auth/refresh`
@@ -32,25 +32,25 @@ none
 
 Returns:   
 {  
-    "authToken": ___  
+&nbsp;&nbsp;&nbsp;&nbsp;"authToken": ___  
 }  
 
 ### POST `/users`
 Parameters:  
 {  
-    "name":"Irma",  
-    "user_name":"Irma-JuniorSale",  
-    "password":"P947fheh(*",  
-    "company_name":"F5 Energy",  
-    "company_location":"5 Fiskburg Lane, Carlsbad, DE 12345",  
-    "admin":"True",  
-    "email":"IrmaJS@f5ftw.com",  
-    "phone_number":"2045987890"  
+&nbsp;&nbsp;&nbsp;&nbsp;"name":"Irma",  
+&nbsp;&nbsp;&nbsp;&nbsp;"user_name":"Irma-JuniorSale",  
+&nbsp;&nbsp;&nbsp;&nbsp;"password":"P947fheh(*",  
+&nbsp;&nbsp;&nbsp;&nbsp;"company_name":"F5 Energy",  
+&nbsp;&nbsp;&nbsp;&nbsp;"company_location":"5 Fiskburg Lane, Carlsbad, DE 12345",  
+&nbsp;&nbsp;&nbsp;&nbsp;"admin":"True",  
+&nbsp;&nbsp;&nbsp;&nbsp;"email":"IrmaJS@f5ftw.com",  
+&nbsp;&nbsp;&nbsp;&nbsp;"phone_number":"2045987890"  
 }  
 **name** *string*  
-**username***string*  
+**username** *string*  
 **password** *string* Must be between 8 and 72 characters, must include one upper case, one lower case, one number and one special character  
-**company_name***integer*  
+**company_name** *integer*  
 **company_location** *string*  
 **admin** *boolean*  
 **email** *string*  
@@ -58,7 +58,7 @@ Parameters:
   
 Returns:   
 {  
-    "User created"   
+&nbsp;&nbsp;&nbsp;&nbsp;"User created"   
 }  
 
 ### GET `/clients`
@@ -67,45 +67,45 @@ None
   
 Returns:   
 {     
-    "clients":[  
-        {  
-            "id": "54"  
-            "name": "The SVC Pharmacy"),  
-            "location": "678 Ivy Ave., Crisot, DE, 12345",    
-            "sales_rep_id": "7",  
-            "company_id": "1",  
-            "day_of_week": "3",  
-            "hours_of_operation": "Monday Tuesday Wednesday Saturday : 8AM-10PM",  
-            "currently_closed": "True",  
-            "notes": "General manager likes to relocate display. Check when arriving",  
-            "general_manager": "Carl Dougins"  
-        },  
-        {  
-            "id": "57"  
-            "name": "The ABC Gas Station"),  
-            "location": "980 Leaf Ave., Crumbiy, DE, 12345",  
-            "sales_rep_id": "7",  
-            "company_id": "1",  
-            "day_of_week": "6",  
-            "hours_of_operation": "Monday Tuesday Wednesday Saturday : 8AM-10PM",  
-            "currently_closed": "True",  
-            "notes": "",  
-            "general_manager": "Doug Carlin"  
-        }  
-    ]  
+&nbsp;&nbsp;&nbsp;&nbsp;"clients":[  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"id": "54"  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"name": "The SVC Pharmacy"),  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"location": "678 Ivy Ave., Crisot, DE, 12345",    
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"sales_rep_id": "7",  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"company_id": "1",  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"day_of_week": "3",  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"hours_of_operation": "Monday Tuesday Wednesday Saturday : 8AM-10PM",  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"currently_closed": "True",  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"notes": "General manager likes to relocate display. Check when arriving",  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"general_manager": "Carl Dougins"  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"id": "57"  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"name": "The ABC Gas Station"),  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"location": "980 Leaf Ave., Crumbiy, DE, 12345",  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"sales_rep_id": "7",  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"company_id": "1",  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"day_of_week": "6",  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"hours_of_operation": "Monday Tuesday Wednesday Saturday : 8AM-10PM",  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"currently_closed": "True",  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"notes": "",  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"general_manager": "Doug Carlin"  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}  
+&nbsp;&nbsp;&nbsp;&nbsp;]  
 }  
   
 ### POST `/clients`
 Parameters:  
 {  
-    "name":"The SVC Pharmacy",  
-    "locaiton":"678 Ivy Ave., Crisot, DE, 12345",  
-    "company_id":"1",  
-    "day_of_week":"3",  
-    "hours_of_operaiton":"Monday Tuesday Wednesday Saturday : 8AM-10PM",  
-    "currently_closed":"True",  
-    "notes":"General manager likes to relocate display. Check when arriving",  
-    "general_manager":"Carl Dougins"  
+&nbsp;&nbsp;&nbsp;&nbsp;"name":"The SVC Pharmacy",  
+&nbsp;&nbsp;&nbsp;&nbsp;"locaiton":"678 Ivy Ave., Crisot, DE, 12345",  
+&nbsp;&nbsp;&nbsp;&nbsp;"company_id":"1",  
+&nbsp;&nbsp;&nbsp;&nbsp;"day_of_week":"3",  
+&nbsp;&nbsp;&nbsp;&nbsp;"hours_of_operaiton":"Monday Tuesday Wednesday Saturday : 8AM-10PM",  
+&nbsp;&nbsp;&nbsp;&nbsp;"currently_closed":"True",  
+&nbsp;&nbsp;&nbsp;&nbsp;"notes":"General manager likes to relocate display. Check when arriving",  
+&nbsp;&nbsp;&nbsp;&nbsp;"general_manager":"Carl Dougins"  
 }  
   
 **name** *string*  
@@ -119,16 +119,16 @@ Parameters:
   
 Returns:   
 {  
-    "id": "54"  
-    "name": "The SVC Pharmacy"),  
-    "location": "678 Ivy Ave., Crisot, DE, 12345",  
-    "sales_rep_id": "7",  
-    "company_id": "1",  
-    "day_of_week": "3",  
-    "hours_of_operation": "Monday Tuesday Wednesday Saturday : 8AM-10PM",  
-    "currently_closed": "True",  
-    "notes": "General manager likes to relocate display. Check when arriving",  
-    "general_manager": "Carl Dougins"  
+&nbsp;&nbsp;&nbsp;&nbsp;"id": "54"  
+&nbsp;&nbsp;&nbsp;&nbsp;"name": "The SVC Pharmacy"),  
+&nbsp;&nbsp;&nbsp;&nbsp;"location": "678 Ivy Ave., Crisot, DE, 12345",  
+&nbsp;&nbsp;&nbsp;&nbsp;"sales_rep_id": "7",  
+&nbsp;&nbsp;&nbsp;&nbsp;"company_id": "1",  
+&nbsp;&nbsp;&nbsp;&nbsp;"day_of_week": "3",  
+&nbsp;&nbsp;&nbsp;&nbsp;"hours_of_operation": "Monday Tuesday Wednesday Saturday : 8AM-10PM",  
+&nbsp;&nbsp;&nbsp;&nbsp;"currently_closed": "True",  
+&nbsp;&nbsp;&nbsp;&nbsp;"notes": "General manager likes to relocate display. Check when arriving",  
+&nbsp;&nbsp;&nbsp;&nbsp;"general_manager": "Carl Dougins"  
 }  
   
 ## Scripts
