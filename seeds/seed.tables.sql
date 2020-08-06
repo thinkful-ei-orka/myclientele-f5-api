@@ -51,7 +51,56 @@ VALUES
     'sam wise',
     'good displays',
     2
+  ),
+  (
+    2,
+    'cvs',
+    '4650 Troost Ave, Kansas City MO, 64110',
+    1,
+    1,
+    'Mo-Su',
+    false,
+    'sam unwise',
+    'bad displays',
+    3
+  ),
+  (
+    3,
+    'walgreens',
+    '520 Greenery St, Kansas City MO, 65540',
+    1,
+    1,
+    'Mo-Su',
+    false,
+    'bobby boberson',
+    'smells like cheese for some reason',
+    1
+  ),
+  (
+    4,
+    '7-eleven',
+    '5330 daily circle, Kansas City MO, 64333',
+    1,
+    1,
+    'Mo-Su',
+    false,
+    'will wilson',
+    'good atmoshpere',
+    2
+  ),
+  (
+    5,
+    'smart mart',
+    '420 good view place, Kansas City MO, 69034',
+    1,
+    1,
+    'Mo-Su',
+    false,
+    'dilly dally',
+    'gm is a little slow, but it is okay',
+    5
   );
+
 
 SELECT SETVAL('client_id_seq', (SELECT MAX(id) + 1 FROM client));
 
