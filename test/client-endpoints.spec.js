@@ -21,7 +21,7 @@ describe('Client Endpoints', function () {
     app.set('db', db);
   });
 
-  after('disconnet from db', () => db.destroy());
+  after('disconnect from db', () => db.destroy());
 
   before('cleanup', () => helpers.cleanTables(db));
 
