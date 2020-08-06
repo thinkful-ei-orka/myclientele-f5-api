@@ -174,15 +174,26 @@ describe.only('Client Endpoints', function () {
           .patch(`/api/clients/${idToUpdate}`)
           .send(updateClient)
           .expect(204)
-          .then(res => 
-            supertest(app)
-              .get(`/api/clients/${idToUpdate}`)
-              .expect(expectedClient)  
-          )
+          // .then(res => 
+          //   supertest(app)
+          //     .get(`/api/clients/${idToUpdate}`)
+          //     .expect(expectedClient)  
+          // )
       })
     })
   });
 
+  describe('DELETE /api/clients/:client_id', () => {
+    context('Given no clients', () => {
+      it('responds with 404', () => {
+        const clientId = 12345678
+        return supertest(app)
+          .delete(`/api/clients/${clientId}`)
+          .expect(404, { error: { message: `Client doesn't exist` } })
+      })
+    })
+
+  })
 
 });
 

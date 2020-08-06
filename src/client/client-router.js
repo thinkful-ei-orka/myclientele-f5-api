@@ -74,7 +74,7 @@ ClientsRouter
   })
   .get(checkClientExists, (req, res, next) => {
     console.log('got into get')
-    res.json(serializedClient = ClientsService.serializeClients(res.client))
+    res.json(ClientsService.serializeClients(res.client))
   })
   .patch(jsonBodyParser, (req, res, next) => {
     console.log('res.client.id', res.client.id)
