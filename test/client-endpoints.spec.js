@@ -177,6 +177,7 @@ describe.only('Client Endpoints', function () {
           // .then(res => 
           //   supertest(app)
           //     .get(`/api/clients/${idToUpdate}`)
+          //     .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
           //     .expect(expectedClient)  
           // )
       })
@@ -193,6 +194,31 @@ describe.only('Client Endpoints', function () {
       })
     })
 
+    context('Given there are clients in DB', () => {
+      const testClients = helpers.makeClients()
+
+      beforeEach('insert clients', () => {
+        return helpers.seedClientsTables(
+          db,
+          testUsers,
+          testClients
+        )
+      })
+
+      it('responds with 204 and removes client', () => {
+        const idToRemove = 2
+        const expectedClients = testClients.filter(client => client.id !== idToRemove)
+        return supertest(app)
+          .delete(`/api/clients/${idToRemove}`)
+          .expect(204)
+          .then(res => 
+            supertest(app)
+              .get(`/api/clients`)
+              .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
+              .expect(expectedClients)  
+          )
+      })
+    })
   })
 
 });
