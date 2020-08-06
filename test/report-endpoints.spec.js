@@ -74,6 +74,16 @@ describe.only('Reports Endpoints', () => {
                     .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
                     .expect(200, expectedReports);
             });
+            it('responds with 200 and all reports for a given client', () => {
+                const expectedReports = testReports.filter(
+                    (report) => report.sales_rep_id === testUsers[0].id
+                );
+                const clientId = testClients[0].id;
+                return supertest(app)
+                    .get(`/api/reports?client_id=${clientId}`)
+                    .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
+                    .expect(200, expectedReports);
+            })
         });
     });
     describe('GET /api/reports/:id', () => {
@@ -229,7 +239,6 @@ describe.only('Reports Endpoints', () => {
             it('responds with a 204 and removes report', () => {
                 const idToRemove = testReports[0].id;
                 const expectedReports = testReports.filter(report => report.id !== idToRemove)
-                console.log(expectedReports);
                 return supertest(app)
                     .delete(`/api/reports/${idToRemove}`)
                     .set('Authorization', helpers.makeAuthHeader(testUsers[0]))

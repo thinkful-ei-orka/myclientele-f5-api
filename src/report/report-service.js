@@ -8,6 +8,18 @@ const ReportService = {
             .join('users', 'report.sales_rep_id', '=', 'users.id')
             .where('users.user_name', user);
     },
+    getReportsByClientId(knex, user, client_id) {
+        return knex
+            .from('report')
+            .select('report.*', 'users.user_name')
+            .join('users', 'report.sales_rep_id', '=', 'users.id')
+            .where('users.user_name', user)
+            .returning('*')
+            .then(res => {
+                return res.filter(report => report.client_id !== client_id);
+            });
+
+    },
     getById(knex, id) {
         return knex
             .from('report')
