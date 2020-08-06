@@ -45,6 +45,43 @@ reportRouter
       }
       res.json(ReportService.serializeReport(report));
     });
+  })
+  .patch(jsonParser, (req, res, next) => {
+    const { client_id, notes, photo_url } = req.body;
+    const sales_rep_id = req.user.id;
+    const reportToUpdate = { client_id, sales_rep_id, notes, photo_url };
+    ReportService.getById(req.app.get("db"), req.params.id).then((report) => {
+      if (report.sales_rep_id !== req.user.id) {
+        return res.status(401).json({ error: "Unauthorized request" });
+      }
+      if (
+        (report.notes === notes || !notes) &&
+        (report.photo_url === photo_url || !photo_url)
+      ) {
+        return res.status(400).json({
+          error: {
+            message: "Request body must contain notes or a photo_url",
+          },
+        });
+      }
+    });
+    ReportService.updateReport(req.app.get("db"), req.params.id, reportToUpdate)
+      .then((numRowsAffected) => {
+        res.status(204).end();
+      })
+      .catch(next);
+  })
+  .delete((req, res, next) => {
+    ReportService.getById(req.app.get("db"), req.params.id).then((report) => {
+      if (report.sales_rep_id !== req.user.id) {
+        return res.status(401).json({ error: "Unathorized request" });
+      }
+    });
+    ReportService.deleteReport(req.app.get("db"), req.params.id)
+      .then((numRowsAffected) => {
+        res.status(204).end();
+      })
+      .catch(next);
   });
 
 async function checkIfReportExists(req, res, next) {

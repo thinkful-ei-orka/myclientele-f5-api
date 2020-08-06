@@ -15,6 +15,25 @@ const ReportService = {
             .where('id', id)
             .first();
     },
+    insertReport(knex, newReport) {
+        return knex
+            .into('report')
+            .insert(newReport)
+            .returning('*')
+            .then(rows => {
+                return rows[0];
+            });
+    },
+    updateReport(knex, id, newData) {
+        return knex('report')
+            .where({ id })
+            .update(newData);
+    },
+    deleteReport(knex, id) {
+        return knex('report')
+            .where({id})
+            .delete();
+    },
     serializeReports(reports) {
         return reports.map(this.serializeReport);
     },
