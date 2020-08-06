@@ -1,17 +1,21 @@
-# Express Boilerplate!
+# MyClientele API
 
-This is a boilerplate project used for starting new projects!
 
-## How do set up?
+### Usage
+Base Url: _to update__/api
+| Endpoint    | Method | Description                                                                                           |
+| ----------- | ------- | ----------------------------------------------------------------------------------------------------- |
+| /auth/login       | post     | Takes `user_name` and `password`, checks for ,returns auth token                    |
+| /auth/refresh       | put     | Takes `user_name and id`, returns new auth token                    |
+| /users/       | post     | Takes registration info , then creates both a company and user for a new account|
+| /clients/       | post     | Takes client information and , inserts in to database and returns the client information in an object                    |
+| /clients/       | get     | Gets all clients for associated with user, returns an object                    |
+| /companies | ____  | ________________________________ |
 
-Complete the following steps to start a new project (NEW-PROJECT-NAME):
+### POST `auth/login`
+Parameters:
 
-1. Clone this repository to your local machine `git clone BOILERPLATE-URL NEW-PROJECTS-NAME`
-2. `cd` into the cloned repository
-3. Make a fresh start of the git history for this project with `rm -rf .git && git init`
-4. Install the node dependencies `npm install`
-5. Move the example Environment file to `.env` that will be ignored by git and read by the express server `mv example.env .env`
-6. Edit the contents of the `package.json` to use NEW-PROJECT-NAME instead of `"name": "express-boilerplate",`
+Returns: 
 
 ## Scripts
 
@@ -20,6 +24,8 @@ Start the application `npm start`
 Start nodemon for the application `npm run dev`
 
 Run the tests in watch mode `npm test`
+
+Run the migraitons up: `npm run migrate` , down: `npm run migrate --0`
 
 ## Deploying
 
