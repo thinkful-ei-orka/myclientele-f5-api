@@ -78,6 +78,7 @@ ClientsRouter
   .patch(jsonBodyParser, (req, res, next) => {
     console.log('client_id', req.params.client_id)
     const { id } = req.params
+    console.log('id', id)
     const { name, location, day_of_week, hours_of_operation, currently_closed, notes, general_manager } = req.body
     const clientToUpdate = { name, location, day_of_week, hours_of_operation, currently_closed, notes, general_manager }
 
@@ -87,6 +88,7 @@ ClientsRouter
       clientToUpdate
     )
       .then(numRowsAffected => {
+        console.log('got out of updateClient')
         res.status(204).end()
       })
       .catch(next)

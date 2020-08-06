@@ -164,7 +164,7 @@ describe.only('Client Endpoints', function () {
           general_manager: 'different gm'
         }
         // console.log('testclients @ id-1', testClients[idToUpdate-1])
-        const expectedClients = { 
+        const expectedClient = { 
           ...testClients[idToUpdate-1],
           ...updateClient
         }
@@ -177,7 +177,7 @@ describe.only('Client Endpoints', function () {
           .then(res => 
             supertest(app)
               .get(`/api/clients/${idToUpdate}`)
-              .expect(expectedClients)  
+              .expect(expectedClient)  
           )
       })
     })
