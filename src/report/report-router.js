@@ -9,12 +9,29 @@ reportRouter
   .route("/")
   .all(requireAuth)
   .get((req, res, next) => {
+    let clientId = req.originalUrl.split('?')[1];
     const currentUser = req.user.user_name;
-    ReportService.getAllReports(req.app.get("db"), currentUser)
+    if(clientId) {
+        if(!clientId.includes('clientid=')) {
+            return res.status(400).json({error: 'Query string must include a client_id'})
+        }
+        clientId = clientId.split('=')[1];
+        if(isNaN(Number(clientId))) {
+            return res.status(400).json({error: 'client_id must be a number'})
+        }
+        ReportService.getReportsByClientId(req.app.get('db'), currentUser, clientId)
+            .then(reports => {
+                res.json(ReportService.serializeReports(reports))
+            })
+    } else {
+      ReportService.getAllReports(req.app.get("db"), currentUser)
       //returns all reports that corresponds to user_id
       .then((reports) => {
         res.json(ReportService.serializeReports(reports));
       });
+    }
+
+
   })
   .post(jsonParser, (req, res, next) => {
     const { client_id, notes, photo_url } = req.body;
