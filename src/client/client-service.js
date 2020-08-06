@@ -1,11 +1,11 @@
-const xss = require('xss')
+const xss = require('xss');
 
 const ClientsService = {
   getClientsForUser(db, user_id) {
     return db
       .from('client')
       .select('*')
-      .where('sales_rep_id', user_id)
+      .where('sales_rep_id', user_id);
   },
 
   serializeClient(client) {
@@ -20,7 +20,7 @@ const ClientsService = {
       currently_closed: client.currently_closed,
       notes: xss(client.notes),
       general_manager: xss(client.general_manager)
-    }
+    };
   },
 
   getClient(db, client_id) {
@@ -28,7 +28,7 @@ const ClientsService = {
       .from('client')
       .select('*')
       .where('id', client_id)
-      .first()
+      .first();
   },
 
   insertClient(db, newClient) {
@@ -39,9 +39,21 @@ const ClientsService = {
       .then(([client]) => client)
       .then(client => 
         ClientsService.getClient(db, client.id)
-      )
-  }
-}
+      );
+  },
+
+  updateClient(db, id, newClientFields) {
+    return db('client')
+      .where({ id })
+      .update(newClientFields);
+  },
+
+  deleteClient(db, id) {
+    return db('client')
+      .where({ id })
+      .delete();
+  },
+};
 
 
-module.exports = ClientsService
+module.exports = ClientsService;
