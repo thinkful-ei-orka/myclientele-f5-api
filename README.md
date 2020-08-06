@@ -8,9 +8,12 @@ Base Url: _to update__/api
 | /auth/login       | post     | Takes user name and password, checks for account,returns auth token                    |
 | /auth/refresh       | put     | Takes user nam, returns new auth token                    |
 | /users/       | post     | Takes registration info , then creates both a company and user for a new account|
-| /clients/       | post     | Takes client information and , inserts in to database and returns the client information in an object                    |
+| /clients/       | post     | Takes client information, inserts in to database and returns the client information in an object                    |
 | /clients/       | get     | Gets all clients for associated with user, returns an object                    |
-| /companies | ____  | ________________________________ |
+| /clients/:id       | get     | Takes client id as a path parameter, returns client information as an object                    |
+| /clients/:id       | patch     | Takes client id as a path parameter and updated client information, alters client info in databse                    |
+| /clients/:id       | delete     | Takes client id as a path parameter, removes client from database                    |
+| /companies/:id | get  | Takes company id as a path parameter, returns company information as an object |
 
 ### POST `/auth/login`
 Parameters:  
@@ -96,7 +99,7 @@ Returns:
 }  
   
 ### POST `/clients`
-Parameters:  
+Request Body Parameters:  
 {  
 &nbsp;&nbsp;&nbsp;&nbsp;"name":"The SVC Pharmacy",  
 &nbsp;&nbsp;&nbsp;&nbsp;"locaiton":"678 Ivy Ave., Crisot, DE, 12345",  
@@ -130,7 +133,64 @@ Returns:
 &nbsp;&nbsp;&nbsp;&nbsp;"notes": "General manager likes to relocate display. Check when arriving",  
 &nbsp;&nbsp;&nbsp;&nbsp;"general_manager": "Carl Dougins"  
 }  
+
+
+### GET `/clients/:id`
+Parameters:  
+None  
   
+Returns:   
+{  
+&nbsp;&nbsp;&nbsp;&nbsp;"id": "54"  
+&nbsp;&nbsp;&nbsp;&nbsp;"name": "The SVC Pharmacy"),  
+&nbsp;&nbsp;&nbsp;&nbsp;"location": "678 Ivy Ave., Crisot, DE, 12345",  
+&nbsp;&nbsp;&nbsp;&nbsp;"sales_rep_id": "7",  
+&nbsp;&nbsp;&nbsp;&nbsp;"company_id": "1",  
+&nbsp;&nbsp;&nbsp;&nbsp;"day_of_week": "3",  
+&nbsp;&nbsp;&nbsp;&nbsp;"hours_of_operation": "Monday Tuesday Wednesday Saturday : 8AM-10PM",  
+&nbsp;&nbsp;&nbsp;&nbsp;"currently_closed": "True",  
+&nbsp;&nbsp;&nbsp;&nbsp;"notes": "General manager likes to relocate display. Check when arriving",  
+&nbsp;&nbsp;&nbsp;&nbsp;"general_manager": "Carl Dougins"  
+}  
+### PATCH `/clients/:id`
+Parameters:  
+{  
+&nbsp;&nbsp;&nbsp;&nbsp;"name":"The SVC Pharmacy",  
+&nbsp;&nbsp;&nbsp;&nbsp;"locaiton":"876 Branch Ave., Crisot, DE, 12345",  
+&nbsp;&nbsp;&nbsp;&nbsp;"day_of_week":"3",  
+&nbsp;&nbsp;&nbsp;&nbsp;"hours_of_operaiton":"Monday Tuesday Thursday Saturday : 8AM-10PM",  
+&nbsp;&nbsp;&nbsp;&nbsp;"currently_closed":"False",  
+&nbsp;&nbsp;&nbsp;&nbsp;"notes":"Store owner likes to relocate display. Check when arriving",  
+&nbsp;&nbsp;&nbsp;&nbsp;"general_manager":"Carl Sagan"  
+}  
+
+**All request body parameters are optional**
+**name** *string*  
+**locaiton***string*  
+**day_of_week***integer* Format: 0-6 with Starting with Sunday  
+**hours_of_operaiton** *string*  
+**currently_closed** *boolean*  
+**notes** *string*  
+**general_manager** *string*  
+  
+Response:   
+
+### DELETE `/clients/:id`
+Parameters:  
+None  
+  
+Response:   
+None
+
+### GET `/companies/:id`
+Parameters:  
+None  
+
+Response:  
+{  
+&nbsp;&nbsp;&nbsp;&nbsp;"company_name":"F5 Energy",  
+&nbsp;&nbsp;&nbsp;&nbsp;"company_location":"5 Fiskburg Lane, Carlsbad, DE 12345",  
+}    
 ## Scripts
 
 Start the application `npm start`
