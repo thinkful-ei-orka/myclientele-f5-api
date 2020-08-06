@@ -7,6 +7,7 @@ const userRouter = require('./users/users-router');
 const authRouter = require('./auth/auth-router');
 const clientRouter = require('./client/client-router');
 const reportRouter = require('./report/report-router');
+const companyRouter = require('./companies/companies-router');
 
 const app = express();
 
@@ -15,15 +16,21 @@ app.use(
         skip: () => NODE_ENV === 'test',
     })
 );
+
+const app = express();
+
+app.use(morgan((NODE_ENV === 'production') ? 'tiny' : 'common', {
+  skip: () => NODE_ENV === 'test',
+}));
 app.use(cors());
 app.use(helmet());
 app.use('/api/auth', authRouter);
-
 app.use('/api/users', userRouter);
 app.get('/', (req, res) => {
     res.send('Hello, world!');
 });
 app.use('/api/clients', clientRouter);
+app.use('/api/companies', companyRouter);
 app.use('/api/reports', reportRouter);
 
 app.use(function errorHandler(error, req, res, next) {
