@@ -60,29 +60,24 @@ ClientsRouter
       req.app.get('db'),
       req.params.client_id
     )
-    .then(client => {
-      if(!client) {
-        return res.status(404).json({
-          error: { message: `Client doesn't exist`}
-        })
-      }
-      res.client = client
-      console.log('client in /:client_id', client)
-      next()
-    })
-    .catch(next)
+      .then(client => {
+        if(!client) {
+          return res.status(404).json({
+            error: { message: `Client doesn't exist`}
+          });
+        }
+        res.client = client;
+        next();
+      })
+      .catch(next);
   })
-  .get(checkClientExists, (req, res, next) => {
-    console.log('got into get')
-    res.json(ClientsService.serializeClients(res.client))
+  .get((req, res, next) => {
+    res.json(ClientsService.serializeClient(res.client));
   })
   .patch(jsonBodyParser, (req, res, next) => {
-    console.log('res.client.id', res.client.id)
-    console.log('client_id', res.client.id)
-    const id  = res.client.id
-    console.log('id', id)
-    const { name, location, day_of_week, hours_of_operation, currently_closed, notes, general_manager } = req.body
-    const clientToUpdate = { name, location, day_of_week, hours_of_operation, currently_closed, notes, general_manager }
+    const id  = res.client.id;
+    const { name, location, day_of_week, hours_of_operation, currently_closed, notes, general_manager } = req.body;
+    const clientToUpdate = { name, location, day_of_week, hours_of_operation, currently_closed, notes, general_manager };
 
     ClientsService.updateClient(
       req.app.get('db'),
@@ -90,10 +85,9 @@ ClientsRouter
       clientToUpdate
     )
       .then(numRowsAffected => {
-        console.log('got out of updateClient')
-        res.status(204).end()
+        res.status(204).end();
       })
-      .catch(next)
+      .catch(next);
   })
   .delete((req, res, next) => {
     ClientsService.deleteClient(
@@ -101,30 +95,10 @@ ClientsRouter
       req.params.client_id
     )
       .then(numRowsAffected => {
-        res.status(204).end()
+        res.status(204).end();
       })
-      .catch(next)
-  })
-
-
-async function checkClientExists(req, res, next) {
-  try {
-    const client = await ClientsService.getClient(
-      req.app.get('db'),
-      req.params.client_id
-    )
-
-    if(!client) {
-      return res.status(404).json({
-        error: 'Client not found'
-      })
-      res.client = client
-      next()
-    }
-  }  catch(error) {
-    next(error)
-  }
-}
+      .catch(next);
+  });
 
 
 module.exports = ClientsRouter;

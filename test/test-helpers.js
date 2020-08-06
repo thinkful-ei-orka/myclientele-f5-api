@@ -182,12 +182,9 @@ function makeClients() {
 }
 
 function seedClientsTables(db, users, clients) {
-  // console.log('users in seedClientsTables', users)
-  // console.log('clients in sCT', users)
   return seedUsers(db, users)
     .then(() => 
       clients.length && db
-        // db
         .into('client')
         .insert(clients)
     

@@ -43,9 +43,6 @@ const ClientsService = {
   },
 
   updateClient(db, id, newClientFields) {
-    console.log('got into updateClient');
-    console.log('id in update', id);
-    console.log('newClientFields in update', newClientFields);
     return db('client')
       .where({ id })
       .update(newClientFields);

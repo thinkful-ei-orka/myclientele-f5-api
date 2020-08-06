@@ -138,13 +138,9 @@ describe.only('Client Endpoints', function () {
     });
 
     context('Give clients in DB' , () => {
-      // console.log('testUsers in spec via context', testUsers)
       const testClients = helpers.makeClients()
-      
 
       beforeEach('insert clients', () => {
-        // console.log('testUsers in spec', testUsers)
-        // console.log('testClients in spec', testClients)
         return helpers.seedClientsTables(
           db,
           testUsers,
@@ -163,12 +159,10 @@ describe.only('Client Endpoints', function () {
           notes: 'seems to be going downhill',
           general_manager: 'different gm'
         }
-        // console.log('testclients @ id-1', testClients[idToUpdate-1])
         const expectedClient = { 
           ...testClients[idToUpdate-1],
           ...updateClient
         }
-        // console.log('expectedClients', expectedClients)
 
         return supertest(app)
           .patch(`/api/clients/${idToUpdate}`)
