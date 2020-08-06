@@ -49,7 +49,13 @@ const ClientsService = {
     return db('client')
       .where({ id })
       .update(newClientFields)
-  }
+  },
+
+  deleteClient(db, id) {
+    return db('client')
+      .where({ id })
+      .delete()
+  },
 }
 
 

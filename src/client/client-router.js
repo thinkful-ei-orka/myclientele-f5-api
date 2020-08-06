@@ -67,6 +67,7 @@ ClientsRouter
         })
       }
       res.client = client
+      console.log('client in /:client_id', client)
       next()
     })
     .catch(next)
@@ -76,8 +77,9 @@ ClientsRouter
     res.json(serializedClient = ClientsService.serializeClients(res.client))
   })
   .patch(jsonBodyParser, (req, res, next) => {
-    console.log('client_id', req.params.client_id)
-    const { id } = req.params
+    console.log('res.client.id', res.client.id)
+    console.log('client_id', res.client.id)
+    const id  = res.client.id
     console.log('id', id)
     const { name, location, day_of_week, hours_of_operation, currently_closed, notes, general_manager } = req.body
     const clientToUpdate = { name, location, day_of_week, hours_of_operation, currently_closed, notes, general_manager }
@@ -89,6 +91,16 @@ ClientsRouter
     )
       .then(numRowsAffected => {
         console.log('got out of updateClient')
+        res.status(204).end()
+      })
+      .catch(next)
+  })
+  .delete((req, res, next) => {
+    ClientsService.deleteClient(
+      req.app.get('db'),
+      req.params.client_id
+    )
+      .then(numRowsAffected => {
         res.status(204).end()
       })
       .catch(next)
