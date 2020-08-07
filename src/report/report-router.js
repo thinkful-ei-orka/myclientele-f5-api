@@ -51,25 +51,21 @@ reportRouter
         error: { message: "Missing 'client_id' in request body" },
       });
     }
-    ReportService.insertReport(
-      req.app.get("db"), 
-      newReport
-      )
-      .then((report) => {
-        res
-          .status(201)
-          .location(path.posix.join(req.originalUrl, `/${report.id}`))
-          .json(report);
-      })
-      .catch(next);
+    ReportService.insertReport(req.app.get("db"), newReport).then((report) => {
+      res
+        .status(201)
+        .location(path.posix.join(req.originalUrl, `/${report.id}`))
+        .json(report);
+    });
   });
 
 reportRouter
-  .route("/:id")
+  .route("/:report_id")
   .all(requireAuth)
   .all(checkIfReportExists)
   .get((req, res, next) => {
-    ReportService.getById(req.app.get("db"), req.params.id).then((report) => {
+    console.log(req.params.report_id)
+    ReportService.getById(req.app.get("db"), req.params.report_id).then((report) => {
       if (report.sales_rep_id !== req.user.id) {
         console.log("stopping line 28");
         return res.status(401).json({ error: "Unauthorized request" });
@@ -119,7 +115,7 @@ async function checkIfReportExists(req, res, next) {
   try {
     const report = await ReportService.getById(
       req.app.get("db"),
-      req.params.id
+      req.params.report_id
     );
     if (!report) {
       return res.status(404).json({

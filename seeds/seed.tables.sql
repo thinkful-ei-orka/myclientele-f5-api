@@ -17,7 +17,7 @@ VALUES
     'f5 refresh',
     '1234 reenergize ave, fresco ca, 90345'
   );
-
+  
 SELECT SETVAL('company_id_seq', (SELECT MAX(id) + 1 FROM company));
 
 INSERT INTO users (id, name, user_name, password, company_id, admin, boss_id, email, phone_number)
@@ -34,6 +34,18 @@ VALUES
     null,
     'refreshing@f5.com',
     '4045674532'
+  ),
+  (
+    2,
+    'f6',
+    'refrush',
+    -- password = "pass"
+    '$2a$10$fCWkaGbt7ZErxaxclioLteLUgg4Q3Rp09WW0s/wSLxDKYsaGYUpjG',
+    1,
+    true,
+    null,
+    'refrushing@f5.com',
+    '4045674531'
   );
 
 SELECT SETVAL('users_id_seq', (SELECT MAX(id) + 1 FROM users));
@@ -72,7 +84,7 @@ VALUES
     3,
     'walgreens',
     '520 Greenery St, Kansas City MO, 65540',
-    1,
+    2,
     1,
     'Mo-Su',
     false,
@@ -86,7 +98,7 @@ VALUES
     4,
     '7-eleven',
     '5330 daily circle, Kansas City MO, 64333',
-    1,
+    2,
     1,
     'Mo-Su',
     false,
@@ -143,6 +155,14 @@ VALUES (
     4,
     1,
     1,
+    '2013-06-23T02:10:25.000Z',
+    'The door to the store sticks',
+    null
+  ),
+  (
+    5,
+    3,
+    2,
     '2013-06-23T02:10:25.000Z',
     'The door to the store sticks',
     null
