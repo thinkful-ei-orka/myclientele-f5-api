@@ -17,38 +17,38 @@ const ReportService = {
       .join('client', 'report.client_id', '=', 'client.id')
       .where('users.user_name', user)
       .returning('*')
-      .then(res => {
-        return res.filter(report => report.client_id !== client_id);
+      .then((res) => {
+        return res.filter((report) => report.client_id !== client_id);
       });
-
   },
   getById(knex, id) {
-    return knex
-      .from('report')
-      .select('*', 'users.name as sales_rep_name')
-      .join('users', 'report.sales_rep_id', '=', 'users.id')
-      .join('client', 'report.client_id', '=', 'client.id')
-      .where('report.id', id)
-      .first();
+    return (
+      knex
+        .from('report')
+        .select('*')
+        .where('report.id', id)
+        .join('users', 'report.sales_rep_id', '=', 'users.id')
+        // .join('client', 'report.client_id', '=', 'client.id')
+
+        .first()
+    );
   },
+
+  // , 'users.name as sales_rep_name'
   insertReport(knex, newReport) {
     return knex
       .into('report')
       .insert(newReport)
       .returning('*')
-      .then(rows => {
+      .then((rows) => {
         return rows[0];
       });
   },
   updateReport(knex, id, newData) {
-    return knex('report')
-      .where({ id })
-      .update(newData);
+    return knex('report').where({ id }).update(newData);
   },
   deleteReport(knex, id) {
-    return knex('report')
-      .where({id})
-      .delete();
+    return knex('report').where({ id }).delete();
   },
   serializeReports(reports) {
     return reports.map(this.serializeReport);
@@ -63,9 +63,9 @@ const ReportService = {
       notes: xss(report.notes),
       photo_url: xss(report.photo_url),
       name: xss(report.name),
-      location: report.location
+      location: report.location,
     };
-  }
+  },
 };
 
 module.exports = ReportService;
