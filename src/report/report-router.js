@@ -77,7 +77,7 @@ reportRouter
     const { client_id, notes, photo_url } = req.body;
     const sales_rep_id = req.user.id;
     const reportToUpdate = { client_id, sales_rep_id, notes, photo_url };
-    ReportService.getById(req.app.get("db"), req.params.id).then((report) => {
+    ReportService.getById(req.app.get("db"), req.params.report_id).then((report) => {
       if (report.sales_rep_id !== req.user.id) {
         return res.status(401).json({ error: "Unauthorized request" });
       }
@@ -92,19 +92,19 @@ reportRouter
         });
       }
     });
-    ReportService.updateReport(req.app.get("db"), req.params.id, reportToUpdate)
+    ReportService.updateReport(req.app.get("db"), req.params.report_id, reportToUpdate)
       .then((numRowsAffected) => {
         res.status(204).end();
       })
       .catch(next);
   })
   .delete((req, res, next) => {
-    ReportService.getById(req.app.get("db"), req.params.id).then((report) => {
+    ReportService.getById(req.app.get("db"), req.params.report_id).then((report) => {
       if (report.sales_rep_id !== req.user.id) {
         return res.status(401).json({ error: "Unathorized request" });
       }
     });
-    ReportService.deleteReport(req.app.get("db"), req.params.id)
+    ReportService.deleteReport(req.app.get("db"), req.params.report_id)
       .then((numRowsAffected) => {
         res.status(204).end();
       })
