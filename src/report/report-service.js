@@ -4,15 +4,17 @@ const ReportService = {
     getAllReports(knex, user) {
         return knex
             .from('report')
-            .select('report.*', 'users.user_name')
+            .select('report.*', 'users.user_name', 'client.name', 'client.location')
             .join('users', 'report.sales_rep_id', '=', 'users.id')
+            .join('client', 'report.client_id', '=', 'client.id')
             .where('users.user_name', user);
     },
     getReportsByClientId(knex, user, client_id) {
         return knex
             .from('report')
-            .select('report.*', 'users.user_name')
+            .select('report.*', 'users.user_name', 'client.name', 'client.location')
             .join('users', 'report.sales_rep_id', '=', 'users.id')
+            .join('client', 'report.client_id', '=', 'client.id')
             .where('users.user_name', user)
             .returning('*')
             .then(res => {
@@ -23,7 +25,9 @@ const ReportService = {
     getById(knex, id) {
         return knex
             .from('report')
-            .select('*')
+            .select('report.*', 'users.user_name', 'client.name', 'client.location')
+            .join('users', 'report.sales_rep_id', '=', 'users.id')
+            .join('client', 'report.client_id', '=', 'client.id')
             .where('id', id)
             .first();
     },
@@ -56,7 +60,9 @@ const ReportService = {
             sales_rep_id: report.sales_rep_id,
             date: report.date,
             notes: xss(report.notes),
-            photo_url: xss(report.photo_url)
+            photo_url: xss(report.photo_url),
+            name: xss(report.name),
+            location: report.location
         };
     }
 };
