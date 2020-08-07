@@ -16,12 +16,10 @@ reportRouter
       let clientId = findClientId(queryString);
       if (clientId === -1) {
         //findClientId() returns -1 if the query string does not include a client_id or if the client id is not a number
-        return res
-          .status(400)
-          .json({
-            error:
-              'Query string must include a client_id and client_id must be a number',
-          });
+        return res.status(400).json({
+          error:
+            'Query string must include a client_id and client_id must be a number',
+        });
       }
       let client = await ClientsService.getClient(
         req.app.get('db'),
@@ -101,19 +99,25 @@ reportRouter
         }
       }
     );
-    ReportService.updateReport(req.app.get('db'), req.params.id, reportToUpdate)
+    ReportService.updateReport(
+      req.app.get('db'),
+      req.params.report_id,
+      reportToUpdate
+    )
       .then((numRowsAffected) => {
         res.status(204).end();
       })
       .catch(next);
   })
   .delete((req, res, next) => {
-    ReportService.getById(req.app.get('db'), req.params.id).then((report) => {
-      if (report.sales_rep_id !== req.user.id) {
-        return res.status(401).json({ error: 'Unathorized request' });
+    ReportService.getById(req.app.get('db'), req.params.report_id).then(
+      (report) => {
+        if (report.sales_rep_id !== req.user.id) {
+          return res.status(401).json({ error: 'Unathorized request' });
+        }
       }
-    });
-    ReportService.deleteReport(req.app.get('db'), req.params.id)
+    );
+    ReportService.deleteReport(req.app.get('db'), req.params.report_id)
       .then((numRowsAffected) => {
         res.status(204).end();
       })
