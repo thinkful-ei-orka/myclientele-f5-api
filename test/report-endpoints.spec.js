@@ -84,6 +84,24 @@ describe.only('Reports Endpoints', () => {
                     .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
                     .expect(200, expectedReports);
             })
+            it('responds with 400 given invalid query string', () => {
+                return supertest(app)
+                    .get('/api/reports?irrelevantfield=foo')
+                    .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
+                    .expect(400, {error: 'Query string must include a client_id and client_id must be a number'})
+            })
+            it('responds with 400 when user inputs an invalid client_id', () => {
+                return supertest(app)
+                    .get('/api/reports?client_id=bad')
+                    .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
+                    .expect(400, {error: 'Query string must include a client_id and client_id must be a number'})
+            })
+            it('responds with 401 when trying to access unauthorized reports by id', () => {
+                return supertest(app)
+                    .get('/api/reports?client_id=1')
+                    .set('Authorization', helpers.makeAuthHeader(testUsers[1]))
+                    .expect(401, { error: 'Unauthorized request'});
+            });
         });
     });
     describe('GET /api/reports/:id', () => {
