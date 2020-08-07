@@ -51,12 +51,17 @@ reportRouter
         error: { message: "Missing 'client_id' in request body" },
       });
     }
-    ReportService.insertReport(req.app.get("db"), newReport).then((report) => {
-      res
-        .status(201)
-        .location(path.posix.join(req.originalUrl, `/${report.id}`))
-        .json(report);
-    });
+    ReportService.insertReport(
+      req.app.get("db"), 
+      newReport
+      )
+      .then((report) => {
+        res
+          .status(201)
+          .location(path.posix.join(req.originalUrl, `/${report.id}`))
+          .json(report);
+      })
+      .catch(next);
   });
 
 reportRouter
