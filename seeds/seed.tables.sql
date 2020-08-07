@@ -27,7 +27,7 @@ VALUES
     1,
     'f5',
     'refresh',
-    -- password = \"pass\"
+    -- password = "pass"
     '$2a$10$fCWkaGbt7ZErxaxclioLteLUgg4Q3Rp09WW0s/wSLxDKYsaGYUpjG',
     1,
     true,
@@ -38,7 +38,7 @@ VALUES
 
 SELECT SETVAL('users_id_seq', (SELECT MAX(id) + 1 FROM users));
 
-INSERT INTO client (id, name, location, sales_rep_id, company_id, hours_of_operation, currently_closed, general_manager, notes, day_of_week)
+INSERT INTO client (id, name, location, sales_rep_id, company_id, hours_of_operation, currently_closed, general_manager, notes, day_of_week, lng, lat)
 VALUES
   (
     1,
@@ -50,7 +50,9 @@ VALUES
     false,
     'sam wise',
     'good displays',
-    2
+    2,
+    -33.737885,
+    151.235260
   ),
   (
     2,
@@ -62,7 +64,9 @@ VALUES
     false,
     'sam unwise',
     'bad displays',
-    3
+    3,
+    -33.944489,
+    150.854706
   ),
   (
     3,
@@ -74,7 +78,9 @@ VALUES
     false,
     'bobby boberson',
     'smells like cheese for some reason',
-    1
+    1,
+    -33.829525,
+    150.873764
   ),
   (
     4,
@@ -86,7 +92,9 @@ VALUES
     false,
     'will wilson',
     'good atmoshpere',
-    2
+    2,
+    -33.796669,
+    151.183609
   ),
   (
     5,
@@ -98,7 +106,9 @@ VALUES
     false,
     'dilly dally',
     'gm is a little slow, but it is okay',
-    5
+    5,
+    -33.949448,
+    151.008591
   );
 
 
@@ -106,12 +116,36 @@ SELECT SETVAL('client_id_seq', (SELECT MAX(id) + 1 FROM client));
 
 INSERT INTO report (id, client_id, sales_rep_id, date, notes, photo_url)
 VALUES (
-  1,
-  1,
-  1,
-  '2016-06-23T02:10:25.000Z',
-  'good times',
-  null
+    1,
+    1,
+    1,
+    '2016-06-23T02:10:25.000Z',
+    'good times',
+    null
+  ),
+  (
+    2,
+    1,
+    1,
+    '2015-06-23T02:10:25.000Z',
+    'good display',
+    null
+  ),
+  (
+    3,
+    1,
+    1,
+    '2014-06-23T02:10:25.000Z',
+    'display seems to lean a bit',
+    null
+  ),
+  (
+    4,
+    1,
+    1,
+    '2013-06-23T02:10:25.000Z',
+    'The door to the store sticks',
+    null
   );
 
 SELECT SETVAL('report_id_seq', (SELECT MAX(id) + 1 FROM report));
