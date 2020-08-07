@@ -24,10 +24,10 @@ ClientsRouter
       });
   })
   .post(jsonBodyParser, (req, res, next) => {
-    const { name, location, company_id, day_of_week, hours_of_operation, currently_closed, notes, general_manager } = req.body;
+    const { name, location, day_of_week, hours_of_operation, currently_closed, notes, general_manager } = req.body;
     
     const requiredFields = { name, location, hours_of_operation, currently_closed };
-    const newClient = { name, location, company_id, day_of_week, hours_of_operation, currently_closed, notes, general_manager };
+    const newClient = { name, location, day_of_week, hours_of_operation, currently_closed, notes, general_manager };
 
     for(const [key, value] of Object.entries(requiredFields))
       if (value == null)
@@ -36,6 +36,7 @@ ClientsRouter
         });
 
     newClient.sales_rep_id = req.user.id;
+    newClient.company_id = req.user.company_id;
 
     ClientsService.insertClient(
       req.app.get('db'),
