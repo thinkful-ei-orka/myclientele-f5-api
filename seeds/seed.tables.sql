@@ -1,5 +1,6 @@
 -- https://schema.org/openingHours
 -- psql -d myclientele -f ./seeds/seed.tables.sql
+-- \i ./seeds/seed.tables.sql (to run it the psql prompt)
 
 BEGIN;
 
@@ -17,7 +18,7 @@ VALUES
     'f5 refresh',
     '1234 reenergize ave, fresco ca, 90345'
   );
-  
+
 SELECT SETVAL('company_id_seq', (SELECT MAX(id) + 1 FROM company));
 
 INSERT INTO users (id, name, user_name, password, company_id, admin, boss_id, email, phone_number)
