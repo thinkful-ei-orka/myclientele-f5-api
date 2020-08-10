@@ -223,7 +223,65 @@ Returns:
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"photo_url": ""
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}  
 &nbsp;&nbsp;&nbsp;&nbsp;]  
-}  
+}
+
+### POST `/reports`
+Request Body Parameters:  
+{    
+&nbsp;&nbsp;&nbsp;&nbsp;"client_id":"1",  
+&nbsp;&nbsp;&nbsp;&nbsp;"notes":"General manager does not follow planogram.  Need to speak with my manager about this problem.",  
+&nbsp;&nbsp;&nbsp;&nbsp;"photo_url":""
+}
+  
+**client_id** *integer*  
+**notes***string*  
+**photo_url** *string*  
+  
+Returns:   
+{  
+&nbsp;&nbsp;&nbsp;&nbsp;"id": "54"  
+&nbsp;&nbsp;&nbsp;&nbsp;"client_id": "1"),  
+&nbsp;&nbsp;&nbsp;&nbsp;"sales_rep_id": "5", (Sales rep id is found through JWT authentication and attached to the report in the database)  
+&nbsp;&nbsp;&nbsp;&nbsp;"date": "2016-06-23T02:10:25.000Z",  
+&nbsp;&nbsp;&nbsp;&nbsp;"notes": "General manager does not follow planogram.  Need to speak with my manager about this problem.",  
+&nbsp;&nbsp;&nbsp;&nbsp;"photo_url": ""  
+}
+
+### GET `/reports/:id`
+Parameters:  
+None  
+  
+Returns:   
+{  
+&nbsp;&nbsp;&nbsp;&nbsp;"id": "54"  
+&nbsp;&nbsp;&nbsp;&nbsp;"client_id": "6"),  
+&nbsp;&nbsp;&nbsp;&nbsp;"sales_rep_id": "7",  
+&nbsp;&nbsp;&nbsp;&nbsp;"date": "2016-06-23T02:10:25.000Z",  
+&nbsp;&nbsp;&nbsp;&nbsp;"notes": "General manager likes to relocate display. Check when arriving",  
+&nbsp;&nbsp;&nbsp;&nbsp;"photo_url": "example.url"  
+}
+
+### PATCH `/reports/:id`
+Parameters:  
+{  
+&nbsp;&nbsp;&nbsp;&nbsp;"notes":"Sales representative likes to relocate display. Check when arriving",  
+&nbsp;&nbsp;&nbsp;&nbsp;"photo_url":"updatedpicture.url"  
+}
+
+**Request body must contain either notes or photo_url different from information stored in the database**
+
+**notes** *string*  
+**photo_url** *string*  
+  
+Response:
+None
+
+### DELETE `/reports/:id`
+Parameters:  
+None  
+  
+Response:   
+None
 
 ## Scripts
 
