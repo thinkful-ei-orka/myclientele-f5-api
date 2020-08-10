@@ -10,10 +10,14 @@ const jsonBodyParser = express.json()
 
 usersRouter
     .post('/', jsonBodyParser, async (req, res, next) => {
-        const { name, user_name, password, company_name, company_location, boss_id, admin, email} = req.body
+        const { name, user_name, password, company_name, company_location, admin, boss_id, email, phone_number} = req.body
+        let phone_num = phone_number;
         let bossId = boss_id;
         if(isNaN(Number(boss_id))) {
             bossId = null;
+        }
+        if(!phone_number) {
+            phone_num = null;
         }
         for (const field of ['name', 'user_name','password','company_name', 'company_location','admin', 'email'])
             if (!req.body[field])
@@ -27,7 +31,7 @@ usersRouter
                 location: company_location
             }
 
-            const companyId = await CompaniesService.insertCompany(req.app.get('db'),company)
+            const newCompany = await CompaniesService.insertCompany(req.app.get('db'),company);
 
         //insert user into table with userService
         try {
@@ -48,6 +52,16 @@ usersRouter
             if (duplicateUserError) {
                 return res.status(400).json({error: 'Username already exists'})
             }
+            const emailInDatabase = await UsersService.getUserWithEmail(req.app.get('db'), email);
+            if(emailInDatabase) {
+                return res.status(400).json({error: `User with that email already exists`})
+            }
+            if(phone_num !== null) {
+                const phoneNumInDatabase = await UsersService.getUserWithPhoneNum(req.app.get('db'),phone_number);
+                if(phoneNumInDatabase) {
+                    res.status(400).json({error: `User with that phone number already exists`})
+                }
+            }
 
             const hashedPassword = await UsersService.hashPassword(password)
 
@@ -55,8 +69,9 @@ usersRouter
                 name,
                 user_name,
                 password: hashedPassword,
-                company_id: Number(companyId),
+                company_id: Number(newCompany.id),
                 admin,
+                phone_number: phone_num,
                 boss_id: bossId,
                 email
             }
