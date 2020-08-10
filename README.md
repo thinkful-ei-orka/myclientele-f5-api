@@ -14,7 +14,12 @@ Base Url: _to update__/api
 | /clients/:id       | patch     | Takes client id as a path parameter and updated client information, alters client info in databse                    |
 | /clients/:id       | delete     | Takes client id as a path parameter, removes client from database                    |
 | /companies/:id | get  | Takes company id as a path parameter, returns company information as an object |
-
+| /reports/ | get | Gets all reports associated with user, returns an object |
+| /reports?clientid={id} | get | Gets all reports associated with a particular client by client id |
+| /reports/ | post | Takes report information, inserts in to database and returns the report as an object |
+| /reports/:report_id | get | Takes report id as a path paramater, returns report information as an object |
+| /reports/:report_id | patch | Takes report id as a path paramater, and updated report information, and updates the report in the database |
+| /reports/:report_id | delete | Takes report id as a path paramater, and deletes the report from the database |
 ### POST `/auth/login`
 Parameters:  
 {  
@@ -190,7 +195,26 @@ Response:
 {  
 &nbsp;&nbsp;&nbsp;&nbsp;"company_name":"F5 Energy",  
 &nbsp;&nbsp;&nbsp;&nbsp;"company_location":"5 Fiskburg Lane, Carlsbad, DE 12345",  
-}    
+}
+
+### GET `/reports/`
+Paramaters: 
+None
+
+Response:
+{
+&nbsp;&nbsp;&nbsp;&nbsp;"reports": [
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"id": "35",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"client_id": "26",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"sales_rep_id": "59",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"date": "2016-06-23T02:10:25.000Z", 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"notes": "Need more stock of product 4.  Display was not showing the newest planogram.",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"photo_url": "https://examplephotourl.com/location"
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;]
+}
+
 ## Scripts
 
 Start the application `npm start`
