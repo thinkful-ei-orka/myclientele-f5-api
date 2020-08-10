@@ -24,11 +24,11 @@ const ReportService = {
   getById(knex, id) {
     return (
       knex
-        .from('report')
+        .from('report', 'users.user_name', 'client.name', 'client.location')
         .select('*')
         .where('report.id', id)
         .join('users', 'report.sales_rep_id', '=', 'users.id')
-        // .join('client', 'report.client_id', '=', 'client.id')
+        .join('client', 'report.client_id', '=', 'client.id')
 
         .first()
     );
