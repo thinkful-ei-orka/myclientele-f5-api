@@ -25,7 +25,7 @@ describe('Users Endpoints', () => {
     db.raw('TRUNCATE company, users, client, report RESTART IDENTITY CASCADE')
     );
 
-    describe('POST /api/users', () => {
+    describe.only('POST /api/users', () => {
         const reqBody = {
             name: testUser.name,
             user_name: testUser.user_name,
