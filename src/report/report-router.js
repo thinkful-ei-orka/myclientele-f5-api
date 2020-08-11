@@ -10,7 +10,8 @@ reportRouter
   .route('/')
   .all(requireAuth)
   .get(async (req, res, next) => {
-    const currentUser = req.user.user_name;
+    donwo
+    const currentUser = req.user;
     let queryString = req.originalUrl.split('?')[1];
     if (queryString) {
       let clientId = findClientId(queryString);
@@ -67,13 +68,15 @@ reportRouter
   .all(requireAuth)
   .all(checkIfReportExists)
   .get((req, res, next) => {
-    console.log(req.params.report_id);
+    console.log('id in report by id', req.params.report_id);
+    const user = req.user;
     ReportService.getById(req.app.get('db'), req.params.report_id).then(
       (report) => {
         if (report.sales_rep_id !== req.user.id) {
           console.log('stopping line 28');
           return res.status(401).json({ error: 'Unauthorized request' });
         }
+        console.log('report in reportid', report)
         res.json(ReportService.serializeReport(report));
       }
     );
