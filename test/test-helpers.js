@@ -92,7 +92,7 @@ function makeClientsAndReports(user) {
       id: 2,
       name: 'test-name2',
       location: 'test-location2',
-      sales_rep_id: user.id,
+      sales_rep_id: 2,
       company_id: user.company_id,
       hours_of_operation: 'Mo-Su',
       currently_closed: false,

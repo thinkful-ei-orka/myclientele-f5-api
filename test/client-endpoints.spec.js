@@ -33,7 +33,7 @@ describe('Client Endpoints', function () {
         return helpers.seedClientsTables(db, testUsers, testClients);
       });
       it('should respond with 200 and the clients', () => {
-        const expectedClient = testClients;
+        const expectedClient = testClients.filter(client => client.sales_rep_id === testUsers[0].id);
         return supertest(app)
           .get('/api/clients')
           .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
@@ -127,7 +127,7 @@ describe('Client Endpoints', function () {
 
   });
 
-  describe('PATCH /api/clients/:client_id', () => {
+  describe.only('PATCH /api/clients/:client_id', () => {
     context('Given no client', () => {
       it('should respond with 404', () => {
         const clientId = 12345678;
