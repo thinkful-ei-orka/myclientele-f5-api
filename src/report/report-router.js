@@ -10,7 +10,6 @@ reportRouter
   .route('/')
   .all(requireAuth)
   .get(async (req, res, next) => {
-    donwo
     const currentUser = req.user;
     let queryString = req.originalUrl.split('?')[1];
     if (queryString) {
@@ -76,7 +75,7 @@ reportRouter
           console.log('stopping line 28');
           return res.status(401).json({ error: 'Unauthorized request' });
         }
-        console.log('report in reportid', report)
+        console.log('report in reportid', report);
         res.json(ReportService.serializeReport(report));
       }
     );
