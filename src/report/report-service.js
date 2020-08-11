@@ -9,29 +9,29 @@ const ReportService = {
       .join('client', 'report.client_id', '=', 'client.id')
       .where('users.user_name', user);
   },
+  //TODO: Cant get this to return the corrent reports
   getReportsByClientId(knex, user, client_id) {
-    return knex
-      .from('report')
-      .select('report.*', 'users.user_name', 'client.name', 'client.location')
-      .join('users', 'report.sales_rep_id', '=', 'users.id')
-      .join('client', 'report.client_id', '=', 'client.id')
-      .where('users.user_name', user)
-      .returning('*')
-      .then((res) => {
-        return res.filter((report) => report.client_id !== client_id);
-      });
-  },
-  getById(knex, id) {
     return (
       knex
-        .from('report', 'users.user_name', 'client.name', 'client.location')
+        .from('report')
         .select('*')
-        .where('report.id', id)
-        .join('users', 'report.sales_rep_id', '=', 'users.id')
-        .join('client', 'report.client_id', '=', 'client.id')
-
-        .first()
+        // .join('users', 'report.sales_rep_id', '=', 'users.id')
+        // .join('client', 'report.client_id', '=', 'client.id')
+        .where('report.client_id', client_id)
+        .returning('*')
+        .then((res) => {
+          return res.filter((report) => report.client_id !== client_id);
+        })
     );
+  },
+  getById(knex, id) {
+    return knex
+      .from('report', 'users.user_name', 'client.name', 'client.location')
+      .select('*')
+      .where('report.id', id)
+      .join('users', 'report.sales_rep_id', '=', 'users.id')
+      .join('client', 'report.client_id', '=', 'client.id')
+      .first();
   },
 
   // , 'users.name as sales_rep_name'
