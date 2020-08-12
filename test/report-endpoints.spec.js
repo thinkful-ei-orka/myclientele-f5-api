@@ -5,7 +5,7 @@ const app = require('../src/app');
 const supertest = require('supertest');
 const helpers = require('./test-helpers');
 
-describe('Reports Endpoints', () => {
+describe.only('Reports Endpoints', () => {
     let db;
     before('make knex instance', () => {
         db = knex({
@@ -51,7 +51,7 @@ describe('Reports Endpoints', () => {
             });
         });
     });
-    describe('GET /api/reports', () => {
+    describe.only('GET /api/reports', () => {
         context('Given no reports', () => {
             beforeEach('seed users', () => helpers.seedUsers(db, testUsers));
             it('Responds with 200 and empty list', () => {

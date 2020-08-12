@@ -127,7 +127,7 @@ describe('Client Endpoints', function () {
 
   });
 
-  describe.only('PATCH /api/clients/:client_id', () => {
+  describe('PATCH /api/clients/:client_id', () => {
     context('Given no client', () => {
       it('should respond with 404', () => {
         const clientId = 12345678;

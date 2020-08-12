@@ -5,18 +5,20 @@ const express = require('express');
 const s3Router = express.Router();
 
 s3Router.get('/', (req, res) => {
+  const { name, type } = req.query;
   const directory = 'myclientele-user-uploads';
-  const bucket = 'myclientele';
+  const bucket = 'f5-myclientele';
 
   const key = `${directory}/${uuid.v4()}`;
   return s3
     .getSignedUrlPromise('putObject', {
       Bucket: bucket,
-      Key: key,
-      ContentType: 'image/*',
-      Expires: 300,
+      Key: name,
+      ContentType: type,
+      Expires: 30000,
     })
-    .then((uploadUrl) => res.json({ url: uploadUrl }));
+    .then((uploadUrl) => res.json({ url: uploadUrl, file_name: key }))
+    .catch(error => res.json({error}));
 });
 
 module.exports = s3Router;

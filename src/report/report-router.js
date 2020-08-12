@@ -3,6 +3,7 @@ const express = require('express');
 const ReportService = require('./report-service');
 const { requireAuth } = require('../middleware/jwt-auth');
 const ClientsService = require('../client/client-service');
+const { query } = require('express');
 const reportRouter = express.Router();
 const jsonParser = express.json();
 
@@ -10,9 +11,10 @@ reportRouter
   .route('/')
   .all(requireAuth)
   .get(async (req, res, next) => {
-    const currentUser = req.user;
+    const currentUser = req.user.id;
     let queryString = req.originalUrl.split('?')[1];
     if (queryString) {
+      console.log('getting query string', queryString);
       let clientId = findClientId(queryString);
       if (clientId === -1) {
         //findClientId() returns -1 if the query string does not include a client_id or if the client id is not a number
@@ -31,13 +33,13 @@ reportRouter
       }
       ReportService.getReportsByClientId(
         req.app.get('db'),
-        currentUser,
         clientId
       ).then((reports) => {
         res.json(ReportService.serializeReports(reports));
       });
     } else {
       //Hit this block if we do not have a query string
+      console.log('Getting all the reports by user');
       ReportService.getAllReports(req.app.get('db'), currentUser)
         //returns all reports that corresponds to user_id
         .then((reports) => {

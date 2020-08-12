@@ -1,16 +1,14 @@
 const xss = require('xss');
 
 const ReportService = {
-  getAllReports(knex, user) {
+  getAllReports(knex, user_id) {
     return knex
       .from('report')
-      .select('report.*', 'users.user_name', 'client.name', 'client.location')
-      .join('users', 'report.sales_rep_id', '=', 'users.id')
-      .join('client', 'report.client_id', '=', 'client.id')
-      .where('users.user_name', user);
+      .select('*')
+      .where('report.sales_rep_id', user_id);
   },
   //TODO: Cant get this to return the corrent reports
-  getReportsByClientId(knex, user, client_id) {
+  getReportsByClientId(knex, client_id) {
     return (
       knex
         .from('report')
@@ -62,7 +60,6 @@ const ReportService = {
       date: report.date,
       notes: xss(report.notes),
       photo_url: xss(report.photo_url),
-      name: xss(report.name),
       location: report.location,
     };
   },
