@@ -51,7 +51,7 @@ VALUES
 
 SELECT SETVAL('users_id_seq', (SELECT MAX(id) + 1 FROM users));
 
-INSERT INTO client (id, name, location, sales_rep_id, company_id, hours_of_operation, currently_closed, general_manager, notes, day_of_week, lng, lat)
+INSERT INTO client (id, name, location, sales_rep_id, company_id, hours_of_operation, currently_closed, general_manager, notes, day_of_week, lng, lat, photo)
 VALUES
   (
     1,
@@ -65,7 +65,8 @@ VALUES
     'good displays',
     2,
     -33.737885,
-    151.235260
+    151.235260,
+    'https://lh3.googleusercontent.com/p/AF1QipNXsCt4OZwQ5lCt_M_zPHr-w1DIUJCtQobn7OwN=s1600-w1000'
   ),
   (
     2,
@@ -79,7 +80,8 @@ VALUES
     'bad displays',
     3,
     -33.944489,
-    150.854706
+    150.854706,
+    'https://lh3.googleusercontent.com/p/AF1QipNXsCt4OZwQ5lCt_M_zPHr-w1DIUJCtQobn7OwN=s1600-w1000'
   ),
   (
     3,
@@ -93,7 +95,8 @@ VALUES
     'smells like cheese for some reason',
     1,
     -33.829525,
-    150.873764
+    150.873764,
+    'https://lh5.googleusercontent.com/p/AF1QipOUAw__PmR0cQkTZHZxKup9c7VsdG9VCZX_t-1e=w408-h725-k-no'  
   ),
   (
     4,
@@ -107,7 +110,8 @@ VALUES
     'good atmoshpere',
     2,
     -33.796669,
-    151.183609
+    151.183609,
+    'https://lh5.googleusercontent.com/p/AF1QipP2WgErJ8i-W_PRsvOLGQ1RDFTQaOMgMmERC0ny=w426-h240-k-no'
   ),
   (
     5,
@@ -121,7 +125,8 @@ VALUES
     'gm is a little slow, but it is okay',
     5,
     -33.949448,
-    151.008591
+    151.008591,
+    'https://lh5.googleusercontent.com/p/AF1QipMVqsTg4QknyjV185WUkhyKzxeXdfL4ExUP-hKG=w426-h240-k-no'
   );
 
 
