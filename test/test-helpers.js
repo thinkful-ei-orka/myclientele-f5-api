@@ -221,6 +221,7 @@ function cleanTables(db) {
   return db.transaction(trx => 
     trx.raw(
       `TRUNCATE
+        photo,
         report,
         client,
         users,
@@ -228,10 +229,12 @@ function cleanTables(db) {
     )
     .then(() => 
       Promise.all([
+        trx.raw(`ALTER SEQUENCE photo_id_seq minvalue 0 START WITH 1`),
         trx.raw(`ALTER SEQUENCE report_id_seq minvalue 0 START WITH 1`),
         trx.raw(`ALTER SEQUENCE client_id_seq minvalue 0 START WITH 1`),
         trx.raw(`ALTER SEQUENCE users_id_seq minvalue 0 START WITH 1`),
         trx.raw(`ALTER SEQUENCE company_id_seq minvalue 0 START WITH 1`),
+        trx.raw(`SELECT setval('photo_id_seq', 0)`),
         trx.raw(`SELECT setval('report_id_seq', 0)`),
         trx.raw(`SELECT setval('client_id_seq', 0)`),
         trx.raw(`SELECT setval('users_id_seq', 0)`),

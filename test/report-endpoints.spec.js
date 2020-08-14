@@ -51,7 +51,7 @@ describe.only('Reports Endpoints', () => {
             });
         });
     });
-    describe.only('GET /api/reports', () => {
+    describe('GET /api/reports', () => {
         context('Given no reports', () => {
             beforeEach('seed users', () => helpers.seedUsers(db, testUsers));
             it('Responds with 200 and empty list', () => {
@@ -74,7 +74,7 @@ describe.only('Reports Endpoints', () => {
                     .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
                     .expect(200, expectedReports);
             });
-            it('responds with 200 and all reports for a given client', () => {
+            it.only('responds with 200 and all reports for a given client', () => {
                 const expectedReports = testReports.filter(
                     (report) => report.sales_rep_id === testUsers[0].id
                 );
