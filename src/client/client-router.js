@@ -10,6 +10,7 @@ ClientsRouter.route("/")
   .all(requireAuth)
   .get((req, res, next) => {
     ClientsService.getClientsForUser(req.app.get("db"), req.user.id)
+
       .then((clients) => {
         const serializedClients = clients.map((client) =>
           ClientsService.serializeClient(client)
@@ -56,6 +57,7 @@ ClientsRouter.route("/")
 
     newClient.sales_rep_id = req.user.id;
     newClient.company_id = req.user.company_id;
+
 
     ClientsService.insertClient(req.app.get("db"), newClient)
       .then((client) => {
@@ -147,5 +149,6 @@ async function checkIfClientExists(req, res, next) {
     next(error);
   }
 }
+
 
 module.exports = ClientsRouter;
