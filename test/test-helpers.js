@@ -109,7 +109,6 @@ function makeClientsAndReports(user) {
       sales_rep_id: user.id,
       date: '2016-06-23T02:10:25.000Z',
       notes: 'test-notes',
-      photo_url: 'test-photo-url'
     },
     {
       id: 2,
@@ -117,11 +116,37 @@ function makeClientsAndReports(user) {
       sales_rep_id: user.id,
       date: '2016-06-23T02:10:25.000Z',
       notes: 'test-notes2',
-      photo_url: 'test-photo-url2'
     }
   ]
 
-  return [clients, reports]
+  const photos = [
+    {
+      id: 1,
+      report_id: 1,
+      sales_rep_id: 1,
+      photo_url:  'https://picsum.photos/200/300'
+    },
+    {
+      id: 2,
+      report_id: 1,
+      sales_rep_id: 1,
+      photo_url:  'https://picsum.photos/200/300'
+    },
+    {
+      id: 3,
+      report_id: 2,
+      sales_rep_id: 2,
+      photo_url:  'https://picsum.photos/200/300'
+    },
+    {
+      id: 4,
+      report_id: 2,
+      sales_rep_id: 2,
+      photo_url:  'https://picsum.photos/200/300'
+    }
+  ]
+
+  return [clients, reports, photos]
 }
 
 function makeAuthHeader(user, secret = process.env.JWT_SECRET) {
@@ -133,8 +158,12 @@ function makeAuthHeader(user, secret = process.env.JWT_SECRET) {
 
 }
 
-function seedUsersClientsReports (db, users, clients, reports) {
-
+function seedUsersClientsReports (db, users, clients, reports, photos) {
+  reports.forEach(report => {
+    if(report.photos) {
+      delete report.photos;
+    }
+  })
   return db.transaction(async trx => {
     await seedUsers(db, users)
     await trx.into('client').insert(clients)
@@ -146,6 +175,11 @@ function seedUsersClientsReports (db, users, clients, reports) {
     await trx.raw(
       `SELECT setval('report_id_seq', ?)`,
       [reports[reports.length - 1].id],
+    )
+    await trx.into('photo').insert(photos)
+    await trx.raw(
+      `SELECT setval('photo_id_seq', ?)`,
+      [photos[photos.length - 1].id],
     )
   })
 }
@@ -177,8 +211,6 @@ function makeClients() {
       day_of_week: 2
     }
   ]
-
-  return [clients]
 }
 
 function seedClientsTables(db, users, clients) {
@@ -196,7 +228,6 @@ const maliciousReport = {
   sales_rep_id: 1,
   date: '2016-06-23T02:10:25.000Z',
   notes: `Bad image <img src="https://url.to.file.which/does-not.exist" onerror="alert(document.cookie);">. But not <strong>all</strong> bad.`,
-  photo_url: 'Naughty naughty very naughty <script>alert("xss");</script>'
 }
 
 const newReport = {
@@ -205,7 +236,6 @@ const newReport = {
   sales_rep_id: 1,
   date: '2016-06-23T02:10:25.000Z',
   notes: 'test notes',
-  photo_url: 'test new photo'
 }
 
 function seedMaliciousReport(db, users, clients, report) {

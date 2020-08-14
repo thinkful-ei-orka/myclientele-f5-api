@@ -62,30 +62,27 @@ describe('Users Endpoints', () => {
         admin: testUser.admin,
         email: testUser.email,
       };
-
       return supertest(app)
-        .post('/api/users')
-        .send(companyInfoMissReqBody)
-        .expect(400);
-    });
-    // returns 400 if password isnt' valid
+          .post('/api/users')
+          .send(companyInfoMissReqBody)
+          .expect(400)
+     })
+        // returns 400 if password isnt' valid
     it('400 response if password is invalid', () => {
-      const invalidPasswordReqBody = {
-        name: testUser.name,
-        user_name: testUser.user_name,
-        password: testUser.password,
-        company_name: testCompany.name,
-        company_location: testCompany.location,
-        admin: testUser.admin,
-        email: testUser.email,
-      };
-
-      return supertest(app)
-        .post('/api/users')
-        .send(invalidPasswordReqBody)
-        .expect(400);
-    });
-
+        const invalidPasswordReqBody = {
+            name: testUser.name,
+            user_name: testUser.user_name,
+            password: testUser.password,
+            company_name: testCompany.name,
+            company_location: testCompany.location,
+            admin: testUser.admin,
+            email: testUser.email,
+        }
+        return supertest(app)
+            .post('/api/users')
+            .send(invalidPasswordReqBody)
+            .expect(400)
+    })
     // returns 400 if username exists
     context('Given users in the database', () => {
       before('seed databse with info', () => {

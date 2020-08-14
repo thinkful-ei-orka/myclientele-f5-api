@@ -6,6 +6,7 @@ BEGIN;
 
 TRUNCATE
   company,
+  photo,
   users,
   client,
   report
@@ -132,14 +133,13 @@ VALUES
 
 SELECT SETVAL('client_id_seq', (SELECT MAX(id) + 1 FROM client));
 
-INSERT INTO report (id, client_id, sales_rep_id, date, notes, photo_url)
+INSERT INTO report (id, client_id, sales_rep_id, date, notes)
 VALUES (
     1,
     1,
     1,
     '2016-06-23T02:10:25.000Z',
     'good times',
-    null
   ),
   (
     2,
@@ -147,7 +147,6 @@ VALUES (
     1,
     '2015-06-23T02:10:25.000Z',
     'good display',
-    null
   ),
   (
     3,
@@ -155,7 +154,6 @@ VALUES (
     1,
     '2014-06-23T02:10:25.000Z',
     'display seems to lean a bit',
-    null
   ),
   (
     4,
@@ -163,7 +161,6 @@ VALUES (
     1,
     '2013-06-23T02:10:25.000Z',
     'The door to the store sticks',
-    null
   ),
   (
     5,
@@ -171,10 +168,36 @@ VALUES (
     2,
     '2013-06-23T02:10:25.000Z',
     'The door to the store sticks',
-    null
   );
 
 SELECT SETVAL('report_id_seq', (SELECT MAX(id) + 1 FROM report));
 
+INSERT INTO photo (id, report_id, sales_rep_id, photo_url) 
+VALUES (
+    1,
+    1,
+    1,
+    'https://picsum.photos/200/300'
+  ),
+  (
+    2,
+    1,
+    1,
+    'https://picsum.photos/200/300'
+  ),
+  (
+    3,
+    2,
+    2,
+    'https://picsum.photos/200/300'
+  ),
+  (
+    4,
+    2,
+    2,
+    'https://picsum.photos/200/300'
+);
+
+SELECT SETVAL('photo_id_seq', (SELECT MAX(id) + 1 FROM photo));
 
 COMMIT;
