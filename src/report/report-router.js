@@ -32,7 +32,6 @@ reportRouter
     } else {
       //Hit this block if we do not have a query string
       //returns all reports that corresponds to user_id
-      console.log("Getting all the reports by user");
       reports = await ReportService.getAllReports(req.app.get("db"), currentUser)
     }
     reports = await getPhotosForReports(req.app.get('db'), reports);
@@ -69,7 +68,6 @@ reportRouter
   .all(requireAuth)
   .all(checkIfReportExists)
   .get(async (req, res, next) => {
-    console.log("id in report by id", req.params.report_id);
     const user = req.user;
     let report = await ReportService.getById(req.app.get("db"), req.params.report_id)
         if (report.sales_rep_id !== req.user.id) {
@@ -134,7 +132,6 @@ async function getPhotosForReports(db, reports) {
   let getPhotosByIdPromises = reports.map(report => {
     return PhotoService.getPhotosByReportId(db, report.id)
   })
-  console.log(getPhotosByIdPromises, 'getPhotosByIdPromises')
   let PhotosbyIds = await Promise.all(getPhotosByIdPromises);
   reports.forEach((report, index) => {
     reports[index].photos = PhotosbyIds[index];
