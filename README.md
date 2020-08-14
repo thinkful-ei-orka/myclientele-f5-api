@@ -58,7 +58,7 @@ Parameters:
 **name** *string*  
 **username** *string*  
 **password** *string* Must be between 8 and 72 characters, must include one upper case, one lower case, one number and one special character  
-**company_name** *integer*  
+**company_name** *string*  
 **company_location** *string*  
 **admin** *boolean*  
 **email** *string*  
@@ -128,7 +128,7 @@ Request Body Parameters:
 Returns:   
 {  
 &nbsp;&nbsp;&nbsp;&nbsp;"id": "54"  
-&nbsp;&nbsp;&nbsp;&nbsp;"name": "The SVC Pharmacy"),  
+&nbsp;&nbsp;&nbsp;&nbsp;"name": "The SVC Pharmacy",  
 &nbsp;&nbsp;&nbsp;&nbsp;"location": "678 Ivy Ave., Crisot, DE, 12345",  
 &nbsp;&nbsp;&nbsp;&nbsp;"sales_rep_id": "7",  
 &nbsp;&nbsp;&nbsp;&nbsp;"company_id": "1",  
@@ -147,7 +147,7 @@ None
 Returns:   
 {  
 &nbsp;&nbsp;&nbsp;&nbsp;"id": "54"  
-&nbsp;&nbsp;&nbsp;&nbsp;"name": "The SVC Pharmacy"),  
+&nbsp;&nbsp;&nbsp;&nbsp;"name": "The SVC Pharmacy",  
 &nbsp;&nbsp;&nbsp;&nbsp;"location": "678 Ivy Ave., Crisot, DE, 12345",  
 &nbsp;&nbsp;&nbsp;&nbsp;"sales_rep_id": "7",  
 &nbsp;&nbsp;&nbsp;&nbsp;"company_id": "1",  
