@@ -5,7 +5,7 @@ const app = require('../src/app');
 const supertest = require('supertest');
 const helpers = require('./test-helpers');
 
-describe.only('Reports Endpoints', () => {
+describe('Reports Endpoints', () => {
     let db;
     before('make knex instance', () => {
         db = knex({
@@ -24,10 +24,10 @@ describe.only('Reports Endpoints', () => {
     const [testUser] = testUsers;
     const maliciousReport = helpers.maliciousReport;
     const newReport = helpers.newReport;
-    const [testClients, testReports] = helpers.makeClientsAndReports(testUser);
+    const [testClients, testReports, testPhotos] = helpers.makeClientsAndReports(testUser);
     describe('Protected Endpoints', () => {
         beforeEach('insert reports', () =>
-            helpers.seedUsersClientsReports(db, testUsers, testClients, testReports)
+            helpers.seedUsersClientsReports(db, testUsers, testClients, testReports, testPhotos)
         );
         describe('Get /api/reports/:id', () => {
             it('responds with 401 missing bearer token when no bearer token', () => {
@@ -52,6 +52,7 @@ describe.only('Reports Endpoints', () => {
         });
     });
     describe('GET /api/reports', () => {
+    //run this suite.  Errors running the whole suite, but individually, they work.
         context('Given no reports', () => {
             beforeEach('seed users', () => helpers.seedUsers(db, testUsers));
             it('Responds with 200 and empty list', () => {
@@ -63,32 +64,44 @@ describe.only('Reports Endpoints', () => {
         });
         context('Given reports', () => {
             beforeEach('seed reports', () =>
-                helpers.seedUsersClientsReports(db, testUsers, testClients, testReports)
+                helpers.seedUsersClientsReports(db, testUsers, testClients, testReports, testPhotos)
             );
             it('responds with 200 and all reports the user has stored in the database', () => {
                 const expectedReports = testReports.filter(
                     (report) => report.sales_rep_id === testUsers[0].id
                 );
+                expectedReports.forEach((report, index) => {
+                    let reportPhotos = [];
+                    testPhotos.forEach(photo => {
+                        if(photo.report_id === report.id) {
+                            reportPhotos.push(photo.photo_url);
+                        }
+                    });
+                    expectedReports[index].photos = reportPhotos;
+                })
                 return supertest(app)
                     .get('/api/reports')
                     .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
                     .expect(200, expectedReports);
             });
-            it.only('responds with 200 and all reports for a given client', () => {
-                const expectedReports = testReports.filter(
+            it('responds with 200 and all reports for a given client', () => {
+                let expectedReports = testReports.filter(
                     (report) => report.sales_rep_id === testUsers[0].id
                 );
+                expectedReports.forEach((report, index) => {
+                    let reportPhotos = [];
+                    testPhotos.forEach(photo => {
+                        if(photo.report_id === report.id) {
+                            reportPhotos.push(photo.photo_url);
+                        }
+                    });
+                    expectedReports[index].photos = reportPhotos;
+                })
                 const clientId = testClients[0].id;
                 return supertest(app)
                     .get(`/api/reports?client_id=${clientId}`)
                     .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
                     .expect(200, expectedReports);
-            })
-            it('responds with 400 given invalid query string', () => {
-                return supertest(app)
-                    .get('/api/reports?irrelevantfield=foo')
-                    .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
-                    .expect(400, {error: 'Query string must include a client_id and client_id must be a number'})
             })
             it('responds with 400 when user inputs an invalid client_id', () => {
                 return supertest(app)
@@ -117,15 +130,22 @@ describe.only('Reports Endpoints', () => {
         });
         context('given reports', () => {
             beforeEach('insert reports', () =>
-                helpers.seedUsersClientsReports(db, testUsers, testClients, testReports)
+                helpers.seedUsersClientsReports(db, testUsers, testClients, testReports, testPhotos)
             );
             it('responds with 200 and the specified report by Id', () => {
                 const reportId = 1;
                 const expectedReport = testReports[reportId - 1];
+                let reportPhotos = [];
+                testPhotos.forEach(photo => {
+                    if(photo.report_id === reportId) {
+                        reportPhotos.push(photo.photo_url);
+                    }
+                });
+                expectedReport.photos = reportPhotos;
                 return supertest(app)
                     .get(`/api/reports/${reportId}`)
                     .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
-                    .expect(200, expectedReport);
+                    .expect(200, [expectedReport]);
             });
             it('responds with 401 when attempting to access an unauthorized report', () => {
                 const reportId = testUsers[0].id + 1;
@@ -133,26 +153,6 @@ describe.only('Reports Endpoints', () => {
                     .get(`/api/reports/${reportId}`)
                     .set('Authorization', helpers.makeAuthHeader(testUsers[1]))
                     .expect(401, { error: 'Unauthorized request' });
-            });
-        });
-        context('Given an XSS attack report', () => {
-            const testUser = testUsers[0];
-            beforeEach('insert malicious game', () =>
-                helpers.seedMaliciousReport(db, testUsers, testClients, maliciousReport)
-            );
-            it('Removes XSS attack content', () => {
-                return supertest(app)
-                    .get(`/api/reports/${maliciousReport.id}`)
-                    .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
-                    .expect(200)
-                    .expect((res) => {
-                        expect(res.body.photo_url).to.eql(
-                            'Naughty naughty very naughty &lt;script&gt;alert("xss");&lt;/script&gt;'
-                        );
-                        expect(res.body.notes).to.eql(
-                            'Bad image <img src="https://url.to.file.which/does-not.exist">. But not <strong>all</strong> bad.'
-                        );
-                    });
             });
         });
     });
@@ -172,10 +172,11 @@ describe.only('Reports Endpoints', () => {
                     expect(res.headers.location).to.eql(`/api/reports/${res.body.id}`);
                 })
                 .then((postRes) => {
+                    postRes.body.photos = [];
                     return supertest(app)
                         .get(`/api/reports/${postRes.body.id}`)
                         .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
-                        .expect(postRes.body);
+                        .expect([postRes.body]);
                 });
         });
         const testNewReport = {
@@ -211,18 +212,24 @@ describe.only('Reports Endpoints', () => {
         });
         context('Given reports in the database', () => {
             beforeEach(() => 
-                helpers.seedUsersClientsReports(db, testUsers, testClients, testReports)
+                helpers.seedUsersClientsReports(db, testUsers, testClients, testReports, testPhotos)
             );
-            it('responds with 204 and updates the game', () => {
+            it('responds with 204 and updates the report', () => {
                 const idToUpdate = 1;
                 const updateReport = {
                     notes: 'new notes',
-                    photo_url: 'new photo url'
                 };
                 const expectedReport = {
                     ...testReports[idToUpdate - 1],
                     ...updateReport
                 };
+                let reportPhotos = [];
+                testPhotos.forEach(photo => {
+                    if(photo.report_id === idToUpdate) {
+                        reportPhotos.push(photo.photo_url);
+                    }
+                });
+                expectedReport.photos = reportPhotos;
                 return supertest(app)
                     .patch(`/api/reports/${idToUpdate}`)
                     .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
@@ -232,7 +239,7 @@ describe.only('Reports Endpoints', () => {
                         return supertest(app)
                             .get(`/api/reports/${idToUpdate}`)
                             .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
-                            .expect(expectedReport);
+                            .expect([expectedReport]);
                     })    
             });
             it('responds with 400 when no required fields supplied', () => {
@@ -252,11 +259,20 @@ describe.only('Reports Endpoints', () => {
     describe('DELETE /api/reports/:id', () => {
         context('Given reports', () => {
             beforeEach(() => 
-                helpers.seedUsersClientsReports(db, testUsers, testClients, testReports)
+                helpers.seedUsersClientsReports(db, testUsers, testClients, testReports, testPhotos)
             )
             it('responds with a 204 and removes report', () => {
                 const idToRemove = testReports[0].id;
                 const expectedReports = testReports.filter(report => report.id !== idToRemove)
+                expectedReports.forEach((report, index) => {
+                    let reportPhotos = [];
+                    testPhotos.forEach(photo => {
+                        if(photo.report_id === report.id) {
+                            reportPhotos.push(photo.photo_url);
+                        }
+                    });
+                    expectedReports[index].photos = reportPhotos;
+                })
                 return supertest(app)
                     .delete(`/api/reports/${idToRemove}`)
                     .set('Authorization', helpers.makeAuthHeader(testUsers[0]))

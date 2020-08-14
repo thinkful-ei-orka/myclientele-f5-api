@@ -1,15 +1,16 @@
-const express = require('express');
-const ClientsService = require('./client-service');
-const { requireAuth } = require('../middleware/jwt-auth');
-const path = require('path');
+const express = require("express");
+const ClientsService = require("./client-service");
+const { requireAuth } = require("../middleware/jwt-auth");
+const path = require("path");
 
 const ClientsRouter = express.Router();
 const jsonBodyParser = express.json();
 
-ClientsRouter.route('/')
+ClientsRouter.route("/")
   .all(requireAuth)
   .get((req, res, next) => {
-    ClientsService.getClientsForUser(req.app.get('db'), req.user.id)
+    ClientsService.getClientsForUser(req.app.get("db"), req.user.id)
+
       .then((clients) => {
         const serializedClients = clients.map((client) =>
           ClientsService.serializeClient(client)
@@ -57,7 +58,8 @@ ClientsRouter.route('/')
     newClient.sales_rep_id = req.user.id;
     newClient.company_id = req.user.company_id;
 
-    ClientsService.insertClient(req.app.get('db'), newClient)
+
+    ClientsService.insertClient(req.app.get("db"), newClient)
       .then((client) => {
         res
           .status(201)
@@ -70,21 +72,22 @@ ClientsRouter.route('/')
       });
   });
 
-ClientsRouter.route('/:client_id')
+ClientsRouter.route("/:client_id")
   .all(requireAuth)
-  .all((req, res, next) => {
-    ClientsService.getClient(req.app.get('db'), req.params.client_id)
-      .then((client) => {
-        if (!client) {
-          return res.status(404).json({
-            error: { message: 'Client doesn\'t exist' },
-          });
-        }
-        res.client = client;
-        next();
-      })
-      .catch(next);
-  })
+  .all(checkIfClientExists)
+//   .all((req, res, next) => {
+//     ClientsService.getClient(req.app.get("db"), req.params.client_id)
+//       .then((client) => {
+//         if (!client) {
+//           return res.status(404).json({
+//             error: { message: "Client doesn't exist" },
+//           });
+//         }
+//         res.client = client;
+//         next();
+//       })
+//       .catch(next);
+//   })
   .get((req, res, next) => {
     res.json(ClientsService.serializeClient(res.client));
   })
@@ -112,7 +115,7 @@ ClientsRouter.route('/:client_id')
     };
 
     return ClientsService.updateClient(
-      req.app.get('db'),
+      req.app.get("db"),
       Number(req.params.client_id),
       clientToUpdate
     )
@@ -122,11 +125,30 @@ ClientsRouter.route('/:client_id')
       .catch(next);
   })
   .delete((req, res, next) => {
-    ClientsService.deleteClient(req.app.get('db'), req.params.client_id)
+    ClientsService.deleteClient(req.app.get("db"), req.params.client_id)
       .then((numRowsAffected) => {
         res.status(204).end();
       })
       .catch(next);
   });
+
+async function checkIfClientExists(req, res, next) {
+  try {
+    const client = await ClientsService.getClient(
+      req.app.get("db"),
+      req.params.client_id
+    );
+    if (!client) {
+      return res.status(404).json({
+        error: { message: "Client does not exist" },
+      });
+    }
+    res.client = client;
+    next();
+  } catch (error) {
+    next(error);
+  }
+}
+
 
 module.exports = ClientsRouter;
