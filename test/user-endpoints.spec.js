@@ -79,8 +79,6 @@ describe('Users Endpoints', () => {
                 admin: testUser.admin,
                 email: testUser.email,
             }
-        console.log(reqBody)
-
             return supertest(app)
                 .post('/api/users')
                 .send(invalidPasswordReqBody)

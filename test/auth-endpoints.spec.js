@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const app = require('../src/app');
 const helpers = require('./test-helpers');
 const supertest = require('supertest');
+const { expect } = require('chai');
 
 describe('Auth Endpoints', () => {
     let db;
@@ -102,10 +103,17 @@ describe('Auth Endpoints', () => {
             }
           )
           return supertest(app)
-            .post('/api/auth/refresh')
+            .put('/api/auth/refresh')
             .set('Authorization', helpers.makeAuthHeader(testUser))
-            .expect(200, {
-              authToken: expectedToken,
+            .expect(200)
+            .then((res) => {
+                let returnedAuthToken = res.body.authToken;
+                 return jwt.verify(returnedAuthToken, process.env.JWT_SECRET);
+            })
+            .then(postRes => {
+                expect(postRes.user_id).to.eql(testUser.id);
+                expect(postRes.company_id).to.eql(testUser.company_id);
+                expect(postRes.sub).to.eql(testUser.user_name);
             })
         })
       })

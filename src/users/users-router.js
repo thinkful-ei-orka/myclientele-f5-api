@@ -46,9 +46,6 @@ usersRouter
                 user_name)
             // const duplicateUserError = await AuthService.getUserWithUserName(req.app.get('db'),user_name);
             const users = await UsersService.getUsers(req.app.get('db'));
-            console.log('list of users',users);
-            console.log('user_name', user_name);
-            // console.log('error message', duplicateUserError)
             if (duplicateUserError) {
                 return res.status(400).json({error: 'Username already exists'})
             }

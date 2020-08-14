@@ -14,7 +14,6 @@ PlacesRouter
       radius
     } = req.query;
 
-    // console.log('center', center);
 
     let api_key = 'AIzaSyALTeDJY0y4Ui6Q8wtOE0hZooVKsPTapt0';
     const params = {

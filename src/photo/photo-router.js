@@ -13,5 +13,6 @@ photoRouter
     .route('/:report_id')
     .all(requireAuth)
     .get(async (req, res, next) => {
-        console.log('report id', req.params.report_id);
+        PhotoService.getPhotosByReportId(req.app.get('db'), req.params.report_id)
+        
     })

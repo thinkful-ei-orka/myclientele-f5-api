@@ -24,15 +24,11 @@ const ReportService = {
     },
     getById(knex, id) {
         return knex
-            .from('report', 'users.user_name', 'client.name', 'client.location')
+            .from('report')
             .select('*')
             .where('report.id', id)
-            .join('users', 'report.sales_rep_id', '=', 'users.id')
-            .join('client', 'report.client_id', '=', 'client.id')
             .first();
     },
-
-    // , 'users.name as sales_rep_name'
     insertReport(knex, newReport) {
         return knex
             .into('report')
@@ -59,7 +55,6 @@ const ReportService = {
             sales_rep_name: report.sales_rep_name,
             date: report.date,
             notes: xss(report.notes),
-            photo_url: xss(report.photo_url),
             photos: report.photos,
             location: report.location,
         };

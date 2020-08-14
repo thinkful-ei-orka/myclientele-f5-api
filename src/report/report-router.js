@@ -16,6 +16,9 @@ reportRouter
     let reports;
     if (Object.keys(req.query).length !== 0 && req.query.client_id) {
       let client_id = req.query.client_id;
+      if(isNaN(Number(client_id))) {
+        return res.status(400).json({error: 'Query string must include a client_id and client_id must be a number'})
+      }
       let client = await ClientsService.getClient(
         req.app.get("db"),
         Number(client_id)
@@ -32,7 +35,6 @@ reportRouter
     } else {
       //Hit this block if we do not have a query string
       //returns all reports that corresponds to user_id
-      console.log("Getting all the reports by user");
       reports = await ReportService.getAllReports(req.app.get("db"), currentUser)
     }
     reports = await getPhotosForReports(req.app.get('db'), reports);
@@ -49,14 +51,16 @@ reportRouter
     }
 
     ReportService.insertReport(req.app.get("db"), newReport).then((report) => {
-      photos.forEach((photo) => {
-        const newPhoto = {
-          report_id: report.id,
-          sales_rep_id: req.user.id,
-          photo_url: photo,
-        };
-        PhotoService.insertPhoto(req.app.get("db"), newPhoto);
-      });
+      if(photos) {
+        photos.forEach((photo) => {
+          const newPhoto = {
+            report_id: report.id,
+            sales_rep_id: req.user.id,
+            photo_url: photo,
+          };
+          PhotoService.insertPhoto(req.app.get("db"), newPhoto);
+        });
+      } 
       res
         .status(201)
         .location(path.posix.join(req.originalUrl, `/${report.id}`))
@@ -69,14 +73,13 @@ reportRouter
   .all(requireAuth)
   .all(checkIfReportExists)
   .get(async (req, res, next) => {
-    console.log("id in report by id", req.params.report_id);
     const user = req.user;
     let report = await ReportService.getById(req.app.get("db"), req.params.report_id)
         if (report.sales_rep_id !== req.user.id) {
           return res.status(401).json({ error: "Unauthorized request" });
         }
     report = await getPhotosForReports(req.app.get('db'), [report]);
-    res.json(report);
+    res.json([ReportService.serializeReport(report[0])]);
 
   })
   .patch(jsonParser, (req, res, next) => {
@@ -127,18 +130,14 @@ reportRouter
 
 
 async function getPhotosForReports(db, reports) {
-  // if(typeof(reports) === 'object') {
-  //   let photosByReportId = await PhotoService.getPhotosByReportId(db, reports.id);
-  //   reports.photos = photosByReportId;
-  // }
   let getPhotosByIdPromises = reports.map(report => {
     return PhotoService.getPhotosByReportId(db, report.id)
   })
-  console.log(getPhotosByIdPromises, 'getPhotosByIdPromises')
   let PhotosbyIds = await Promise.all(getPhotosByIdPromises);
   reports.forEach((report, index) => {
     reports[index].photos = PhotosbyIds[index];
   })
+
   return reports;
 
 }
