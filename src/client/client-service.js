@@ -19,7 +19,9 @@ const ClientsService = {
       hours_of_operation: xss(client.hours_of_operation),
       currently_closed: client.currently_closed,
       notes: xss(client.notes),
-      general_manager: xss(client.general_manager)
+      general_manager: xss(client.general_manager),
+      lat: client.lat,
+      lng: client.lng,
     };
   },
 
@@ -37,7 +39,7 @@ const ClientsService = {
       .into('client')
       .returning('*')
       .then(([client]) => client)
-      .then(client => 
+      .then(client =>
         ClientsService.getClient(db, client.id)
       );
   },
