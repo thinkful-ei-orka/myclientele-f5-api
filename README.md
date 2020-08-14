@@ -78,7 +78,7 @@ Returns:
 &nbsp;&nbsp;&nbsp;&nbsp;"clients":[  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"id": "54"  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"name": "The SVC Pharmacy"),  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"name": "The SVC Pharmacy",  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"location": "678 Ivy Ave., Crisot, DE, 12345",    
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"sales_rep_id": "7",  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"company_id": "1",  
@@ -90,7 +90,7 @@ Returns:
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"id": "57"  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"name": "The ABC Gas Station"),  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"name": "The ABC Gas Station",  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"location": "980 Leaf Ave., Crumbiy, DE, 12345",  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"sales_rep_id": "7",  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"company_id": "1",  
@@ -161,9 +161,9 @@ Returns:
 Parameters:  
 {  
 &nbsp;&nbsp;&nbsp;&nbsp;"name":"The SVC Pharmacy",  
-&nbsp;&nbsp;&nbsp;&nbsp;"locaiton":"876 Branch Ave., Crisot, DE, 12345",  
+&nbsp;&nbsp;&nbsp;&nbsp;"location":"876 Branch Ave., Crisot, DE, 12345",  
 &nbsp;&nbsp;&nbsp;&nbsp;"day_of_week":"3",  
-&nbsp;&nbsp;&nbsp;&nbsp;"hours_of_operaiton":"Monday Tuesday Thursday Saturday : 8AM-10PM",  
+&nbsp;&nbsp;&nbsp;&nbsp;"hours_of_operation":"Monday Tuesday Thursday Saturday : 8AM-10PM",  
 &nbsp;&nbsp;&nbsp;&nbsp;"currently_closed":"False",  
 &nbsp;&nbsp;&nbsp;&nbsp;"notes":"Store owner likes to relocate display. Check when arriving",  
 &nbsp;&nbsp;&nbsp;&nbsp;"general_manager":"Carl Sagan"  
@@ -207,7 +207,7 @@ Returns:
 &nbsp;&nbsp;&nbsp;&nbsp;"reports":[  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"id": "14"  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"client_id": "345"),  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"client_id": "345",  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"sales_rep_id": "6",    
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"date": "2016-06-23T02:10:25.000Z",  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"company_id": "1",  
@@ -216,7 +216,7 @@ Returns:
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"id": "99"  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"client_id": "64"),  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"client_id": "64",  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"sales_rep_id": "6",  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"date": "2017-07-04T09:15:22.000Z",  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"notes": "",  
@@ -240,7 +240,7 @@ Request Body Parameters:
 Returns:   
 {  
 &nbsp;&nbsp;&nbsp;&nbsp;"id": "54"  
-&nbsp;&nbsp;&nbsp;&nbsp;"client_id": "1"),  
+&nbsp;&nbsp;&nbsp;&nbsp;"client_id": "1",  
 &nbsp;&nbsp;&nbsp;&nbsp;"sales_rep_id": "5", (Sales rep id is found through JWT authentication and attached to the report in the database)  
 &nbsp;&nbsp;&nbsp;&nbsp;"date": "2016-06-23T02:10:25.000Z",  
 &nbsp;&nbsp;&nbsp;&nbsp;"notes": "General manager does not follow planogram.  Need to speak with my manager about this problem.",  
@@ -254,7 +254,7 @@ None
 Returns:   
 {  
 &nbsp;&nbsp;&nbsp;&nbsp;"id": "54"  
-&nbsp;&nbsp;&nbsp;&nbsp;"client_id": "6"),  
+&nbsp;&nbsp;&nbsp;&nbsp;"client_id": "6",  
 &nbsp;&nbsp;&nbsp;&nbsp;"sales_rep_id": "7",  
 &nbsp;&nbsp;&nbsp;&nbsp;"date": "2016-06-23T02:10:25.000Z",  
 &nbsp;&nbsp;&nbsp;&nbsp;"notes": "General manager likes to relocate display. Check when arriving",  
