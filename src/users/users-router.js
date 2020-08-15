@@ -4,6 +4,7 @@ const { json } = require('express');
 const UsersService = require('./users-service');
 const CompaniesService = require('../companies/companies-service');
 const AuthService = require('../auth/auth-service');
+const { requireAuth } = require('../middleware/jwt-auth');
 
 const usersRouter = express.Router()
 const jsonBodyParser = express.json()
@@ -88,6 +89,17 @@ usersRouter
     catch(error) {
         next(error)
     }
+    });
+
+usersRouter.route('/contact')
+    .get(requireAuth, async (req, res, next) => {
+        UsersService.getUserContactInfo(req.app.get('db'),req.user.id)
+        .then((info) => {
+            console.log('hi',info);
+            res.json(info)
+        })
+        .catch(next);
     })
+    // .patch()
 
 module.exports = usersRouter

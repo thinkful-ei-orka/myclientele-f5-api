@@ -41,6 +41,13 @@ const UsersService = {
             .where({phone_number})
             .first();
     },
+    getUserContactInfo(db, userId){
+        return db('users')
+            .select('phone_number','email')
+            .where('id',userId)
+            .first();
+    },
+
     hashPassword(password) {
         return bcrypt.hash(password, 12)
     },
@@ -57,6 +64,6 @@ const UsersService = {
     //   if (!REGEX_UPPER_LOWER_NUMBER_SPECIAL.test(phone_number)) {
     //     return 'Must be a valid phone number'
     // }
-}
+};
 
 module.exports = UsersService
