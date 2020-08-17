@@ -18,6 +18,11 @@ const PhotoService = {
         return rows[0];
       });
   },
+  insertPhotos(db, newPhotos) {
+    return db.transaction(async trx => {
+      await trx.into('photo').insert(newPhotos);
+    })
+  }
 };
 
 module.exports = PhotoService;

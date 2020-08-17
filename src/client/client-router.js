@@ -75,19 +75,6 @@ ClientsRouter.route("/")
 ClientsRouter.route("/:client_id")
   .all(requireAuth)
   .all(checkIfClientExists)
-//   .all((req, res, next) => {
-//     ClientsService.getClient(req.app.get("db"), req.params.client_id)
-//       .then((client) => {
-//         if (!client) {
-//           return res.status(404).json({
-//             error: { message: "Client doesn't exist" },
-//           });
-//         }
-//         res.client = client;
-//         next();
-//       })
-//       .catch(next);
-//   })
   .get((req, res, next) => {
     res.json(ClientsService.serializeClient(res.client));
   })
@@ -138,7 +125,7 @@ async function checkIfClientExists(req, res, next) {
       req.app.get("db"),
       req.params.client_id
     );
-    if (!client) {
+    if (!client || client.sales_rep_id !== req.user.id) {
       return res.status(404).json({
         error: { message: "Client does not exist" },
       });

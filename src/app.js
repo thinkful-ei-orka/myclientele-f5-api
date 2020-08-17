@@ -10,7 +10,6 @@ const reportRouter = require('./report/report-router');
 const companyRouter = require('./companies/companies-router');
 const placesRouter = require('./places/places-router');
 const s3Router = require('./s3/s3-router');
-const uuid = require('uuid');
 const S3 = require('aws-sdk/clients/s3');
 const s3 = new S3();
 
