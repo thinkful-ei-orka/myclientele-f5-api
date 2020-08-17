@@ -7,8 +7,6 @@ const { bucket } = require('../config.js');
 
 s3Router.get('/', (req, res) => {
   const { name, type } = req.query;
-  const directory = 'myclientele-user-uploads';
-  const key = `${directory}/${uuid.v4()}`;
   return s3
     .getSignedUrlPromise('putObject', {
       Bucket: bucket,
@@ -16,7 +14,7 @@ s3Router.get('/', (req, res) => {
       ContentType: type,
       Expires: 60,
     })
-    .then((uploadUrl) => res.json({ url: uploadUrl, file_name: key }))
+    .then((uploadUrl) => res.json({ url: uploadUrl }))
     .catch(error => res.json({error}));
 });
 
