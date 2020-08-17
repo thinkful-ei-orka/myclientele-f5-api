@@ -78,10 +78,7 @@ reportRouter
   .all(checkIfReportExists)
   .get(async (req, res, next) => {
     const user = req.user;
-    let report = await ReportService.getById(
-      req.app.get("db"),
-      req.params.report_id
-    );
+    let report = res.report;
     if (report.sales_rep_id !== req.user.id) {
       return res.status(401).json({ error: "Unauthorized request" });
     }
