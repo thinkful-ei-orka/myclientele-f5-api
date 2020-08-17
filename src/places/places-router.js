@@ -1,5 +1,5 @@
+require("dotenv").config();
 const express = require('express');
-
 const axios = require('axios');
 const querystring = require('querystring');
 
@@ -15,7 +15,7 @@ PlacesRouter
     } = req.query;
 
 
-    let api_key = 'AIzaSyALTeDJY0y4Ui6Q8wtOE0hZooVKsPTapt0';
+    let api_key = process.env.PLACES_API_KEY;
     const params = {
       key: api_key,
       query : searchTerm,
