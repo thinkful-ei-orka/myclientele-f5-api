@@ -139,40 +139,40 @@ VALUES (
     1,
     1,
     '2016-06-23T02:10:25.000Z',
-    'good times',
+    'good times'
   ),
   (
     2,
     1,
     1,
     '2015-06-23T02:10:25.000Z',
-    'good display',
+    'good display'
   ),
   (
     3,
     1,
     1,
     '2014-06-23T02:10:25.000Z',
-    'display seems to lean a bit',
+    'display seems to lean a bit'
   ),
   (
     4,
     1,
     1,
     '2013-06-23T02:10:25.000Z',
-    'The door to the store sticks',
+    'The door to the store sticks'
   ),
   (
     5,
     3,
     2,
     '2013-06-23T02:10:25.000Z',
-    'The door to the store sticks',
+    'The door to the store sticks'
   );
 
 SELECT SETVAL('report_id_seq', (SELECT MAX(id) + 1 FROM report));
 
-INSERT INTO photo (id, report_id, sales_rep_id, photo_url) 
+INSERT INTO photo (id, report_id, sales_rep_id, photo_url)
 VALUES (
     1,
     1,
