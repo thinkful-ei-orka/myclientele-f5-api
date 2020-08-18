@@ -13,8 +13,7 @@ const ReportService = {
             knex
                 .from('report')
                 .select('*')
-            // .join('users', 'report.sales_rep_id', '=', 'users.id')
-            // .join('client', 'report.client_id', '=', 'client.id')
+
                 .where('report.client_id', client_id)
                 .returning('*')
                 .then((res) => {

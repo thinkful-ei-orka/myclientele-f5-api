@@ -17,9 +17,9 @@ function seedUsers(db, users) {
   const testCompanies = makeCompanyArray();
   return db.transaction(async trx => {
     await seedCompanies(trx, testCompanies)
-    await trx.into('users').insert(preppedUsers)
+    await trx.into('myclientele_user').insert(preppedUsers)
     await trx.raw(
-      `SELECT setval('users_id_seq', ?)`,
+      `SELECT setval('myclientele_user_id_seq', ?)`,
       [users[users.length - 1].id],
   ) 
   })
@@ -82,6 +82,8 @@ function makeClientsAndReports(user) {
       location: 'test-location',
       sales_rep_id: user.id,
       company_id: user.company_id,
+      lat: null,
+      lng: null,
       hours_of_operation: 'Mo-Su',
       currently_closed: false,
       general_manager: 'test-gm',
@@ -95,6 +97,8 @@ function makeClientsAndReports(user) {
       sales_rep_id: 2,
       company_id: user.company_id,
       hours_of_operation: 'Mo-Su',
+      lat: null,
+      lng: null,
       currently_closed: false,
       general_manager: 'test-gm2',
       notes: 'test-notes2',
@@ -192,6 +196,8 @@ function makeClients() {
       location: 'test-location',
       sales_rep_id: 1,
       company_id: 1,
+      lat: null,
+      lng: null,
       hours_of_operation: 'Mo-Su',
       currently_closed: false,
       general_manager: 'test-gm',
@@ -204,6 +210,8 @@ function makeClients() {
       location: 'test-location2',
       sales_rep_id: 1,
       company_id: 1,
+      lat: null,
+      lng: null,
       hours_of_operation: 'Mo-Su',
       currently_closed: false,
       general_manager: 'test-gm2',
@@ -255,6 +263,7 @@ function cleanTables(db) {
         report,
         client,
         users,
+        myclientele_user,
         company`
     )
     .then(() => 
@@ -262,12 +271,12 @@ function cleanTables(db) {
         trx.raw(`ALTER SEQUENCE photo_id_seq minvalue 0 START WITH 1`),
         trx.raw(`ALTER SEQUENCE report_id_seq minvalue 0 START WITH 1`),
         trx.raw(`ALTER SEQUENCE client_id_seq minvalue 0 START WITH 1`),
-        trx.raw(`ALTER SEQUENCE users_id_seq minvalue 0 START WITH 1`),
+        trx.raw(`ALTER SEQUENCE myclientele_user_id_seq minvalue 0 START WITH 1`),
         trx.raw(`ALTER SEQUENCE company_id_seq minvalue 0 START WITH 1`),
         trx.raw(`SELECT setval('photo_id_seq', 0)`),
         trx.raw(`SELECT setval('report_id_seq', 0)`),
         trx.raw(`SELECT setval('client_id_seq', 0)`),
-        trx.raw(`SELECT setval('users_id_seq', 0)`),
+        trx.raw(`SELECT setval('myclientele_user_id_seq', 0)`),
         trx.raw(`SELECT setval('company_id_seq', 0)`),
       ])
     )

@@ -19,10 +19,10 @@ describe('Users Endpoints', () => {
 
   after('disconnect from db', () => db.destroy());
   before('clean table', () =>
-    db.raw('TRUNCATE company, users, client, report RESTART IDENTITY CASCADE')
+    db.raw('TRUNCATE company, myclientele_user, users, client, report RESTART IDENTITY CASCADE')
   );
   afterEach('clean table', () =>
-    db.raw('TRUNCATE company, users, client, report RESTART IDENTITY CASCADE')
+    db.raw('TRUNCATE company, myclientele_user, users, client, report RESTART IDENTITY CASCADE')
   );
 
   describe('POST /api/users', () => {

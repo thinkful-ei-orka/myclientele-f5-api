@@ -19,10 +19,10 @@ describe('Auth Endpoints', () => {
 
     after('disconnect from db', () => db.destroy());
     before('clean the table', () =>
-        db.raw('TRUNCATE company, users, client, report RESTART IDENTITY CASCADE')
+        db.raw('TRUNCATE company, myclientele_user, users, client, report RESTART IDENTITY CASCADE')
     );
     afterEach('clean the table', () =>
-        db.raw('TRUNCATE company, users, client, report RESTART IDENTITY CASCADE')
+        db.raw('TRUNCATE company, myclientele_user, users, client, report RESTART IDENTITY CASCADE')
     );
     describe('POST /api/auth/login', () => {
         beforeEach('insert users', () => helpers.seedUsers(db, testUsers));

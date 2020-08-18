@@ -8,6 +8,7 @@ TRUNCATE
   company,
   photo,
   users,
+  myclientele_user,
   client,
   report
   RESTART IDENTITY CASCADE;
@@ -22,7 +23,7 @@ VALUES
 
 SELECT SETVAL('company_id_seq', (SELECT MAX(id) + 1 FROM company));
 
-INSERT INTO users (id, name, user_name, password, company_id, admin, boss_id, email, phone_number)
+INSERT INTO myclientele_user (id, name, user_name, password, company_id, admin, boss_id, email, phone_number)
 
 VALUES
   (
@@ -50,7 +51,7 @@ VALUES
     '4045674531'
   );
 
-SELECT SETVAL('users_id_seq', (SELECT MAX(id) + 1 FROM users));
+SELECT SETVAL('myclientele_user_id_seq', (SELECT MAX(id) + 1 FROM myclientele_user));
 
 INSERT INTO client (id, name, location, sales_rep_id, company_id, hours_of_operation, currently_closed, general_manager, notes, day_of_week, lat, lng, photo)
 VALUES

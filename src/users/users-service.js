@@ -22,22 +22,22 @@ const UsersService = {
     return null;
   },
   getUsers(db) {
-    return db('users')
+    return db('myclientele_user')
       .select('*');
   },
   validateUser(db, user_name) {
-    return db('users')
+    return db('myclientele_user')
       .where({user_name})
       .first()
       .then(user => !!user);
   },
   getUserWithEmail(db, email) {
-    return db('users')
+    return db('myclientele_user')
       .where({email})
       .first();
   },
   getUserWithPhoneNum(db, phone_number) {
-    return db('users')
+    return db('myclientele_user')
       .where({phone_number})
       .first();
   },
@@ -48,7 +48,7 @@ const UsersService = {
   insertUser(db, userInfo) {
     return db
       .insert(userInfo) // might need to make the boss id null in the table as a default
-      .into('users');
+      .into('myclientele_user');
   },
   // validatePhoneNumeber(db, phone_number) {
   //   if (phone_number.length !== 10) {
