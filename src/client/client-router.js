@@ -88,6 +88,7 @@ ClientsRouter.route("/:client_id")
       hours_of_operation,
       currently_closed,
       notes,
+      photo,
       general_manager,
     } = req.body;
     const clientToUpdate = {
@@ -99,6 +100,7 @@ ClientsRouter.route("/:client_id")
       hours_of_operation: hours_of_operation,
       currently_closed: currently_closed,
       general_manager: general_manager,
+      photo: photo,
       notes: notes,
       day_of_week: day_of_week,
     };
