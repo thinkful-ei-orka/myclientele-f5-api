@@ -30,6 +30,7 @@ ClientsRouter.route("/")
       hours_of_operation,
       currently_closed,
       notes,
+      photo,
       general_manager,
     } = req.body;
 
@@ -46,6 +47,7 @@ ClientsRouter.route("/")
       hours_of_operation,
       currently_closed,
       notes,
+      photo,
       general_manager,
     };
 
