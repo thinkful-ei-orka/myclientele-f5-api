@@ -20,6 +20,7 @@ const ClientsService = {
       currently_closed: client.currently_closed,
       notes: xss(client.notes),
       general_manager: xss(client.general_manager),
+      photo: xss(client.photo),
       lat: client.lat,
       lng: client.lng,
     };
