@@ -34,6 +34,29 @@ PlacesRouter
       .catch((error) => {
         res.json({error: error.message});
       });
+  })
+  .get('/photo_reference', (req, res) => {
+    const {
+      photo_reference,
+      max_width,
+    } = req.query;
+
+
+    let api_key = process.env.PLACES_API_KEY;
+    const params = {
+      key: api_key,
+      photoreference : photo_reference,
+      maxwidth: max_width,
+    };
+
+    return axios.get(`https://maps.googleapis.com/maps/api/place/photo?${querystring.stringify(params)}`)
+      .then(response => {
+        // this gets the image url
+        res.json(response.request.res.responseUrl);
+      })
+      .catch((error) => {
+        res.json({error: error.message});
+      });
   });
 
 module.exports = PlacesRouter;
