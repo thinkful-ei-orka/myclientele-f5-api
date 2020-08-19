@@ -64,6 +64,13 @@ const UsersService = {
     //   if (!REGEX_UPPER_LOWER_NUMBER_SPECIAL.test(phone_number)) {
     //     return 'Must be a valid phone number'
     // }
-};
 
-module.exports = UsersService
+    updateUser(db, userId, updatedUserInfo) {
+        return db
+            .update(updatedUserInfo)
+            .where('id', userId)
+            .first();
+    }
+
+};
+module.exports = UsersService;
