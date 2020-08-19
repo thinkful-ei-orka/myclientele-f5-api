@@ -4,6 +4,7 @@ const { json } = require('express');
 const UsersService = require('./users-service');
 const CompaniesService = require('../companies/companies-service');
 const AuthService = require('../auth/auth-service');
+const { requireAuth } = require('../middleware/jwt-auth');
 
 const usersRouter = express.Router()
 const jsonBodyParser = express.json()
@@ -85,6 +86,70 @@ usersRouter
     catch(error) {
         next(error)
     }
+    });
+
+usersRouter.route('/contact')
+    .get(requireAuth, async (req, res, next) => {
+        UsersService.getUserContactInfo(req.app.get('db'),req.user.id)
+        .then((info) => {
+            console.log('hi',info);
+            res.json(info)
+        })
+        .catch(next);
+    })
+    
+    .patch(requireAuth, jsonBodyParser, async (req, res, next) =>{
+        const {name, user_name, password, email, phone_number} = req.body
+        
+        let updatedUserAccount = {}
+        let newHashedPassword
+
+        if (name) {
+            updatedUserAccount.name = name
+        }
+        if (req.body.password) {
+            const passwordError = UsersService.validatePassword(password);
+
+            if(passwordError) {
+                return res.status(400).json({error: passwordError})
+            }
+            
+            newHashedPassword = await UsersService.hashPassword(password)
+            updatedUserAccount.password = newHashedPassword
+        }
+
+        if (user_name) {
+            const duplicateUserError = await UsersService.validateUser(
+                req.app.get('db'),
+                user_name)
+
+            if (duplicateUserError) {
+                return res.status(400).json({error: 'Username already exists'})
+            }
+            updatedUserAccount.user_name = user_name
+        }
+
+        if(email) {
+            const emailInDatabase = await UsersService.getUserWithEmail(req.app.get('db'), email);
+            if(emailInDatabase) {
+                return res.status(400).json({error: `User with that email already exists`})
+            }
+            updatedUserAccount.email = email
+        }
+
+        if(phone_number) {
+            const phoneNumInDatabase = await UsersService.getUserWithPhoneNum(req.app.get('db'),phone_number);
+            if(phoneNumInDatabase) {
+                res.status(400).json({error: `User with that phone number already exists`})
+            }
+            updatedUserAccount.phone_number = phone_number
+        }
+
+        return UsersService.updateUser(req.app.get('db'), req.user.id, updatedUserAccount)
+        .then(data => {
+            res.status(204).end();
+        })
+        .catch(next)
     })
 
 module.exports = usersRouter
