@@ -91,33 +91,34 @@ usersRouter.route('/')
         }
     })
     .patch(requireAuth, jsonBodyParser, async (req, res, next) => {
-        const {name, user_name, password, email, phone_number} = req.body
+        const {name, username, passwords, email, phone_number} = req.body
         let updatedUserAccount = {}
         let newHashedPassword
+        console.log(req.body);
 
         if (name) {
             updatedUserAccount.name = name
         }
-        if (req.body.password) {
-            const passwordError = UsersService.validatePassword(password);
+        if (req.body.passwords !== '') {
+            const passwordError = UsersService.validatePassword(passwords);
 
         if(passwordError) {
             return res.status(400).json({error: passwordError})
         }
                         
-            newHashedPassword = await UsersService.hashPassword(password)
+            newHashedPassword = await UsersService.hashPassword(passwords)
             updatedUserAccount.password = newHashedPassword
         }
                     
-        if (user_name) {
+        if (username) {
             const duplicateUserError = await UsersService.validateUser(
             req.app.get('db'),
-            user_name)
+            username)
                     
             if (duplicateUserError) {
                 return res.status(400).json({error: 'Username already exists'})
             }
-            updatedUserAccount.user_name = user_name
+            updatedUserAccount.user_name = username
         }
                         
             if(email) {
@@ -135,12 +136,14 @@ usersRouter.route('/')
                 }
                 updatedUserAccount.phone_number = phone_number
             }
-                        
-            return UsersService.updateUser(req.app.get('db'), req.user.id, updatedUserAccount)
-                .then(data => {
-                    res.status(204).end();
-                })
-                .catch(next)
+            console.log(updatedUserAccount)
+            if(JSON.stringify(updatedUserAccount) !== '{}') {            
+                return UsersService.updateUser(req.app.get('db'), req.user.id, updatedUserAccount)
+                    .then(data => {
+                        res.status(204).end();
+                    })
+                    .catch(next)
+            }
     })
 
 usersRouter.route('/contact')

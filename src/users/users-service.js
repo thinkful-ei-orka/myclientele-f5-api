@@ -29,7 +29,7 @@ const UsersService = {
         return db('myclientele_user')
             .where({user_name})
             .first()
-            .then(user => !!user)
+            .then(user => !!user);
     },
     getUserWithEmail(db, email) {
         return db('myclientele_user')
@@ -43,19 +43,19 @@ const UsersService = {
     },
     getUserContactInfo(db, userId){
         return db('myclientele_user')
-            .select('phone_number','email')
+            .select('name','user_name','phone_number','email')
             .where('id',userId)
             .first();
     },
 
     hashPassword(password) {
-        return bcrypt.hash(password, 12)
+        return bcrypt.hash(password, 12);
     },
 
     insertUser(db, userInfo) {
         return db
             .insert(userInfo) // might need to make the boss id null in the table as a default
-            .into('myclientele_user')
+            .into('myclientele_user');
     },
     // validatePhoneNumeber(db, phone_number) {
     //   if (phone_number.length !== 10) {
