@@ -98,7 +98,7 @@ describe('Users Endpoints', () => {
     });
 
     // returns 200 if is user is and company are inserted
-    it('201 response when company info, user info, and valid password is sent', () => {
+    it.only('201 response when company info, user info, and valid password is sent', () => {
 
       return supertest(app)
         .post('/api/users')

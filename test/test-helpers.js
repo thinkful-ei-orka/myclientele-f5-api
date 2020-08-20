@@ -41,12 +41,14 @@ function makeCompanyArray() {
     {
       id: 1,
       name: 'Test company 1',
-      location: 'Test location 1'
+      location: 'Test location 1',
+      company_code: 'testcode1'
     },
     {
       id: 2,
       name: 'Test company 2',
-      location: 'Test location 2'
+      location: 'Test location 2',
+      company_code: 'testcode2'
     }
   ];
 }

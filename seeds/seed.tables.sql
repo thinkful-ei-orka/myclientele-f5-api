@@ -13,12 +13,13 @@ TRUNCATE
   report
   RESTART IDENTITY CASCADE;
 
-INSERT INTO company (id, name, location)
+INSERT INTO company (id, name, location, company_code)
 VALUES
   (
     1,
     'f5 refresh',
-    '1234 reenergize ave, fresco ca, 90345'
+    '1234 reenergize ave, fresco ca, 90345',
+    'testcompanycode'
   );
 
 SELECT SETVAL('company_id_seq', (SELECT MAX(id) + 1 FROM company));
