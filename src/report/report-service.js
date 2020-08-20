@@ -70,6 +70,7 @@ const ReportService = {
         .where('client_id', clientId)
         .orderBy('date', 'desc')
         .first()
+        .toString()
 }
 };
 
