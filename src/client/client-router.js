@@ -26,6 +26,8 @@ ClientsRouter.route("/")
     const {
       name,
       location,
+      lat,
+      lng,
       day_of_week,
       hours_of_operation,
       currently_closed,
@@ -43,6 +45,8 @@ ClientsRouter.route("/")
     const newClient = {
       name,
       location,
+      lat,
+      lng,
       day_of_week,
       hours_of_operation,
       currently_closed,
