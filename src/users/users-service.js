@@ -68,8 +68,7 @@ const UsersService = {
     updateUser(db, userId, updatedUserInfo) {
         return db('myclientele_user')
             .update(updatedUserInfo)
-            .where('id', userId)
-            .first();
+            .where('id', userId);
     }
 
 };

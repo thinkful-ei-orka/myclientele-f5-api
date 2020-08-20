@@ -9,8 +9,8 @@ const { requireAuth } = require('../middleware/jwt-auth');
 const usersRouter = express.Router()
 const jsonBodyParser = express.json()
 
-usersRouter
-    .post('/', jsonBodyParser, async (req, res, next) => {
+usersRouter.route('/')
+    .post(jsonBodyParser, async (req, res, next) => {
         const { name, user_name, password, company_name, company_location, admin, boss_id, email, phone_number} = req.body
         let phone_num = phone_number;
         let bossId = boss_id;
@@ -91,7 +91,6 @@ usersRouter
         }
     })
     .patch(requireAuth, jsonBodyParser, async (req, res, next) => {
-        console.log('request info w user', req.user.id);
         const {name, user_name, password, email, phone_number} = req.body
         let updatedUserAccount = {}
         let newHashedPassword
