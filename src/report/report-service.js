@@ -63,6 +63,14 @@ const ReportService = {
       location: report.location,
     };
   },
+  getLatestReportDate(knex,clientId) {
+    return knex
+        .from('report')
+        .select('date')
+        .where('client_id', clientId)
+        .orderBy('date', 'desc')
+        .first()
+}
 };
 
 module.exports = ReportService;
