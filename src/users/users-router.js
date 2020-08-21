@@ -36,6 +36,11 @@ usersRouter
         return res.status(400).json({
           error: `Missing '${field}' in request body`,
         });
+    for (const field of ['name', 'location']) 
+        if(!company[field]) 
+            return res.status(400).json({
+                error: `Missing ${field} in company info`
+            });     
 
     try {
       const passwordError = UsersService.validatePassword(password);
@@ -87,15 +92,20 @@ usersRouter
       };
 
       //insert comapny info to table with companyservice
-      if (company.company_code) {
-        userInfo.company_id = company.id;
-      } else {
+      if (!company.company_code) {
         company.company_code = cuid();
+        let companyInfo = {
+            name: company.name,
+            location: company.location,
+            company_code: company.company_code
+        }
         const newCompany = await CompaniesService.insertCompany(
           req.app.get("db"),
-          company
+          companyInfo
         );
         userInfo.company_id = newCompany.id;
+      } else {
+        userInfo.company_id = company.id;
       }
       await UsersService.insertUser(req.app.get("db"), userInfo);
       res.status(201).json({ message: "User created" });

@@ -13,8 +13,9 @@ const CompaniesService = {
             .insert(newCompany)
             .into('company')
             .returning('*')
-            .then(([company]) => company)
-            .then((company) => CompaniesService.getCompany(db, company.id));
+            .then((rows) => {
+                return rows[0];
+            });
     },
 
     serializeCompany(company) {

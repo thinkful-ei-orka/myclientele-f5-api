@@ -145,7 +145,7 @@ describe("Client Endpoints", function () {
         return supertest(app)
           .patch(`/api/clients/${clientId}`)
           .set("Authorization", helpers.makeAuthHeader(testUsers[0]))
-          .expect(404, { error: { message: `Client does not exist` } });
+          .expect(404, { error: `Client does not exist` });
       });
     });
 
@@ -164,6 +164,7 @@ describe("Client Endpoints", function () {
           day_of_week: 4,
           hours_of_operation: "Mo-Fr",
           currently_closed: true,
+          photo: '',
           notes: "seems to be going downhill",
           general_manager: "different gm",
         };
@@ -195,7 +196,7 @@ describe("Client Endpoints", function () {
         return supertest(app)
           .delete(`/api/clients/${clientId}`)
           .set("Authorization", helpers.makeAuthHeader(testUsers[0]))
-          .expect(404, { error: { message: `Client does not exist` } });
+          .expect(404, { error: `Client does not exist`});
       });
     });
 
