@@ -30,8 +30,11 @@ describe('Users Endpoints', () => {
       name: testUser.name,
       user_name: testUser.user_name,
       password: 'Password1234@#',
-      company_name: testCompany.name,
-      company_location: testCompany.location,
+      company: {
+        name: testCompany.name,
+        location: testCompany.location,
+        company_code: null,
+      },
       admin: testUser.admin,
       email: testUser.email,
     };
@@ -58,7 +61,9 @@ describe('Users Endpoints', () => {
         name: testUser.name,
         user_name: testUser.user_name,
         password: 'Password1234@#',
-        company_name: testCompany.name,
+        company: {
+          name: testCompany.name,
+        },
         admin: testUser.admin,
         email: testUser.email,
       };
@@ -73,8 +78,11 @@ describe('Users Endpoints', () => {
             name: testUser.name,
             user_name: testUser.user_name,
             password: testUser.password,
-            company_name: testCompany.name,
-            company_location: testCompany.location,
+            company: {
+              company_name: testCompany.name,
+              company_location: testCompany.location,
+              company_code: null,
+            },
             admin: testUser.admin,
             email: testUser.email,
         }

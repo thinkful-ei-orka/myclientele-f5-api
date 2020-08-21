@@ -13,12 +13,13 @@ TRUNCATE
   report
   RESTART IDENTITY CASCADE;
 
-INSERT INTO company (id, name, location)
+INSERT INTO company (id, name, location, company_code)
 VALUES
   (
     1,
     'f5 refresh',
-    '1234 reenergize ave, fresco ca, 90345'
+    '1234 reenergize ave, fresco ca, 90345',
+    'testcompanycode'
   );
 
 SELECT SETVAL('company_id_seq', (SELECT MAX(id) + 1 FROM company));
@@ -45,7 +46,7 @@ VALUES
     -- password = "pass"
     '$2a$10$fCWkaGbt7ZErxaxclioLteLUgg4Q3Rp09WW0s/wSLxDKYsaGYUpjG',
     1,
-    true,
+    false,
     null,
     'refrushing@f5.com',
     '4045674531'
@@ -188,13 +189,13 @@ VALUES (
   ),
   (
     3,
-    2,
+    5,
     2,
     'https://picsum.photos/200/300'
   ),
   (
     4,
-    2,
+    5,
     2,
     'https://picsum.photos/200/300'
 );

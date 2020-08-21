@@ -3,26 +3,43 @@ const CompaniesService = require('./companies-service');
 
 const CompanyRouter = express.Router();
 
+CompanyRouter.route('/:company_id')
+    .all((req, res, next) => {
+    //incase more routes are implemented later
+        CompaniesService.getCompany(req.app.get('db'), req.params.company_id)
+            .then((company) => {
+                if (!company) {
+                    return res.status(404).json({
+                        error: { message: 'Company doesn\'t exist' },
+                    });
+                }
+                res.company = company;
+                next();
+            })
+            .catch(next);
+    })
+    .get((req, res, next) => {
+        res.json(CompaniesService.serializeCompany(res.company));
+    });
+
 CompanyRouter
-  .route('/:company_id')
-  .all((req, res, next) => { //incase more routes are implemented later
-    CompaniesService.getCompany(
-      req.app.get('db'),
-      req.params.company_id
-    )
-      .then(company => {
+    .route('/')
+    .get(async (req, res, next) => {
+      let code = req.query.code;
+      if(code === 'null') {
+        return res.status(400).json({
+          error: 'Please contact your administrator for an invitation link!'
+        })
+      } else {
+  
+        let company = await CompaniesService.getCompanyByCode(req.app.get('db'), code);
         if(!company) {
           return res.status(404).json({
-            error: { message: `Company doesn't exist`}
-          });
+            error: 'It appears that your invitation link is invalid. Please try again'
+          })
         }
-        res.company = company;
-        next();
-      })
-      .catch(next);
-  })
-  .get((req, res, next) => {
-    res.json(CompaniesService.serializeCompany(res.company));
-  });
+        res.json(CompaniesService.serializeCompany(company))
+      }
+    });
 
 module.exports = CompanyRouter;
