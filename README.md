@@ -376,7 +376,7 @@ Request Body Parameters:
 }
   
 **client_id** *integer*  
-**notes***string*  
+**notes** *string*  
 **photos** *array*  
   
 Returns:   
@@ -412,7 +412,7 @@ Parameters:
 **Request body must contain either notes or photo_url different from information stored in the database**
 
 **notes** *string*  
-**photo_url** *string*  
+**photos** *array*  
   
 Response:
 None
