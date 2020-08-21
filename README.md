@@ -53,18 +53,21 @@ Parameters:
 {  
 &nbsp;&nbsp;&nbsp;&nbsp;"name":"Irma",  
 &nbsp;&nbsp;&nbsp;&nbsp;"user_name":"Irma-JuniorSale",  
-&nbsp;&nbsp;&nbsp;&nbsp;"password":"P947fheh(*",  
-&nbsp;&nbsp;&nbsp;&nbsp;"company_name":"F5 Energy",  
-&nbsp;&nbsp;&nbsp;&nbsp;"company_location":"5 Fiskburg Lane, Carlsbad, DE 12345",  
-&nbsp;&nbsp;&nbsp;&nbsp;"admin":"True",  
+&nbsp;&nbsp;&nbsp;&nbsp;"password":"P947fheh(*",
+&nbsp;&nbsp;&nbsp;&nbsp;"company":"{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"name":"F5 Energy",  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"location":"5 Fiskburg Lane, Carlsbad, DE 12345",
+&nbsp;&nbsp;&nbsp;&nbsp;}  
+&nbsp;&nbsp;&nbsp;&nbsp;"admin":"true",  
 &nbsp;&nbsp;&nbsp;&nbsp;"email":"IrmaJS@f5ftw.com",  
 &nbsp;&nbsp;&nbsp;&nbsp;"phone_number":"2045987890"  
 }  
 **name** *string*  
-**username** *string*  
-**password** *string* Must be between 8 and 72 characters, must include one upper case, one lower case, one number and one special character  
-**company_name** *string*  
-**company_location** *string*  
+**user_name** *string*  
+**password** *string* Must be between 8 and 72 characters, must include one upper case, one lower case, one number and one special character
+**company** *object*   
+&nbsp;&nbsp;&nbsp;&nbsp;**name** *string*  
+&nbsp;&nbsp;&nbsp;&nbsp;**location** *string*  
 **admin** *boolean*  
 **email** *string*  
 **phone_number** *string* Format: 10 digit number  
@@ -85,6 +88,33 @@ Returns:
 &nbsp;&nbsp;&nbsp;&nbsp;"email":"IrmaJS@f5ftw.com",  
 &nbsp;&nbsp;&nbsp;&nbsp;"phone_number":"2045987890"  
 }
+
+### GET `/users/employees`
+Parameters:  
+None  
+  
+Returns:
+[
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"id":"3",     
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"name":"Irma",  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"user_name":"Irma-JuniorSale",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"company_id":"4",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"admin":"true",      
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"email":"IrmaJS@f5ftw.com",  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"phone_number":"2045987890"  
+&nbsp;&nbsp;&nbsp;&nbsp;},
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"id":"7",     
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"name":"Billy",  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"user_name":"Billy-JuniorSale",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"company_id":"4",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"admin":"false",      
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"email":"billy@email.com",  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"phone_number":"1238675309"  
+&nbsp;&nbsp;&nbsp;&nbsp;},
+]   
+
 
 ### GET `/clients`
 Parameters:  
