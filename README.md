@@ -70,6 +70,18 @@ Returns:
 &nbsp;&nbsp;&nbsp;&nbsp;"User created"   
 }  
 
+### GET `/users/contact`
+Parameters:  
+None  
+  
+Returns:   
+{     
+&nbsp;&nbsp;&nbsp;&nbsp;"name":"Irma",  
+&nbsp;&nbsp;&nbsp;&nbsp;"user_name":"Irma-JuniorSale",    
+&nbsp;&nbsp;&nbsp;&nbsp;"email":"IrmaJS@f5ftw.com",  
+&nbsp;&nbsp;&nbsp;&nbsp;"phone_number":"2045987890"  
+}
+
 ### GET `/clients`
 Parameters:  
 None  
