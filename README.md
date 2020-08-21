@@ -8,6 +8,7 @@ Base Url: _to update__/api
 | /auth/login       | post     | Takes user name and password, checks for account,returns auth token                    |
 | /auth/refresh       | put     | Takes user nam, returns new auth token                    |
 | /users/       | post     | Takes registration info , then creates both a company and user for a new account|
+| /users/contact       | get     | Gets contact information for user (name, phone number, email)|
 | /clients/       | post     | Takes client information, inserts in to database and returns the client information in an object                    |
 | /clients/       | get     | Gets all clients for associated with user, returns an object                    |
 | /clients/:id       | get     | Takes client id as a path parameter, returns client information as an object                    |
