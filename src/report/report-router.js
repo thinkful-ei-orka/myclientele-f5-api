@@ -80,9 +80,7 @@ reportRouter
   .get(async (req, res, next) => {
     const user = req.user;
     let report = res.report;
-    if (report.sales_rep_id !== req.user.id) {
-      return res.status(401).json({ error: "Unauthorized request" });
-    }
+    console.log('report! ', report);
     report = await getPhotosForReports(req.app.get("db"), [report]);
     res.json([ReportService.serializeReport(report[0])]);
   })
@@ -174,13 +172,24 @@ async function checkIfReportExists(req, res, next) {
       req.app.get("db"),
       req.params.report_id
     );
+    const client = await ClientsService.getClient(req.app.get('db'), report.client_id);
     if (!report) {
       return res.status(404).json({
         error: { message: "Report does not exist" },
       });
     }
-    res.report = report;
-    next();
+    else if(req.user.admin && req.user.company_id === client.company_id) {
+      res.report = report;
+      next();
+    } else if (report.sales_rep_id !== req.user.id) {
+      return res.status(404).json({
+        error: "Report does not exist" 
+      });
+    } else {
+      res.report = report;
+      next();
+    }
+
   } catch (error) {
     next(error);
   }

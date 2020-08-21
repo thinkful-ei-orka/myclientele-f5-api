@@ -5,7 +5,7 @@ const UsersService = require("./users-service");
 const CompaniesService = require("../companies/companies-service");
 const AuthService = require("../auth/auth-service");
 const { requireAuth } = require("../middleware/jwt-auth");
-
+const cuid = require("cuid");
 const usersRouter = express.Router();
 const jsonBodyParser = express.json();
 

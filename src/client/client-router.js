@@ -141,7 +141,7 @@ ClientsRouter
     if(sales_rep.company_id !== user.company_id) {
       return res.status(401).json({error: 'Unauthorized request'})
     }
-    ClientsService.getClientsForUser(req.app.get("db"), req.user.id)
+    ClientsService.getClientsForUser(req.app.get("db"), sales_rep_id)
     .then((clients) => {
       const serializedClients = clients.map((client) =>
         ClientsService.serializeClient(client)
@@ -186,17 +186,27 @@ ClientsRouter
 
 async function checkIfClientExists(req, res, next) {
   try {
+    console.log('params! ', req.params.client_id);
     const client = await ClientsService.getClient(
       req.app.get("db"),
       req.params.client_id
     );
-    if (!client || client.sales_rep_id !== req.user.id) {
+    if(!client) {
       return res.status(404).json({
-        error: { message: "Client does not exist" },
+        error: "Client does not exist" 
       });
     }
-    res.client = client;
-    next();
+    else if(req.user.admin && req.user.company_id === client.company_id) {
+      res.client = client;
+      next();
+    } else if (client.sales_rep_id !== req.user.id) {
+      return res.status(404).json({
+        error: "Client does not exist" 
+      });
+    } else {
+      res.client = client;
+      next();
+    }
   } catch (error) {
     next(error);
   }
