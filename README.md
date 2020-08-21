@@ -6,14 +6,17 @@ Base Url: _to update__/api
 | Endpoint    | Method | Description                                                                                           |
 | ----------- | ------- | ----------------------------------------------------------------------------------------------------- |
 | /auth/login       | post     | Takes user name and password, checks for account,returns auth token                    |
-| /auth/refresh       | put     | Takes user nam, returns new auth token                    |
+| /auth/refresh       | put     | Takes user name, returns new auth token                    |
 | /users/       | post     | Takes registration info , then creates both a company and user for a new account|
 | /users/contact       | get     | Gets contact information for user (name, phone number, email)|
+| /users/employees       | get     | Gets list of employees for a company.  Must be an admin of the company to get the employee |
 | /clients/       | post     | Takes client information, inserts in to database and returns the client information in an object                    |
 | /clients/       | get     | Gets all clients for associated with user, returns an object                    |
 | /clients/:id       | get     | Takes client id as a path parameter, returns client information as an object                    |
 | /clients/:id       | patch     | Takes client id as a path parameter and updated client information, alters client info in databse                    |
 | /clients/:id       | delete     | Takes client id as a path parameter, removes client from database                    |
+| /clients/sales_rep_id/:id       | get     | Takes sales rep id as a path parameter, returns clients for that sales rep as an object                    |
+| /clients/company/:id       | get     | Takes company id as a path parameter, returns clients for that company as an object                    |
 | /companies/:id | get  | Takes company id as a path parameter, returns company information as an object |
 | /reports/ | get | Gets all reports associated with user, returns an object |
 | /reports?clientid={id} | get | Gets all reports associated with a particular client by client id |
@@ -21,6 +24,7 @@ Base Url: _to update__/api
 | /reports/:report_id | get | Takes report id as a path paramater, returns report information as an object |
 | /reports/:report_id | patch | Takes report id as a path paramater, and updated report information, and updates the report in the database |
 | /reports/:report_id | delete | Takes report id as a path paramater, and deletes the report from the database |
+| /reports/sales_rep_id/:id       | get     | Takes sales rep id as a path parameter, returns reports for that sales rep as an object                    |
 ### POST `/auth/login`
 Parameters:  
 {  

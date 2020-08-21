@@ -50,7 +50,7 @@ const UsersService = {
             .first();
     },
     getUserByCompanyId(db, company_id) {
-        return db('myclientele_user').select('*').where('company_id', company_id);
+        return db('myclientele_user').select('id', 'name', 'user_name', 'company_id', 'admin', 'email', 'phone_number').where('company_id', company_id);
     },
 
     hashPassword(password) {
