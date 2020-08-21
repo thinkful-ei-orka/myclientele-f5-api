@@ -316,8 +316,8 @@ The live site can be accessed at [https://myclientele-f5.vercel.app/](https://my
 
 To try the service, please use the credentials below to log in
 
-Username: User<br />
-Password: Password12#
+Username: refresh<br />
+Password: pass
 
 ## Client Documentaion
 
