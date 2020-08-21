@@ -117,7 +117,6 @@ usersRouter
     const { name, username, passwords, email, phone_number } = req.body;
     let updatedUserAccount = {};
     let newHashedPassword;
-    console.log(req.body);
 
     if (name) {
       updatedUserAccount.name = name;
@@ -170,7 +169,6 @@ usersRouter
       }
       updatedUserAccount.phone_number = phone_number;
     }
-    console.log(updatedUserAccount);
     if (JSON.stringify(updatedUserAccount) !== "{}") {
       return UsersService.updateUser(
         req.app.get("db"),
@@ -187,7 +185,6 @@ usersRouter
 usersRouter.route("/contact").get(requireAuth, async (req, res, next) => {
   UsersService.getUserContactInfo(req.app.get("db"), req.user.id)
     .then((info) => {
-      console.log("hi", info);
       res.json(info);
     })
     .catch(next);

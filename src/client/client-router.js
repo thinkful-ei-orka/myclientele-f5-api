@@ -186,7 +186,6 @@ ClientsRouter
 
 async function checkIfClientExists(req, res, next) {
   try {
-    console.log('params! ', req.params.client_id);
     const client = await ClientsService.getClient(
       req.app.get("db"),
       req.params.client_id

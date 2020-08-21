@@ -80,7 +80,6 @@ reportRouter
   .get(async (req, res, next) => {
     const user = req.user;
     let report = res.report;
-    console.log('report! ', report);
     report = await getPhotosForReports(req.app.get("db"), [report]);
     res.json([ReportService.serializeReport(report[0])]);
   })
@@ -133,26 +132,31 @@ reportRouter
   });
 
 reportRouter
-.route('/sales_rep_id/:id')
-.get(requireAuth, async (req, res, next) => {
-  let sales_rep_id = req.params.id;
-  let sales_rep = await UsersService.getUserContactInfo(req.app.get('db'), sales_rep_id);
-    if(!sales_rep) {
-      return res.status(400).json({error: 'Invalid employee'});
+  .route("/sales_rep_id/:id")
+  .get(requireAuth, async (req, res, next) => {
+    let sales_rep_id = req.params.id;
+    let sales_rep = await UsersService.getUserContactInfo(
+      req.app.get("db"),
+      sales_rep_id
+    );
+    if (!sales_rep) {
+      return res.status(400).json({ error: "Invalid employee" });
     }
     let user = req.user;
-    if(sales_rep.company_id !== user.company_id) {
-      return res.status(401).json({error: 'Unauthorized request'})
+    if (sales_rep.company_id !== user.company_id) {
+      return res.status(401).json({ error: "Unauthorized request" });
     }
-    let reports = await ReportService.getAllReports(req.app.get("db"), sales_rep.id);
+    let reports = await ReportService.getAllReports(
+      req.app.get("db"),
+      sales_rep.id
+    );
     reports = await getPhotosForReports(req.app.get("db"), reports);
     reports = ReportService.serializeReports(reports);
     res.json({
       employee: sales_rep,
-      reports
-    })
-
-})
+      reports,
+    });
+  });
 
 async function getPhotosForReports(db, reports) {
   let getPhotosByIdPromises = reports.map((report) => {
@@ -168,28 +172,32 @@ async function getPhotosForReports(db, reports) {
 
 async function checkIfReportExists(req, res, next) {
   try {
+    let client;
     const report = await ReportService.getById(
       req.app.get("db"),
       req.params.report_id
     );
-    const client = await ClientsService.getClient(req.app.get('db'), report.client_id);
     if (!report) {
       return res.status(404).json({
         error: { message: "Report does not exist" },
       });
+    } else {
+      client = await ClientsService.getClient(
+        req.app.get("db"),
+        report.client_id
+      );
     }
-    else if(req.user.admin && req.user.company_id === client.company_id) {
+    if (req.user.admin && req.user.company_id === client.company_id) {
       res.report = report;
       next();
     } else if (report.sales_rep_id !== req.user.id) {
-      return res.status(404).json({
-        error: "Report does not exist" 
+      return res.status(401).json({
+        error: "Unauthorized request",
       });
     } else {
       res.report = report;
       next();
     }
-
   } catch (error) {
     next(error);
   }

@@ -26,13 +26,12 @@ CompanyRouter
     .route('/')
     .get(async (req, res, next) => {
       let code = req.query.code;
-      console.log('code!', code);
       if(code === 'null') {
         return res.status(400).json({
           error: 'Please contact your administrator for an invitation link!'
         })
       } else {
-        console.log('We have a code');
+  
         let company = await CompaniesService.getCompanyByCode(req.app.get('db'), code);
         if(!company) {
           return res.status(404).json({
