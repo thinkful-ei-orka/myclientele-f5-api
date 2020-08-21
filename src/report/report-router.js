@@ -5,6 +5,7 @@ const { requireAuth } = require("../middleware/jwt-auth");
 const ClientsService = require("../client/client-service");
 const PhotoService = require("../photo/photo-service");
 const reportRouter = express.Router();
+const UsersService = require("../users/users-service");
 const jsonParser = express.json();
 
 reportRouter
@@ -132,6 +133,28 @@ reportRouter
       next(error);
     }
   });
+
+reportRouter
+.route('/sales_rep_id/:id')
+.get(requireAuth, async (req, res, next) => {
+  let sales_rep_id = req.params.id;
+  let sales_rep = await UsersService.getUserContactInfo(req.app.get('db'), sales_rep_id);
+    if(!sales_rep) {
+      return res.status(400).json({error: 'Invalid employee'});
+    }
+    let user = req.user;
+    if(sales_rep.company_id !== user.company_id) {
+      return res.status(401).json({error: 'Unauthorized request'})
+    }
+    let reports = await ReportService.getAllReports(req.app.get("db"), sales_rep.id);
+    reports = await getPhotosForReports(req.app.get("db"), reports);
+    reports = ReportService.serializeReports(reports);
+    res.json({
+      employee: sales_rep,
+      reports
+    })
+
+})
 
 async function getPhotosForReports(db, reports) {
   let getPhotosByIdPromises = reports.map((report) => {

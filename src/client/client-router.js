@@ -2,6 +2,8 @@ const express = require("express");
 const ClientsService = require("./client-service");
 const { requireAuth } = require("../middleware/jwt-auth");
 const path = require("path");
+const UsersService = require("../users/users-service");
+const CompaniesService = require("../companies/companies-service");
 
 const ClientsRouter = express.Router();
 const jsonBodyParser = express.json();
@@ -126,6 +128,61 @@ ClientsRouter.route("/:client_id")
       })
       .catch(next);
   });
+
+ClientsRouter
+  .route('/sales_rep_id/:id')
+  .get(requireAuth, async (req, res, next) => {
+    let sales_rep_id = req.params.id;
+    let sales_rep = await UsersService.getUserContactInfo(req.app.get('db'), sales_rep_id);
+    if(!sales_rep) {
+      return res.status(400).json({error: 'Invalid employee'});
+    }
+    let user = req.user;
+    if(sales_rep.company_id !== user.company_id) {
+      return res.status(401).json({error: 'Unauthorized request'})
+    }
+    ClientsService.getClientsForUser(req.app.get("db"), req.user.id)
+    .then((clients) => {
+      const serializedClients = clients.map((client) =>
+        ClientsService.serializeClient(client)
+      );
+      res.json({
+        employee: sales_rep,
+        clients: serializedClients
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      next();
+    });
+});
+
+ClientsRouter
+  .route('/company/:id')
+  .get(requireAuth, async (req, res, next) => {
+    let company_id = req.params.id;
+    let company = await CompaniesService.getCompany(req.app.get('db'), company_id)
+    if(!company) {
+      return res.status(400).json({error: 'Invalid company'});
+    }
+    let user = req.user;
+    if(company.id !== user.company_id) {
+      return res.status(401).json({error: 'Unauthorized request'})
+    }
+    ClientsService.getClientsByCompanyId(req.app.get("db"), company_id)
+    .then((clients) => {
+      const serializedClients = clients.map((client) =>
+        ClientsService.serializeClient(client)
+      );
+      res.json({
+        clients: serializedClients
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      next();
+    });
+});
 
 async function checkIfClientExists(req, res, next) {
   try {
