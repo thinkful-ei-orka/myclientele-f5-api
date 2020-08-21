@@ -19,11 +19,7 @@ PlacesRouter
     const params = {
       key: api_key,
       query : searchTerm,
-      //fields: 'name,formatted_address,geometry,opening_hours',
-      // location: center,
       location: center,
-      // radius: 5000,
-      // radius: radius >= 50000 ? 50000 : radius
       rankby: 'distance'
     };
 

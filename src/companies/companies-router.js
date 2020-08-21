@@ -26,19 +26,19 @@ CompanyRouter
     .route('/')
     .get(async (req, res, next) => {
       let code = req.query.code;
-      if(code === 'null') {
+      if (code === 'null') {
         return res.status(400).json({
           error: 'Please contact your administrator for an invitation link!'
-        })
+        });
       } else {
   
         let company = await CompaniesService.getCompanyByCode(req.app.get('db'), code);
-        if(!company) {
+        if (!company) {
           return res.status(404).json({
             error: 'It appears that your invitation link is invalid. Please try again'
-          })
+          });
         }
-        res.json(CompaniesService.serializeCompany(company))
+        res.json(CompaniesService.serializeCompany(company));
       }
     });
 
