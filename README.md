@@ -503,20 +503,6 @@ As a company admin, you can invite members of your team to the app. Once they si
 
 My Clientele is ideal for the fast paced and busy lifestyle you lead, and allows you to keep up-to-date with what places are closed due to things like Covid-19 or rennovations with the currently closed feature. With a click of a button, you can keep up to date with your clients and their needs, all from one easy to use app!
 
-### Screenshots
-
-![Image of Mobile View](docs/MyClienteleMobileView.png)
-
-![Image of Home Page](docs/MyClienteleHomePage.png)
-
-![Image of My Schedule](docs/MyClienteleMySchedule.png)
-
-![Image of Client Search](docs/MyClienteleClientSearch.png)
-
-![Image of Add Client](docs/MyClineteleAddClient.png)
-
-![Image of Reports](docs/MyClienteleReports.png)
-
 ## Tech Stack
 
 REACT, JavaScript, CSS3, HTML5, SCSS, NodeJS, ExpressJS, PostgreSQL
