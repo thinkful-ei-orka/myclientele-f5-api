@@ -179,25 +179,25 @@ VALUES (
     1,
     1,
     1,
-    'https://picsum.photos/200/300'
+    'https://s3.amazonaws.com/cocacolaunited-old/wp-content/uploads/2019/03/Picture2.jpg'
   ),
   (
     2,
     1,
     1,
-    'https://picsum.photos/200/300'
+    'https://media.glassdoor.com/l/89/bf/88/d5/grocery-store-display.jpg'
   ),
   (
     3,
     5,
     2,
-    'https://picsum.photos/200/300'
+    'https://s14851.pcdn.co/wp-content/uploads/2017/10/ARTICLE-1219-PIC-1.jpg'
   ),
   (
     4,
     5,
     2,
-    'https://picsum.photos/200/300'
+    'https://www.coca-colacompany.com/content/dam/journey/us/en/articles/this-is-how-we-celebrate-2.jpg'
 );
 
 SELECT SETVAL('photo_id_seq', (SELECT MAX(id) + 1 FROM photo));
