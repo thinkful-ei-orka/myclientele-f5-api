@@ -137,7 +137,13 @@ usersRouter.route('/')
             if(JSON.stringify(updatedUserAccount) !== '{}') {            
                 return UsersService.updateUser(req.app.get('db'), req.user.id, updatedUserAccount)
                     .then(data => {
-                        res.status(204).end();
+                        if (updatedUserAccount.user_name || updatedUserAccount.password) {
+                            console.log('login changed, redirecting')
+                            res.redirect(204,'https://myclientele-f5.vercel.app/')    
+                        }
+                        else{
+                            console.log('other account info changed, sending message')
+                            res.status(204).json({message: 'Account Updated'})}
                     })
                     .catch(next)
             }
@@ -147,7 +153,6 @@ usersRouter.route('/contact')
     .get(requireAuth, async (req, res, next) => {
         UsersService.getUserContactInfo(req.app.get('db'),req.user.id)
         .then((info) => {
-            console.log('hi',info);
             res.json(info)
         })
         .catch(next);
