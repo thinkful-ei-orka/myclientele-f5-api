@@ -21,7 +21,7 @@ reportRouter
         return res.status(400).json({
           error:
             "Query string must include a client_id and client_id must be a number",
-        });
+        })
       }
       let client = await ClientsService.getClient(
         req.app.get("db"),
@@ -29,7 +29,6 @@ reportRouter
       );
       //before returning the reports by client id, we need to check to make sure that the client.sales_rep_id matches with the user id.  If these do not match, then we have an unauthorized request.
       if (client.sales_rep_id !== req.user.id) {
-        //maybe move this into ClientsService.getClient()
         return res.status(401).json({ error: "Unauthorized request" });
       }
       reports = await ReportService.getReportsByClientId(
@@ -42,7 +41,7 @@ reportRouter
       reports = await ReportService.getAllReports(
         req.app.get("db"),
         currentUser
-      );
+      )
     }
     //After getting the reports, we need to match the photos with each report.
     reports = await getPhotosForReports(req.app.get("db"), reports);
@@ -106,7 +105,7 @@ reportRouter
         return res.status(400).json({
           error: {
             message: "Request body must contain notes or a photo_url",
-          },
+          }
         });
       }
       await ReportService.updateReport(

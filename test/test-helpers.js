@@ -168,7 +168,7 @@ function makeAuthHeader(user, secret = process.env.JWT_SECRET) {
 
 function seedUsersClientsReports (db, users, clients, reports, photos) {
   reports.forEach(report => {
-    if(report.photos) {
+    if (report.photos) {
       delete report.photos;
     }
   })

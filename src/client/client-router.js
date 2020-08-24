@@ -44,6 +44,7 @@ ClientsRouter.route("/")
       hours_of_operation,
       currently_closed,
     };
+
     const newClient = {
       name,
       location,
@@ -98,6 +99,7 @@ ClientsRouter.route("/:client_id")
       photo,
       general_manager,
     } = req.body;
+
     const clientToUpdate = {
       id: Number(req.params.client_id),
       name: name,
@@ -135,12 +137,12 @@ ClientsRouter
   .get(requireAuth, async (req, res, next) => {
     let sales_rep_id = req.params.id;
     let sales_rep = await UsersService.getUserContactInfo(req.app.get('db'), sales_rep_id);
-    if(!sales_rep) {
+    if (!sales_rep) {
       return res.status(400).json({error: 'Invalid employee'});
     }
     let user = req.user;
-    if(sales_rep.company_id !== user.company_id) {
-      return res.status(401).json({error: 'Unauthorized request'})
+    if (sales_rep.company_id !== user.company_id) {
+      return res.status(401).json({error: 'Unauthorized request'});
     }
     ClientsService.getClientsForUser(req.app.get("db"), sales_rep_id)
     .then((clients) => {
@@ -162,27 +164,27 @@ ClientsRouter
   .route('/company/:id')
   .get(requireAuth, async (req, res, next) => {
     let company_id = req.params.id;
-    let company = await CompaniesService.getCompany(req.app.get('db'), company_id)
-    if(!company) {
+    let company = await CompaniesService.getCompany(req.app.get('db'), company_id);
+    if (!company) {
       return res.status(400).json({error: 'Invalid company'});
     }
     let user = req.user;
-    if(company.id !== user.company_id) {
-      return res.status(401).json({error: 'Unauthorized request'})
+    if (company.id !== user.company_id) {
+      return res.status(401).json({error: 'Unauthorized request'});
     }
     ClientsService.getClientsByCompanyId(req.app.get("db"), company_id)
-    .then((clients) => {
-      const serializedClients = clients.map((client) =>
-        ClientsService.serializeClient(client)
-      );
-      res.json({
-        clients: serializedClients
+      .then((clients) => {
+        const serializedClients = clients.map((client) =>
+          ClientsService.serializeClient(client)
+        );
+        res.json({
+          clients: serializedClients
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        next();
       });
-    })
-    .catch((err) => {
-      console.log(err);
-      next();
-    });
 });
 
 async function checkIfClientExists(req, res, next) {
@@ -191,7 +193,7 @@ async function checkIfClientExists(req, res, next) {
       req.app.get("db"),
       req.params.client_id
     );
-    if(!client) {
+    if (!client) {
       return res.status(404).json({
         error: "Client does not exist" 
       });

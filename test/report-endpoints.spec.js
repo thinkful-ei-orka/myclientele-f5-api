@@ -73,7 +73,7 @@ describe('Reports Endpoints', () => {
                 expectedReports.forEach((report, index) => {
                     let reportPhotos = [];
                     testPhotos.forEach(photo => {
-                        if(photo.report_id === report.id) {
+                        if (photo.report_id === report.id) {
                             reportPhotos.push(photo.photo_url);
                         }
                     });
@@ -91,7 +91,7 @@ describe('Reports Endpoints', () => {
                 expectedReports.forEach((report, index) => {
                     let reportPhotos = [];
                     testPhotos.forEach(photo => {
-                        if(photo.report_id === report.id) {
+                        if (photo.report_id === report.id) {
                             reportPhotos.push(photo.photo_url);
                         }
                     });
@@ -137,7 +137,7 @@ describe('Reports Endpoints', () => {
                 const expectedReport = testReports[reportId - 1];
                 let reportPhotos = [];
                 testPhotos.forEach(photo => {
-                    if(photo.report_id === reportId) {
+                    if (photo.report_id === reportId) {
                         reportPhotos.push(photo.photo_url);
                     }
                 });
@@ -225,7 +225,7 @@ describe('Reports Endpoints', () => {
                 };
                 let reportPhotos = [];
                 testPhotos.forEach(photo => {
-                    if(photo.report_id === idToUpdate) {
+                    if (photo.report_id === idToUpdate) {
                         reportPhotos.push(photo.photo_url);
                     }
                 });
@@ -267,7 +267,7 @@ describe('Reports Endpoints', () => {
                 expectedReports.forEach((report, index) => {
                     let reportPhotos = [];
                     testPhotos.forEach(photo => {
-                        if(photo.report_id === report.id) {
+                        if (photo.report_id === report.id) {
                             reportPhotos.push(photo.photo_url);
                         }
                     });

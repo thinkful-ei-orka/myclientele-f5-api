@@ -30,16 +30,16 @@ CompanyRouter
       if(code === 'null') {
         return res.status(400).json({
           error: 'Please contact your administrator for an invitation link!'
-        })
+        });
       } else {
       //Check if you can find the company by company code, if not, return 404  
         let company = await CompaniesService.getCompanyByCode(req.app.get('db'), code);
-        if(!company) {
+        if (!company) {
           return res.status(404).json({
             error: 'It appears that your invitation link is invalid. Please try again'
-          })
+          });
         }
-        res.json(CompaniesService.serializeCompany(company))
+        res.json(CompaniesService.serializeCompany(company));
       }
     });
 

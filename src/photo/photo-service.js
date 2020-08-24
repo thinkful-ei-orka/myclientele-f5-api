@@ -10,6 +10,7 @@ const PhotoService = {
         });
       });
   },
+
   insertPhoto(knex, newPhoto) {
     return knex('photo')
       .insert(newPhoto)
@@ -18,6 +19,7 @@ const PhotoService = {
         return rows[0];
       });
   },
+
   insertPhotos(db, newPhotos) {
     return db.transaction(async trx => {
       await trx.into('photo').insert(newPhotos);

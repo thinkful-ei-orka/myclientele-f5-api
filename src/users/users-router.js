@@ -22,6 +22,7 @@ usersRouter
       email,
       phone_number,
     } = req.body;
+
     let phone_num = phone_number;
     let bossId = boss_id;
 
@@ -37,7 +38,7 @@ usersRouter
           error: `Missing '${field}' in request body`,
         });
     for (const field of ['name', 'location']) 
-        if(!company[field]) 
+        if (!company[field]) 
             return res.status(400).json({
                 error: `Missing ${field} in company info`
             });     
@@ -195,7 +196,7 @@ usersRouter.route("/employees").get(requireAuth, async (req, res, next) => {
       })
       .catch(next);
   } else {
-      return res.status(401).json({error: 'Unauthorized request'})
+      return res.status(401).json({error: 'Unauthorized request'});
   }
 });
 
