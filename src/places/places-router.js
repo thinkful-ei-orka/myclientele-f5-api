@@ -5,8 +5,8 @@ const querystring = require('querystring');
 
 const PlacesRouter = express.Router();
 
-
 PlacesRouter
+  // get a list of place (store) results given a search term, map center, and radius
   .get('/', (req, res) => {
     const {
       searchTerm,
@@ -31,6 +31,7 @@ PlacesRouter
         res.json({error: error.message});
       });
   })
+  // get a google image given a google photo reference id and max width
   .get('/photo_reference', (req, res) => {
     const {
       photo_reference,
