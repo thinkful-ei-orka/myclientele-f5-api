@@ -44,16 +44,13 @@ usersRouter
 
     try {
       const passwordError = UsersService.validatePassword(password);
-
       if (passwordError) {
         return res.status(400).json({ error: passwordError });
       }
-
       const duplicateUserError = await UsersService.validateUser(
         req.app.get("db"),
         user_name
       );
-      // const duplicateUserError = await AuthService.getUserWithUserName(req.app.get('db'),user_name);
       const users = await UsersService.getUsers(req.app.get("db"));
       if (duplicateUserError) {
         return res.status(400).json({ error: "Username already exists" });
@@ -78,9 +75,7 @@ usersRouter
             .json({ error: `User with that phone number already exists` });
         }
       }
-
       const hashedPassword = await UsersService.hashPassword(password);
-
       const userInfo = {
         name,
         user_name,
@@ -90,9 +85,9 @@ usersRouter
         boss_id: bossId,
         email,
       };
-
       //insert comapny info to table with companyservice
       if (!company.company_code) {
+        //If the user does not have a company code, then generate a unique company code for each company
         company.company_code = cuid();
         let companyInfo = {
             name: company.name,
@@ -105,6 +100,7 @@ usersRouter
         );
         userInfo.company_id = newCompany.id;
       } else {
+        //The user is signing up under an existing company, so we do not need to create a new company, we just need to assign the company id to the new user
         userInfo.company_id = company.id;
       }
       await UsersService.insertUser(req.app.get("db"), userInfo);
@@ -191,7 +187,8 @@ usersRouter.route("/contact").get(requireAuth, async (req, res, next) => {
 });
 
 usersRouter.route("/employees").get(requireAuth, async (req, res, next) => {
-  if (req.user.admin) {
+    //This route is used for admins to get a list of their employees
+    if (req.user.admin) {
     UsersService.getUserByCompanyId(req.app.get("db"), req.user.company_id)
       .then((users) => {
         res.json(users);

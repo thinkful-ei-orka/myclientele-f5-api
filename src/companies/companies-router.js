@@ -26,12 +26,13 @@ CompanyRouter
     .route('/')
     .get(async (req, res, next) => {
       let code = req.query.code;
+      //Used for signing up under an existing company.  The user must have a link with the appropriate company code in order to make an account with each company.
       if(code === 'null') {
         return res.status(400).json({
           error: 'Please contact your administrator for an invitation link!'
         })
       } else {
-  
+      //Check if you can find the company by company code, if not, return 404  
         let company = await CompaniesService.getCompanyByCode(req.app.get('db'), code);
         if(!company) {
           return res.status(404).json({
