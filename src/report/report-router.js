@@ -15,6 +15,7 @@ reportRouter
     const currentUser = req.user.id;
     let reports;
     if (Object.keys(req.query).length !== 0 && req.query.client_id) {
+    //If we have a query string and the query string includes a client id
       let client_id = req.query.client_id;
       if (isNaN(Number(client_id))) {
         return res.status(400).json({
@@ -42,11 +43,13 @@ reportRouter
         currentUser
       )
     }
+    //After getting the reports, we need to match the photos with each report.
     reports = await getPhotosForReports(req.app.get("db"), reports);
     res.json(ReportService.serializeReports(reports));
   })
   .post(jsonParser, async (req, res, next) => {
     const { client_id, notes, photos } = req.body;
+    //If there are photos in the request body, these photos have already been uploaded to the S3 bucket, so "photos" is a list of URLs for the images.
     const sales_rep_id = req.user.id;
     const newReport = { client_id, sales_rep_id, notes };
     if (newReport.client_id == null) {
@@ -57,6 +60,7 @@ reportRouter
 
     let report = await ReportService.insertReport(req.app.get("db"), newReport);
     if (photos) {
+      //insert photos separate from the report.  Prep the photos for the photo table, then insert the photos
       let preppedPhotos = photos.map((photo) => {
         return {
           report_id: report.id,
@@ -83,9 +87,9 @@ reportRouter
     res.json([ReportService.serializeReport(report[0])]);
   })
   .patch(jsonParser, async (req, res, next) => {
-    const { client_id, notes, photo_url } = req.body;
+    const { client_id, notes, photos } = req.body;
     const sales_rep_id = req.user.id;
-    const reportToUpdate = { client_id, sales_rep_id, notes, photo_url };
+    const reportToUpdate = { client_id, sales_rep_id, notes, photos };
     try {
       let report = await ReportService.getById(
         req.app.get("db"),
@@ -96,7 +100,7 @@ reportRouter
       }
       if (
         (report.notes === notes || !notes) &&
-        (report.photo_url === photo_url || !photo_url)
+        (report.photos === photos || !photos)
       ) {
         return res.status(400).json({
           error: {
@@ -132,6 +136,7 @@ reportRouter
 
 reportRouter
   .route("/sales_rep_id/:id")
+  //route is used for administrators to get all reports for a particular sales rep
   .get(requireAuth, async (req, res, next) => {
     let sales_rep_id = req.params.id;
     let sales_rep = await UsersService.getUserContactInfo(

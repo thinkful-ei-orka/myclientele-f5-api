@@ -38,6 +38,7 @@ ClientsRouter.route("/")
     } = req.body;
 
     const requiredFields = {
+    //These are required fields.  Cannot be left blank
       name,
       location,
       hours_of_operation,
@@ -62,7 +63,8 @@ ClientsRouter.route("/")
         return res.status(400).json({
           error: `Missing '${key}' in request body`,
         });
-
+    //Grab the sales_rep_id from the user id
+    //Grab the company id from the user company id
     newClient.sales_rep_id = req.user.id;
     newClient.company_id = req.user.company_id;
 
@@ -196,10 +198,12 @@ async function checkIfClientExists(req, res, next) {
         error: "Client does not exist" 
       });
     }
-    else if (req.user.admin && req.user.company_id === client.company_id) {
+    else if(req.user.admin && req.user.company_id === client.company_id) {
+    //If the user is an admin and the client belongs to the admin's company
       res.client = client;
       next();
     } else if (client.sales_rep_id !== req.user.id) {
+    //If the user is not an admin, and the sales_rep_id does not match the user id
       return res.status(404).json({
         error: "Client does not exist" 
       });
