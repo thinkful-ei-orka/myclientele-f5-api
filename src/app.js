@@ -9,6 +9,7 @@ const clientRouter = require('./client/client-router');
 const reportRouter = require('./report/report-router');
 const companyRouter = require('./companies/companies-router');
 const placesRouter = require('./places/places-router');
+const photoRouter = require('./photo/photo-router');
 const s3Router = require('./s3/s3-router');
 const S3 = require('aws-sdk/clients/s3');
 const s3 = new S3();
@@ -28,6 +29,7 @@ app.use('/api/clients', clientRouter);
 app.use('/api/companies', companyRouter);
 app.use('/api/reports', reportRouter);
 app.use('/api/places', placesRouter);
+app.use('/api/photos', photoRouter);
 
 app.use('/api/presignedurl', s3Router);
 
