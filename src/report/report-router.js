@@ -15,13 +15,13 @@ reportRouter
     const currentUser = req.user.id;
     let reports;
     if (Object.keys(req.query).length !== 0 && req.query.client_id) {
-    //If we have a query string and the query string includes a client id
+      //If we have a query string and the query string includes a client id
       let client_id = req.query.client_id;
       if (isNaN(Number(client_id))) {
         return res.status(400).json({
           error:
             "Query string must include a client_id and client_id must be a number",
-        })
+        });
       }
       let client = await ClientsService.getClient(
         req.app.get("db"),
@@ -41,7 +41,7 @@ reportRouter
       reports = await ReportService.getAllReports(
         req.app.get("db"),
         currentUser
-      )
+      );
     }
     //After getting the reports, we need to match the photos with each report.
     reports = await getPhotosForReports(req.app.get("db"), reports);
@@ -87,9 +87,9 @@ reportRouter
     res.json([ReportService.serializeReport(report[0])]);
   })
   .patch(jsonParser, async (req, res, next) => {
-    const { client_id, notes, photos } = req.body;
-    const sales_rep_id = req.user.id;
-    const reportToUpdate = { client_id, sales_rep_id, notes, photos };
+    console.log('req id', req.params.report_id);
+    const { notes, photos } = req.body;
+    const reportToUpdate = { notes };
     try {
       let report = await ReportService.getById(
         req.app.get("db"),
@@ -98,15 +98,23 @@ reportRouter
       if (report.sales_rep_id !== req.user.id) {
         return res.status(401).json({ error: "Unauthorized request" });
       }
-      if (
-        (report.notes === notes || !notes) &&
-        (report.photos === photos || !photos)
-      ) {
+      if ((report.notes === notes || !notes) && !photos) {
         return res.status(400).json({
           error: {
             message: "Request body must contain notes or a photo_url",
-          }
+          },
         });
+      }
+      if (photos) {
+        //insert photos separate from the report.  Prep the photos for the photo table, then insert the photos
+        let preppedPhotos = photos.map((photo) => {
+          return {
+            report_id: report.id,
+            sales_rep_id: req.user.id,
+            photo_url: photo,
+          };
+        });
+        await PhotoService.insertPhotos(req.app.get("db"), preppedPhotos);
       }
       await ReportService.updateReport(
         req.app.get("db"),
@@ -127,6 +135,7 @@ reportRouter
       if (report.sales_rep_id !== req.user.id) {
         return res.status(401).json({ error: "Unathorized request" });
       }
+      await PhotoService.deletePhotosByReportId(req.app.get("db"), report.id);
       await ReportService.deleteReport(req.app.get("db"), req.params.report_id);
       res.status(204).end();
     } catch (error) {

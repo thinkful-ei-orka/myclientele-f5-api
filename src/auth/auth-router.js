@@ -54,4 +54,21 @@ authRouter.post('/login', jsonBodyParser, (req, res, next) => {
     .catch(next);
 });
 
+authRouter.route("/confirmpassword").post(requireAuth, jsonBodyParser, async (req, res, next) => {
+  //This route is used to confirm the password before deleting components in the application
+  let input_password = req.body.password;
+  let user_hash_password = req.user.password;
+  return AuthService.comparePasswords(
+      input_password,
+      user_hash_password
+    ).then((compareMatch) => {
+      if (!compareMatch) {
+        return res.status(400).json({
+          error: 'Incorrect Password',
+        });
+      }
+      return res.status(200).json({message: 'confirmed!'})
+    })
+})
+
 module.exports = authRouter;
