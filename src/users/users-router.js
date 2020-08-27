@@ -111,7 +111,7 @@ usersRouter
     }
   })
   .patch(requireAuth, jsonBodyParser, async (req, res, next) => {
-    const { name, username, passwords, email, phone_number, user_disabled } = req.body;
+    const { name, username, passwords, email, phone_number, user_disabled, userId } = req.body;
     let updatedUserAccount = {};
     let newHashedPassword;
 
@@ -171,9 +171,16 @@ usersRouter
       updatedUserAccount.user_disabled = user_disabled;
     }
     if (JSON.stringify(updatedUserAccount) !== "{}") {
+      let updateUserId
+      if (userId) {
+        updateUserId = userId;
+      } else {
+        updateUserId = req.user.id;
+      }
+      console.log(updateUserId);
       return UsersService.updateUser(
         req.app.get("db"),
-        req.user.id,
+        updateUserId,
         updatedUserAccount
       )
         .then((data) => {

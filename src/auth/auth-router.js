@@ -33,6 +33,12 @@ authRouter.post('/login', jsonBodyParser, (req, res, next) => {
         });
       }
 
+      if (dbUser.user_disabled) {
+        return res.status(400).json({
+          error: 'Your account has been disabled by your company administrator. Please contact them if you would like to log back in.',
+        });
+      }
+
       return AuthService.comparePasswords(
         loginUser.password,
         dbUser.password
