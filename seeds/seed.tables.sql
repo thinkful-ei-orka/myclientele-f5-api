@@ -7,7 +7,6 @@ BEGIN;
 TRUNCATE
   company,
   photo,
-  users,
   myclientele_user,
   client,
   report

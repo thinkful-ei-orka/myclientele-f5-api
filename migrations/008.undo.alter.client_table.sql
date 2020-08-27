@@ -1,2 +1,0 @@
-ALTER TABLE client DROP COLUMN lng;
-ALTER TABLE client DROP COLUMN lat;

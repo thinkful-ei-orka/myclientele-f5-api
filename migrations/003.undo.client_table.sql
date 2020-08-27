@@ -1,5 +1,3 @@
-
 DROP TABLE client;
 
-ALTER TABLE users DROP COLUMN boss_id;
-
+ALTER TABLE myclientele_user DROP COLUMN boss_id;

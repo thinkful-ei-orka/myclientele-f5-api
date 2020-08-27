@@ -1,1 +1,0 @@
-ALTER TABLE myclientele_user ADD COLUMN user_disabled BOOLEAN NOT NULL DEFAULT FALSE;

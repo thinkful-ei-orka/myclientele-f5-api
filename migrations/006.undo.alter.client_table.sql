@@ -1,1 +1,0 @@
-ALTER TABLE client DROP COLUMN day_of_week;
