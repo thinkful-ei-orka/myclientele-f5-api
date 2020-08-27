@@ -37,11 +37,11 @@ usersRouter
         return res.status(400).json({
           error: `Missing '${field}' in request body`,
         });
-    for (const field of ['name', 'location']) 
-        if (!company[field]) 
+    for (const field of ['name', 'location'])
+        if (!company[field])
             return res.status(400).json({
                 error: `Missing ${field} in company info`
-            });     
+            });
 
     try {
       const passwordError = UsersService.validatePassword(password);
@@ -111,14 +111,15 @@ usersRouter
     }
   })
   .patch(requireAuth, jsonBodyParser, async (req, res, next) => {
-    const { name, username, passwords, email, phone_number } = req.body;
+    const { name, username, passwords, email, phone_number, user_disabled } = req.body;
     let updatedUserAccount = {};
     let newHashedPassword;
 
     if (name) {
       updatedUserAccount.name = name;
     }
-    if (req.body.passwords !== "") {
+    if (req.body.passwords !== "" && req.body.passwords !== undefined ) {
+      console.log('passwords');
       const passwordError = UsersService.validatePassword(passwords);
 
       if (passwordError) {
@@ -165,6 +166,9 @@ usersRouter
           .json({ error: `User with that phone number already exists` });
       }
       updatedUserAccount.phone_number = phone_number;
+    }
+    if (user_disabled !== null) {
+      updatedUserAccount.user_disabled = user_disabled;
     }
     if (JSON.stringify(updatedUserAccount) !== "{}") {
       return UsersService.updateUser(

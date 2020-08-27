@@ -33,7 +33,7 @@ const UsersService = {
   getUserWithEmail(db, email) {
     return db('myclientele_user').where({ email }).first();
   },
-  
+
   getUserWithPhoneNum(db, phone_number) {
     return db('myclientele_user').where({ phone_number }).first();
   },
@@ -47,7 +47,8 @@ const UsersService = {
         'phone_number',
         'email',
         'admin',
-        'company_id'
+        'company_id',
+        'user_disabled'
       )
       .where('id', userId)
       .first();
@@ -55,7 +56,7 @@ const UsersService = {
 
   getUserByCompanyId(db, company_id) {
     return db('myclientele_user')
-      .select('id', 'name', 'user_name', 'company_id', 'admin', 'email', 'phone_number')
+      .select('id', 'name', 'user_name', 'company_id', 'admin', 'email', 'phone_number', 'user_disabled')
       .where('company_id', company_id);
   },
 
